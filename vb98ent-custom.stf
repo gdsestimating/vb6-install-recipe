@@ -1,0 +1,2635 @@
+													
+App Name	Visual Basic 6.0 Enterprise Edition
+App Version	6.0.0.0.0626 (1033)
+Frame Caption	Visual Basic 6.0 Enterprise Setup
+Dialog Caption Base	Visual Basic 6.0 Enterprise
+About Box String	Microsoft Visual Basic 6.0 Setup\n\nCopyright (C) 1998 Microsoft Corporation.													
+Check Modules	ThunderRT5Main,Microsoft Visual Basic,ThunderRTMain,Microsoft VB Runtime,RaidClass,Microsoft Raid,MSVCED50,Microsoft Developer Studio,wndclass_desked_gsk,Microsoft Development Environment							
+Check Modules2	Fox_4000001,Microsoft Visual FoxPro, graph, MS Graph, ed, MS Draw, msinfo, MS Info,odbcad32,ODBC administrator,odbcjt32, ODBC Driver, !Microsoft Exchange!, Microsoft Exchange
+Check Modules3	OMain,Microsoft Access, msaccess,MS Access,msarn110,MS Access Runtime,msarn200,MS Access Runtime,MS:SCC:REFRESH,Microsoft Visual SourceSafe,MSOfficeWClass,Microsoft Office Manager
+Check Modules4	VFP66400000,Microsoft Visual FoxPro,valecstart,Visual Studio Analyzer Server
+MSAPPS Mode	local
+Inf File Name	VB98ENT.INF
+Maximum Object ID	2900
+Floppy Mode Root Object ID	6:1 2
+Maintenance Mode Root Object ID	7:1 2
+Batch Mode Root Object ID	6:1 2
+Setup Version	3.0.0.1210
+ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Chang	Dest Dir	Check Dir	Installed By Us
+													
+1				CustomAction	"""COMMON98.DLL"", ""SetDefaultDir"", ""VB98;HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual Basic,ProductDir"" "					%d				
+2		Microsoft Visual Basic 6.0 Enterprise Edition		AppSearch	"%1,,,128,yes,no"									
+3		Microsoft Visual SourceSafe		CustomAction	"""COMMON98.DLL"",VssAppSrch, ""Required,c:\VSS,srcsafe.ini,, 4 5"""									
+4				SearchEnv	"""SSDIR"""									
+5				SearchDrives	"""fixed"""									
+													
+ 														
+													
+ 														
+													
+	=== Visual Basic Install Modes (mainstf.etf) ===													
+													
+6	yes	Floppy Install		AppMainDlg	761 762 : 8 21  41 9 2331 2871									
+7	yes	Maintenance Install		CustomDlg	763 764 2341 1421 1041 2291:21 41 9 2871					%D				
+8				CustomAction	"COMMON98.DLL,SyncEXECalloutCAH,""""""wpie15.exe"""" /q:a /r:n"""					%d				
+													
+9				Group	10 11 12 13									
+10				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup,VSCommonDir"" "					%p\Microsoft Visual Studio\Common				
+11				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual SourceSafe,ProductDir"" "					%10\VSS				
+													
+12				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_LOCAL_MACHINE,SOFTWARE\Microsoft\Windows\CurrentVersion,CommonFilesDir"" "					%p\Common<%p\Common Files>				
+													
+13				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""14"""					%d				
+14				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup,VSCommonDir,%s"					%10				
+													
+ 														
+													
+ 
+														
+  														
+														
+  														
+														
+ 														
+			
+ 
+														
+	=== Main CAH/Detection (MainCah.etf) ===													
+													
+21				Group	22 23									
+22				CustomAction	"COMMON98.DLL,DetectWzRegKey,Microsoft Visual Basic"									
+													
+23				Group	33 27 28 29 30 26  25									
+													
+	=== EULA (MainCah.etf) ===													
+24				CustomAction	"COMMON98.DLL,LicenseDlg,Setup;eula_txt"									
+													
+25				CustomAction	"PHOLDER.DLL,SPPlaceHolderCAH"									
+													
+	=== IE4 Check (MainCah.etf) ===													
+26				CustomAction	"COMMON98.DLL,CheckRegKey,""LOCAL,Software\Microsoft\Internet Explorer,Version"""									
+	=== Set DestDir to Program Items (MainCah.etf) ===													
+27				CustomAction	"COMMON98.DLL,GetWindowsPathFromReg,""Programs, True"""									
+													
+	=== Check Operating System (MainCah.etf) ===													
+28		IsWin95		CustomAction	"COMMON98.DLL,DetectOS,Win95 "									
+29		IsWinnt3x		CustomAction	"COMMON98.DLL, DetectOS, winnt3x"									
+30		IsWinNT40		CustomAction	"COMMON98.DLL, DetectOS, winnt40"									
+31		Is40Shell		CustomAction	"COMMON98.DLL, DetectOS, 40shell"									
+32		IsWinNT50		CustomAction	"COMMON98.DLL, DetectOS, winnt50"									
+													
+	=== Check Admin Privileges (MainCah.etf) ===													
+33		Check Adminstrator		CustomAction	"COMMON98.DLL,DetectAdminPrivileges"									
+													
+	=== Sys Always (system.etf) ===													
+													
+41				Group	161 281 51 91 101 611 671 621 2821 111 61 71 2691 291 271 661 141 151					%d				
+														
+	=== vc MSVCRT40.DLL Sys ===														
+51				InstallSysFile	"vc MSVCRT40 DLL,msvcrt40_dll"		vital			%M				
+													
+	=== Tahoma Font Component (fptahoma.etf) ===													
+													
+61				Group	63 									
+													
+62				DetectOlderFile	"""tahoma.ttf"""					%w\fonts		
+63				Depend	"62 ? 64 : 67"
+64				Depend	"30 ? 65 66 : 67"
+65				CopyFile	"Font Files,tahoma_ttf"					%W		
+66				CustomAction	"COMMON98.DLL,ReplaceFont,tahoma.ttf"					%w\fonts				
+67				InstallTTFFile	"Font Files, tahoma_ttf, Tahoma (True Type)"					%M				
+													
+ 														
+	=== Shell MSAddIndr component === <addindsr.etf>													
+ 														
+71				Group	72 76					%d 			 	
+ 														
+72				Group	73 74 75					%d 			 	
+73		msaddndr.dll		InstallShared	"AddIn Designer,msaddndr_dll,msaddndr.dll,,2823"					%12\designer				
+74		msaddndr.dep		InstallShared	"AddIn Designer,msaddndr_dep,msaddndr.dep,,2823"					%12\designer				
+75		msaddndr.tlb		InstallShared	"AddIn Designer,msaddndr_tlb,msaddndr.tlb,,2823"					%12\designer				
+ 														
+76				Group	77 79					%d 			 	
+77				Depend	"73 ? 78 2826"									
+78		msaddndr.dll		CustomAction	"COMMON98.DLL,SelfReg,""AddIn Designer,msaddndr_dll"""					%73				
+79				Depend	"75 ? 80"									
+80		msaddndr.tlb		CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""AddIn Designer;msaddndr_tlb"""					%75				
+ 														
+														
+ 														
+													
+	=== VC CRT OS Retail (IO) (crtdllio.etf) ===													
+91				Group	92									
+													
+92		msvcirt.dll		InstallSysFile	"Sys Files - CRT (IO) Dlls,msvcirt_dll"					%m				
+													
+	=== VB Runtime (vbruntm.etf)===													
+101				Group	102 103 									
+102				InstallSysFile	"VB Runtime,msvbvm50_dll"		Vital			%M				
+103				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""104"""									
+104		msvbvm60.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB Runtime,msvbvm50_dll,2"""					%102				
+														
+	=== vc MFC Os Ansi Retail component (OSRETAIL.ETF) ===													
+ 														
+111				Group	112 113 115 116 118 119 121 122 124 125 127 128 130 131 133 134 136 137					%M				
+ 														
+112				InstallSysFile	"vc MFC Os Retail, mfc42_dll"					%M				
+113				Depend	112 ? 114									
+114		mfc42.dll		CustomAction	"COMMON98.DLL,RegisterFile,""vc MFC Os Retail,mfc42_dll,1"""					%112				
+ 														
+													
+115				CustomAction	"COMMON98.DLL,LangCheckCAH,CHS"									
+116				Depend	"115 ? 117"									
+117				InstallSysFile	"vc MFC Os Retail, mfc42chs_dll"					%M				
+													
+118				CustomAction	"COMMON98.DLL,LangCheckCAH,CHT"									
+119				Depend	"118 ? 120"									
+120				InstallSysFile	"vc MFC Os Retail, mfc42cht_dll"					%M				
+													
+121				CustomAction	"COMMON98.DLL,LangCheckCAH,KOR"									
+122				Depend	"121 ? 123"									
+123				InstallSysFile	"vc MFC Os Retail, mfc42kor_dll"					%M				
+													
+124				CustomAction	"COMMON98.DLL,LangCheckCAH,JPN"									
+125				Depend	"124 ? 126"									
+126				InstallSysFile	"vc MFC Os Retail, mfc42jpn_dll"					%M				
+													
+127				CustomAction	"COMMON98.DLL,LangCheckCAH,DEU"									
+128				Depend	"127 ? 129"									
+129				InstallSysFile	"vc MFC Os Retail, mfc42deu_dll"					%M				
+													
+130				CustomAction	"COMMON98.DLL,LangCheckCAH,FRA"									
+131				Depend	"130 ? 132"									
+132				InstallSysFile	"vc MFC Os Retail, mfc42fra_dll"					%M				
+													
+133				CustomAction	"COMMON98.DLL,LangCheckCAH,ESP"									
+134				Depend	"133 ? 135"									
+135				InstallSysFile	"vc MFC Os Retail, mfc42esp_dll"					%M				
+													
+136				CustomAction	"COMMON98.DLL,LangCheckCAH,ITA"									
+137				Depend	"136 ? 138"									
+138				InstallSysFile	"vc MFC Os Retail, mfc42ita_dll"					%M				
+													
+	=== RegSvr32 Component ( RegSvr32.etf ) ===													
+													
+141				Group	142 									
+142		regsvr32.exe		InstallSysFile	"Sys Files - Regsrv32, regsvr32_exe_3"					%m				
+													
+	=== Binding Manager (vbbndmgr.etf)===													
+151				Group	152 153							
+152				InstallShared	"VB Binding Manager,msbind_dll,msbind.dll,,2823"					%M				
+153				Depend	"152?154 155"							
+154				CopyFile	"VB Binding Manager,msbind_dep"					%152				
+155		msbind.dll		SelfReg	"VB Binding Manager,msbind_dll,,, "					%152		
+													
+	====MSDN HTML HELP Component (hhelp.etf) ======											
+											
+161				Group	162 163 164 166 171 172 173					%D		
+162				InstallSysFile	"HTML Help,itircl_dll"							
+163				InstallSysFile	"HTML Help,itss_dll"							
+164				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""165"""					%D		
+165				CopyFile	"HTML Help,hh_exe"					%W		
+											
+166				Group	167 169							
+											
+167				Depend	162 ? 168							
+168		itircl.dll		SelfReg	"HTML Help,itircl_dll,,"					%162		
+											
+169				Depend	163 ? 170							
+170		itss.dll		SelfReg	"HTML Help,itss_dll,,"					%163		
+171				Group	174 177 180 183 186 189 192 195 198 201 204 207 210 213 216					%D		
+172				Group	219 222 225 228 231 234 237 240 243 246 249 252 255					%D		
+173				Group	175 259					%D		
+174				CustomAction	"COMMON98.DLL,LangCheckCAH,ARA"									
+175				Depend	"174 ? 176 : 178"									
+176				InstallSysFile	"HTML Help, hhctrl_ocx_ara"					%M				
+177				CustomAction	"COMMON98.DLL,LangCheckCAH,BAS"									
+178				Depend	"177 ? 179 : 181"									
+179				InstallSysFile	"HTML Help, hhctrl_ocx_bas"					%M				
+180				CustomAction	"COMMON98.DLL,LangCheckCAH,CAT"									
+181				Depend	"180 ? 182 : 184"									
+182				InstallSysFile	"HTML Help, hhctrl_ocx_cat"					%M				
+183				CustomAction	"COMMON98.DLL,LangCheckCAH,CHS"									
+184				Depend	"183 ? 185 : 187"									
+185				InstallSysFile	"HTML Help, hhctrl_ocx_chs"					%M				
+186				CustomAction	"COMMON98.DLL,LangCheckCAH,CHT"									
+187				Depend	"186 ? 188 : 190"									
+188				InstallSysFile	"HTML Help, hhctrl_ocx_cht"					%M				
+189				CustomAction	"COMMON98.DLL,LangCheckCAH,CSY"									
+190				Depend	"189 ? 191 : 193"									
+191				InstallSysFile	"HTML Help, hhctrl_ocx_csy"					%M				
+192				CustomAction	"COMMON98.DLL,LangCheckCAH,DAN"									
+193				Depend	"192 ? 194 : 196"									
+194				InstallSysFile	"HTML Help, hhctrl_ocx_dan"					%M				
+195				CustomAction	"COMMON98.DLL,LangCheckCAH,DEU"									
+196				Depend	"195 ? 197 : 199"									
+197				InstallSysFile	"HTML Help, hhctrl_ocx_deu"					%M				
+198				CustomAction	"COMMON98.DLL,LangCheckCAH,ELL"									
+199				Depend	"198 ? 200 : 202"									
+200				InstallSysFile	"HTML Help, hhctrl_ocx_ell"					%M				
+201				CustomAction	"COMMON98.DLL,LangCheckCAH,ENU"									
+202				Depend	"201 ? 203 : 205"									
+203				InstallSysFile	"HTML Help, hhctrl_ocx_enu"					%M				
+204				CustomAction	"COMMON98.DLL,LangCheckCAH,ESP"									
+205				Depend	"204 ? 206 : 208"									
+206				InstallSysFile	"HTML Help, hhctrl_ocx_esp"					%M				
+207				CustomAction	"COMMON98.DLL,LangCheckCAH,FIN"									
+208				Depend	"207 ? 209 : 211"									
+209				InstallSysFile	"HTML Help, hhctrl_ocx_fin"					%M				
+210				CustomAction	"COMMON98.DLL,LangCheckCAH,FRA"									
+211				Depend	"210 ? 212 : 214"									
+212				InstallSysFile	"HTML Help, hhctrl_ocx_fra"					%M				
+213				CustomAction	"COMMON98.DLL,LangCheckCAH,HEB"									
+214				Depend	"213 ? 215 : 217"									
+215				InstallSysFile	"HTML Help, hhctrl_ocx_heb"					%M				
+216				CustomAction	"COMMON98.DLL,LangCheckCAH,HUN"									
+217				Depend	"216 ? 218 : 220"									
+218				InstallSysFile	"HTML Help, hhctrl_ocx_hun"					%M				
+219				CustomAction	"COMMON98.DLL,LangCheckCAH,ITA"									
+220				Depend	"219 ? 221 : 223"									
+221				InstallSysFile	"HTML Help, hhctrl_ocx_ita"					%M				
+222				CustomAction	"COMMON98.DLL,LangCheckCAH,JPN"									
+223				Depend	"222 ? 224 : 226"									
+224				InstallSysFile	"HTML Help, hhctrl_ocx_jpn"					%M				
+225				CustomAction	"COMMON98.DLL,LangCheckCAH,KOR"									
+226				Depend	"225 ? 227 : 229"									
+227				InstallSysFile	"HTML Help, hhctrl_ocx_kor"					%M				
+228				CustomAction	"COMMON98.DLL,LangCheckCAH,NLD"									
+229				Depend	"228 ? 230 : 232"									
+230				InstallSysFile	"HTML Help, hhctrl_ocx_nld"					%M				
+231				CustomAction	"COMMON98.DLL,LangCheckCAH,NOR"									
+232				Depend	"231 ? 233 : 235"									
+233				InstallSysFile	"HTML Help, hhctrl_ocx_nor"					%M				
+234				CustomAction	"COMMON98.DLL,LangCheckCAH,PLK"									
+235				Depend	"234 ? 236 : 238"									
+236				InstallSysFile	"HTML Help, hhctrl_ocx_plk"					%M				
+237				CustomAction	"COMMON98.DLL,LangCheckCAH,PTB"									
+238				Depend	"237 ? 239 : 241"									
+239				InstallSysFile	"HTML Help, hhctrl_ocx_ptb"					%M				
+240				CustomAction	"COMMON98.DLL,LangCheckCAH,PTG"									
+241				Depend	"240 ? 242 : 244"									
+242				InstallSysFile	"HTML Help, hhctrl_ocx_ptg"					%M				
+243				CustomAction	"COMMON98.DLL,LangCheckCAH,RUS"									
+244				Depend	"243 ? 245 : 247"									
+245				InstallSysFile	"HTML Help, hhctrl_ocx_rus"					%M				
+246				CustomAction	"COMMON98.DLL,LangCheckCAH,SKY"									
+247				Depend	"246 ? 248 : 250"									
+248				InstallSysFile	"HTML Help, hhctrl_ocx_sky"					%M				
+249				CustomAction	"COMMON98.DLL,LangCheckCAH,SLV"									
+250				Depend	"249 ? 251 : 253"									
+251				InstallSysFile	"HTML Help, hhctrl_ocx_slv"					%M				
+252				CustomAction	"COMMON98.DLL,LangCheckCAH,SVE"									
+253				Depend	"252 ? 254 : 256"									
+254				InstallSysFile	"HTML Help, hhctrl_ocx_sve"					%M				
+255				CustomAction	"COMMON98.DLL,LangCheckCAH,TRK"									
+256				Depend	"255 ? 257 : 258"									
+257				InstallSysFile	"HTML Help, hhctrl_ocx_trk"					%M				
+258				InstallSysFile	"HTML Help, hhctrl_ocx_enu"					%M				
+259				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""260"""					%D		
+260				CustomAction	"COMMON98.DLL,QuietReg,""%s\hhctrl.ocx"""					%m
+											
+	=== VB OLEAUT32 Files (vboleaut.etf)===													
+271				Group	272 273 274 275 276 									
+272				InstallSysFile	"VB Oleaut Files,oleaut32_dll"					%M				
+273				InstallSysFile	"VB Oleaut Files,stdole2_tlb"					%M				
+274				InstallSysFile	"VB Oleaut Files,olepro32_dll_2"					%M				
+275				InstallSysFile	"VB Oleaut Files,asycflt_dll"					%M				
+276				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""277 278 279"""									
+277		olepro32.dll		SelfReg	"VB Oleaut Files,olepro32_dll_2,,,"					%274				
+278		oleaut32.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB Oleaut Files,oleaut32_dll,1"""					%272				
+279				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""VB Oleaut Files;stdole2_tlb"""					%273				
+													
+ 
+ 
+	=== Active Scripting SCRRUN Component (scrrun.etf) ===
+281				Group	282 283  285 					%d				
+282		scrrun.dll		InstallSysFile	"Active Scripting SCRRUN,scrrun_dll"					%m				
+283				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""284"""					%d				
+284		scrrun.dll		SelfReg	"""Active Scripting SCRRUN"",""scrrun_dll"","""","""","""""					%282				
+ 
+285				CopyFile	"Active Scripting SCRRUN,scrrun_dep"					%282
+													
+	=== VB Controls installed always (vbawyacx.etf) ===													
+291				Group	292 294 									
+292				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""293"""							
+293				AddRegData	"""CLASSES"",""Licenses"","""",""Licensing: Copying the keys may be a violation of established copyrights."","""""							
+294				Group	301 311 351 371 391 411 431 451 471 491 531 551 571 591 									
+														
+	=== MSSTKPRP.DLL (vbmsstkp.etf) ===											
+301				Group	302 303  							
+302				InstallSysFile	"VB MSSTKPRP,msstkprp_dll"					%M		
+303				Depend	"302?304"							
+304		msstkprp.dll		SelfReg	"VB MSSTKPRP,msstkprp_dll,,, "					%302		
+											
+	=== COMCTL32.OCX (vbcomctl.etf) ===											
+311				Group	312 331							
+312				Group	313 314  315 328							
+313				InstallShared	"VB COMCTL32,comctl32_ocx,comctl32.ocx,,2823"					%M		
+314				InstallShared	"VB COMCTL32,comctl32_dep,comctl32.dep,,2823"					%313		
+315				Depend	"313?316 324 325 326 327 2791 2801"							
+316				Group	317 318 319 320 321 322 323
+317				CopyFile	"VB COMCTL32,comctl1_hlp_1"					%W\Help		
+318				CopyFile	"VB COMCTL32,comctl1_cnt_1"					%W\Help		
+319				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,comctl1.hlp,%s,"					%317		
+320				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,comctl1.cnt,%s,"					%318		
+321				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCTL32;comctl1_ftg"							
+322				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCTL32;comctl1_fts"							
+323				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCTL32;comctl1_gid"							
+324		comctl32.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""VB COMCTL32,comctl32_ocx,3"""					%313				
+325				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCTL32;comctl32_oca"					%313		
+326				CopyFile	"VB COMCTL32,comctl32_srg"					%313		
+327				CustomAction	"COMMON98.DLL,RegFile,326"					%326		
+328				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""329 330"""					%313		
+329				CopyFile	"VB COMCTL32,comctl32_srg"					%313		
+330				CustomAction	"COMMON98.DLL,RegFile,326"					%326		
+											
+331				Group	332 333  334 341							
+332				InstallShared	"VB COMCTL32,mscomctl_ocx,mscomctl.ocx,,2823"					%M		
+333				InstallShared	"VB COMCTL32,mscomctl_dep,MSComCtl.dep,,2823"					%332		
+334				Depend	"332?335 336 337 338 339 340"							
+335		mscomctl.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""VB COMCTL32,mscomctl_ocx,3"""					%332				
+336				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCTL32;mscomctl_oca"					%332		
+337				CopyFile	"VB COMCTL32,cmctl198_chi_1"					%W\Help		
+338				CopyFile	"VB COMCTL32,cmctl198_chm_1"					%W\Help		
+339				CopyFile	"VB COMCTL32,mscomctl_srg"					%332		
+340				CustomAction	"COMMON98.DLL,RegFile,339"					%339		
+341				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""342 343"""					%332		
+342				CopyFile	"VB COMCTL32,mscomctl_srg"					%332		
+343				CustomAction	"COMMON98.DLL,RegFile,339"					%339		
+												
+	=== COMDLG32.OCX (vbcomdlg.etf) ===											
+351				Group	352 353  354 361							
+352				InstallShared	"VB COMDLG32,comdlg32_ocx,comdlg32.ocx,,2823"					%M		
+353				InstallShared	"VB COMDLG32,comdlg32_dep,comdlg32.dep,,2823"					%352		
+354				Depend	"352?355 356 357 358 359 360"							
+355		comdlg32.ocx		SelfReg	"VB COMDLG32,comdlg32_ocx,,, "					%352		
+356				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMDLG32;comdlgd_oca"					%352		
+357				CopyFile	"VB COMDLG32,cmdlg98_chi_1"					%W\Help		
+358				CopyFile	"VB COMDLG32,cmdlg98_chm_1"					%W\Help		
+359				CopyFile	"VB COMDLG32,cmdialog_srg"					%352		
+360				CustomAction	"COMMON98.DLL,RegFile,359"					%359		
+361				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""362 363"""					%352		
+362				CopyFile	"VB COMDLG32,cmdialog_srg"					%352		
+363				CustomAction	"COMMON98.DLL,RegFile,359"					%359		
+											
+	=== MSFLXGRD.OCX (vbflxgrd.etf) ===											
+371				Group	372 373  374 381							
+372				InstallShared	"VB MSFLXGRD,msflxgrd_ocx,msflxgrd.ocx,,2823"					%M		
+373				InstallShared	"VB MSFLXGRD,msflxgrd_dep,msflxgrd.dep,,2823"					%372		
+374				Depend	"372?375 376 377 378 379 380"							
+375		msflxgrd.ocx		SelfReg	"VB MSFLXGRD,msflxgrd_ocx,,, "					%372		
+376				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSFLXGRD;msflxgrd_oca"					%372		
+377				CopyFile	"VB MSFLXGRD,mshflx98_chi_1"					%W\Help		
+378				CopyFile	"VB MSFLXGRD,mshflx98_chm_1"					%W\Help		
+379				CopyFile	"VB MSFLXGRD,vsdbflex_srg_1"					%372		
+380				CustomAction	"COMMON98.DLL,RegFile,379"					%379		
+381				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""382 383"""					%372		
+382				CopyFile	"VB MSFLXGRD,vsdbflex_srg_1"					%372		
+383				CustomAction	"COMMON98.DLL,RegFile,379"					%379		
+											
+	=== DBLIST32.OCX (vbdblist.etf) ===											
+391				Group	392 393  394 399							
+392				InstallShared	"VB DBLIST32,dblist32_ocx,dblist32.ocx,,2823"					%M		
+393				InstallShared	"VB DBLIST32,dblist32_dep,dblist32.dep,,2823"					%392		
+394				Depend	"392?395 396 397 398"							
+395		dblist32.ocx		SelfReg	"VB DBLIST32,dblist32_ocx,,, "					%392		
+396				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB DBLIST32;dblist32_oca"					%392		
+397				CopyFile	"VB DBLIST32,dblist_srg"					%392		
+398				CustomAction	"COMMON98.DLL,RegFile,397"					%397		
+399				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""400 401"""					%392		
+400				CopyFile	"VB DBLIST32,dblist_srg"					%392		
+401				CustomAction	"COMMON98.DLL,RegFile,397"					%397		
+											
+	=== ADODC.OCX (vbadodc.etf) ===											
+411				Group	412 413  414 421							
+412				InstallShared	"VB ADODC,adodc_ocx,msadodc.ocx,,2823"					%M		
+413				InstallShared	"VB ADODC,adodc_dep,msadodc.dep,,2823"					%412		
+414				Depend	"412?415 416 417 418 419 420"							
+415		msadodc.ocx		SelfReg	"VB ADODC,adodc_ocx,,, "					%412		
+416				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB ADODC;adodc_oca"					%412		
+417				CopyFile	"VB ADODC,adodc98_chi_1"					%W\Help		
+418				CopyFile	"VB ADODC,adodc98_chm_1"					%W\Help		
+419				CopyFile	"VB ADODC,adodc_srg"					%412		
+420				CustomAction	"COMMON98.DLL,RegFile,419"					%419		
+421				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""422 423"""					%412		
+422				CopyFile	"VB ADODC,adodc_srg"					%412		
+423				CustomAction	"COMMON98.DLL,RegFile,419"					%419		
+											
+	=== DATAGRID.OCX (vbdatagd.etf) ===											
+431				Group	432 433  434 441							
+432				InstallShared	"VB DATAGRID,datagrid_ocx,MSDatGrd.ocx,,2823"					%M		
+433				InstallShared	"VB DATAGRID,msdatgrd_dep,msdatgrd.dep,,2823"					%432		
+434				Depend	"432?435 436 437 438 439 440"							
+435		MSDatGrd.ocx		SelfReg	"VB DATAGRID,datagrid_ocx,,, "					%432		
+436				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB DATAGRID;msdatgrd_oca"					%432		
+437				CopyFile	"VB DATAGRID,dbgrid98_chi_1"					%W\Help		
+438				CopyFile	"VB DATAGRID,dbgrid98_chm_1"					%W\Help		
+439				CopyFile	"VB DATAGRID,datagrid_srg"					%432		
+440				CustomAction	"COMMON98.DLL,RegFile,439"					%439		
+441				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""442 443"""					%432		
+442				CopyFile	"VB DATAGRID,datagrid_srg"					%432		
+443				CustomAction	"COMMON98.DLL,RegFile,439"					%439		
+											
+	=== MSDATLST.OCX (vbdatlst.etf) ===											
+451				Group	452 453  454 461							
+452				InstallShared	"VB MSDATLST,datalist_ocx,msdatlst.ocx,,2823"					%M		
+453				InstallShared	"VB MSDATLST,datalist_dep,MSDatLst.dep,,2823"					%452		
+454				Depend	"452?455 456 457 458 459 460"							
+455		msdatlst.ocx		SelfReg	"VB MSDATLST,datalist_ocx,,, "					%452		
+456				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSDATLST;msdatlst_oca"					%452		
+457				CopyFile	"VB MSDATLST,dblist98_chi_1"					%W\Help		
+458				CopyFile	"VB MSDATLST,dblist98_chm_1"					%W\Help		
+459				CopyFile	"VB MSDATLST,datalist_srg_1"					%452		
+460				CustomAction	"COMMON98.DLL,RegFile,459"					%459		
+461				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""462 463"""					%452		
+462				CopyFile	"VB MSDATLST,datalist_srg_1"					%452		
+463				CustomAction	"COMMON98.DLL,RegFile,459"					%459		
+											
+	=== TABCTL32.OCX (vbtabctl.etf) ===											
+471				Group	472 473  474 481							
+472				InstallShared	"VB TABCTL32,tabctl32_ocx,tabctl32.ocx,,2823"					%M		
+473				InstallShared	"VB TABCTL32,tabctl32_dep,tabctl32.dep,,2823"					%472		
+474				Depend	"472?475 476 477 478 479 480"							
+475		tabctl32.ocx		SelfReg	"VB TABCTL32,tabctl32_ocx,,, "					%472		
+476				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB TABCTL32;tabctl32_oca"					%472		
+477				CopyFile	"VB TABCTL32,mstab98_chb"					%W\Help		
+478				CopyFile	"VB TABCTL32,mstab98_cha"					%W\Help		
+479				CopyFile	"VB TABCTL32,sstab_srg"					%472		
+480				CustomAction	"COMMON98.DLL,RegFile,479"					%479		
+481				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""482 483"""					%472		
+482				CopyFile	"VB TABCTL32,sstab_srg"					%472		
+483				CustomAction	"COMMON98.DLL,RegFile,479"					%479		
+											
+	=== COMCT232.OCX (vbcomct2.etf) ===											
+491				Group	492 511							
+492				Group	493 494  495 508
+493				InstallShared	"VB COMCT232,comct232_ocx,comct232.ocx,,2823"					%M		
+494				InstallShared	"VB COMCT232,comct232_dep,comct232.dep,,2823"					%493		
+495				Depend	"493?496 504 505 506 507 2791 2801"							
+496				Group	497 498 499 500 501 502 503
+497				CopyFile	"VB COMCT232,comctl2_hlp"					%W\Help		
+498				CopyFile	"VB COMCT232,comctl2_cnt"					%W\Help		
+499				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,comctl2.hlp,%s,"					%497		
+500				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,comctl2.cnt,%s,"					%498		
+501				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCT232;comctl2_ftg"							
+502				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCT232;comctl2_fts"							
+503				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCT232;comctl2_gid"							
+504		comct232.ocx		SelfReg	"VB COMCT232,comct232_ocx,,, "					%493		
+505				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCT232;comct232_oca"					%493		
+506				CopyFile	"VB COMCT232,comct232_srg"					%493		
+507				CustomAction	"COMMON98.DLL,RegFile,506"					%506		
+508				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""509 510"""					%493		
+509				CopyFile	"VB COMCT232,comct232_srg"					%493		
+510				CustomAction	"COMMON98.DLL,RegFile,506"					%506		
+											
+511				Group	512 513  514 521							
+512				InstallShared	"VB COMCT232,mscomct2_ocx,mscomct2.ocx,,2823"					%M		
+513				InstallShared	"VB COMCT232,mscomct2_dep,MSComCt2.dep,,2823"					%512		
+514				Depend	"512?515 516 517 518 519 520"							
+515		mscomct2.ocx		SelfReg	"VB COMCT232,mscomct2_ocx,,, "					%512		
+516				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCT232;mscomct2_oca"					%512		
+517				CopyFile	"VB COMCT232,cmctl298_chi_1"					%W\Help		
+518				CopyFile	"VB COMCT232,cmctl298_chm_1"					%W\Help		
+519				CopyFile	"VB COMCT232,mscomct2_srg"					%512		
+520				CustomAction	"COMMON98.DLL,RegFile,519"					%519		
+521				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""522 523"""					%512		
+522				CopyFile	"VB COMCT232,mscomct2_srg"					%512		
+523				CustomAction	"COMMON98.DLL,RegFile,519"					%519		
+												
+	=== RICHTX32.OCX (vbrichtx.etf) ===											
+531				Group	532							
+532				Group	533 534      535 542							
+533				InstallShared	"VB RICHTX32,richtx32_ocx,richtx32.ocx,,2823"					%M		
+534				InstallShared	"VB RICHTX32,richtx32_dep,richtx32.dep,,2823"					%533		
+535				Depend	"533?536 537 538 539 540 541"							
+536		richtx32.ocx		SelfReg	"VB RICHTX32,richtx32_ocx,,, "					%533		
+537				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB RICHTX32;richtx32_oca"					%533		
+538				CopyFile	"VB RICHTX32,rtfbox98_ch2"					%W\Help		
+539				CopyFile	"VB RICHTX32,rtfbox98_ch1"					%W\Help		
+540				CopyFile	"VB RICHTX32,richtext_srg"					%533		
+541				CustomAction	"COMMON98.DLL,RegFile,540"					%540		
+542				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""543 544 545"""					%533		
+543				CopyFile	"VB RICHTX32,richtext_srg"					%533		
+544				CustomAction	"COMMON98.DLL,RegFile,540"					%540		
+545				CopyFile	"VB RICHTX32,riched32_dll_2"					%M		
+												
+	=== dag Data Environment Control (datactrl.etf) ===											
+551				Group	552 553 560					%M				
+552				InstallShared	"dag Data Env Control,mshflxgd_ocx,mshflxgd.ocx,,2823 "					%M				
+553				Depend	552 ? 554 555 556 557 558 559 									
+554		mshflxgd.ocx		SelfReg	"dag Data Env Control,mshflxgd_ocx"					%552				
+555				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Data Env Control;mshflxgd_oca"					%552		
+556				CopyFile	"dag Data Env Control,mshflxgd_srg"					%M				
+557		mshflxgd.srg		CustomAction	"COMMON98.DLL,RegFile,556"					%556				
+558				CopyFile	"dag Data Env Control,mshflxgd_dep"					%M				
+											
+559				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Data Env Control;mshflxgd_oca"					%552				
+560				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""561 562"""							
+561				CopyFile	"dag Data Env Control,mshflxgd_srg"					%M				
+562		mshflxgd.srg		CustomAction	"COMMON98.DLL,RegFile,561"					%556				
+												
+	=== MSCHART.OCX (vbmschrt.etf) ===											
+571				Group	572 573  574 581							
+572				InstallShared	"VB MSCHART,mschart_ocx,mschrt20.ocx,,2823"					%M		
+573				InstallShared	"VB MSCHART,mschart_dep,mschrt20.dep,,2823"					%572		
+574				Depend	"572?575 576 577 578 579 580"							
+575		mschrt20.ocx		SelfReg	"VB MSCHART,mschart_ocx,,, "					%572		
+576				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSCHART;mschart_oca"					%572		
+577				CopyFile	"VB MSCHART,mschrt98_chi_1"					%W\Help		
+578				CopyFile	"VB MSCHART,mschrt98_chm_1"					%W\Help		
+579				CopyFile	"VB MSCHART,mschart_srg"					%572		
+580				CustomAction	"COMMON98.DLL,RegFile,579"					%579		
+581				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""582 583"""					%572		
+582				CopyFile	"VB MSCHART,mschart_srg"					%572		
+583				CustomAction	"COMMON98.DLL,RegFile,579"					%579		
+											
+	=== MSDATREP.OCX (vbdatrep.etf) ===											
+591				Group	592 593 594 601 							
+592				InstallShared	"VB MSDATREP,msdatrep_ocx,MSDatRep.ocx,,2823"					%M		
+593				InstallShared	"VB MSDATREP,msdatrep_dep,MSDatRep.dep,,2823"					%592		
+594				Depend	"592?595 596 597 598 599 600"							
+595		MSDatRep.ocx		SelfReg	"VB MSDATREP,msdatrep_ocx,,, "					%592		
+596				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSDATREP;msdatrep_oca"					%592		
+597				CopyFile	"VB MSDATREP,datrep98_chi"					%W\Help		
+598				CopyFile	"VB MSDATREP,datrep98_chm"					%W\Help		
+599				CopyFile	"VB MSDATREP,msdatrep_srg"					%592		
+600				CustomAction	"COMMON98.DLL,RegFile,599"					%599		
+601				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""602 603"""					%592		
+602				CopyFile	"VB MSDATREP,msdatrep_srg"					%592		
+603				CustomAction	"COMMON98.DLL,RegFile,599"					%599		
+											
+	=== VC MSVC[I]RT.DLL Sys (crtdll.etf) ===													
+611				Group	612 									
+													
+612		msvcrt.dll		InstallSysFile	"Sys Files - CRT Dlls,msvcrt_dll"					%m				
+													
+	=== dag Jet (jet.etf) ===													
+													
+621				Group	622 623 625 626 627 628 630 631 632 633 651					%M				
+													
+622				InstallSysFile	"dag Jet, msjet35_dll"					%M				
+623				Depend	622 ? 624									
+624		msjet35.dll		SelfReg	"dag Jet, msjet35_dll"					%M				
+													
+625				InstallSysFile	"dag Jet, msjint35_dll"					%M				
+626				InstallSysFile	"dag Jet, msjter35_dll"					%M				
+627				InstallSysFile	"dag Jet, msrd2x35_dll"					%M				
+628				Depend	"627 ? 629"									
+629		msrd2x35.dll		SelfReg	"dag Jet, msrd2x35_dll"					%627				
+630				InstallSysFile	"dag Jet, msrepl35_dll"					%M				
+631				InstallSysFile	"dag Jet, vbar332_dll_1"					%M				
+632				CopySection	"dag Jet Help"					%W\Help				
+633				Group	634 635 636 637 638 639 640 641 642					%W\Help				
+634				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jetdef35_fts"									
+635				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jetdef35_ftg"									
+636				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jetdef35_gid"									
+637				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jetsql35_fts"									
+638				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jetsql35_ftg"									
+639				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jetsql35_gid"									
+640				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jeterr35_fts"									
+641				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jeterr35_ftg"									
+642				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag Jet Help Remove;jeterr35_gid"									
+														
+	=== Additional VBA Files (vbvbaadd.etf)===													
+651				Group	652 653 654									
+652				InstallSysFile	"VBA Additional Files,expsrv_dll"					%M				
+653				InstallSysFile	"VBA Additional Files,vbajet32_dll"					%M				
+654				InstallSysFile	"VBA Additional Files,vba332me_dll"					%M				
+													
+	=== MSSTDFMT (vbstdfmt.etf) ===													
+661				Group	662 663 									
+662				InstallShared	"VB STDFMT,msstdfmt_dll,msstdfmt.dll,,2823"					%M				
+663				Depend	"662?664 665"									
+664				CopyFile	"VB STDFMT,msstdfmt_dep"					%662				
+665		msstdfmt.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB STDFMT,msstdfmt_dll,3"""					%662				
+													
+	=== dag ODBC Core Components & dag ODBC Code Page Translators (odbc.etf) ===													
+													
+671				Group	672 731 721 711					%M				
+													
+672			ODBC Driver Manager	Group	673 674  
+673				CustomAction	odbcstf.dll,AcmeInstallDriverManager,odbckey.inf									
+674				Group	675 685 694 704 699 									
+													
+675			Installs the ODBC Driver Manager	Group	689 676 677 678 679 680 681 682 683 684									
+676				InstallSysFile	"dag ODBC Core Components,odbc32_dll"		vital			%671				
+677				InstallSysFile	"dag ODBC Core Components,odbcad32_exe"		vital			%671				
+678				InstallSysFile	"dag ODBC Core Components,odbccp32_cpl"		vital			%671				
+679				InstallSysFile	"dag ODBC Core Components,odbccp32_dll"		vital			%671				
+680				InstallSysFile	"dag ODBC Core Components,odbccr32_dll"		vital			%671				
+681				InstallSysFile	"dag ODBC Core Components,odbcint_dll"		vital			%671				
+682				InstallSysFile	"dag ODBC Core Components,odbctrac_dll"		vital			%671				
+683				InstallSysFile	"dag ODBC Core Components,mtxdm_dll"		vital			%671				
+684				InstallSysFile	"dag ODBC Core Components,odbccu32_dll"					%671				
+													
+685			Installs the ODBC Brazos Files	Group	686 687 688									
+686				InstallSysFile	"dag ODBC Brazos Components,odbcji32_dll_1"					%671				
+687				InstallSysFile	"dag ODBC Brazos Components,odbcjt32_dll_1"					%671				
+688				InstallSysFile	"dag ODBC Brazos Components,odbctl32_dll_1"					%671				
+													
+689			Installs ODBC Thunking Layer	Group	690 691 692 693					%671				
+690				InstallSysFile	"dag ODBC Core Components,odbc16gt_dll"		vital			%671				
+691				InstallSysFile	"dag ODBC Core Components,odbc32gt_dll"		vital			%671				
+692				InstallSysFile	"dag ODBC Core Components,ds16gt_dll"		vital			%671				
+693				InstallSysFile	"dag ODBC Core Components,ds32gt_dll"		vital			%671				
+													
+694			ODBC Code Page Translators	Group	695 696 697 698 									
+695				InstallSysFile	"dag ODBC CodePage Trans,mscpxl32_dll"		vital			%671				
+696				InstallSysFile	"dag ODBC CodePage Trans,12520437_cpx"		vital			%671				
+697				InstallSysFile	"dag ODBC CodePage Trans,12520850_cpx"		vital			%671				
+698				CustomAction	odbcstf.dll,AcmeInstallTranslator,odbckey.inf:Translators					%671				
+699			ODBC Help Files	Group	700 701 702 703   									
+700				InstallSysFile	"dag ODBC Help Files,odbcinst_cnt_1"					%671				
+701				InstallSysFile	"dag ODBC Help Files,odbcinst_hlp_1"					%671				
+702				InstallSysFile	"dag ODBC Help Files,odbcjet_cnt_1"					%671				
+703				InstallSysFile	"dag ODBC Help Files,odbcjet_hlp_1"					%671				
+704			ODBC SQL Net Libs	Group	705 706 707    									
+705				InstallSysFile	"dag ODBC SQL Net Libs,dbnmpntw_dll"					%M				
+706				InstallSysFile	"dag ODBC SQL Net Libs,dbmssocn_dll"					%M				
+707				InstallSysFile	"dag ODBC SQL Net Libs,instcat_sql"					%M				
+													
+	=== dag OLEDB DataSourceLocator (OLEDBDSL.ETF) ===													
+													
+711				Group	712 									
+712				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""713 714 715 716 717"""					%12\system\ole db				
+													
+713				CopyFile	"dag OLEDB DataSourceLocator,msdasc_dll"					%712				
+714		msdasc.dll		SelfReg	"dag OLEDB DataSourceLocator, msdasc_dll"					%713				
+715				CopyFile	"dag OLEDB DataSourceLocator,msdasc_chm"					%712				
+716				CopyFile	"dag OLEDB DataSourceLocator,msdasc_cnt"					%712				
+717				CopyFile	"dag OLEDB DataSourceLocator,msdasc_txt"					%712				
+													
+	=== dag Chinook (OLEDB for ODBC) (chinook.etf) ===													
+													
+721				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""722 723 724 725"""					%12\system\ole db				
+													
+722				CopyFile	"dag Chinook,msdasql_dll"					%721				
+723		msdasql.dll		SelfReg	"dag Chinook,msdasql_dll"					%722				
+													
+724				CopyFile	"dag Chinook,msdasqlr_dll"					%721				
+725				CopyFile	"dag Chinook,oledb_me_txt"					%721				
+													
+	=== dag OLEDB Core (oledbcr.etf) ===													
+													
+731				Group	732 733					%12\system\ole db				
+732				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""734 735 736 737 738 739 740"""					%731				
+733				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""741 742 743 744 745 746 747 748 749 750 751"""					%731				
+													
+734				CopyFile	"dag OLEDB Core,msdadc_dll"					%731				
+735		msdadc.dll		SelfReg	"dag OLEDB Core,msdadc_dll"					%734				
+													
+736				CopyFile	"dag OLEDB Core,msdaer_dll"					%731				
+737		msdaer.dll		SelfReg	"dag OLEDB Core,msdaer_dll"					%736				
+													
+738				CopyFile	"dag OLEDB Core,msdaerr_dll"					%731				
+739				CopyFile	"dag OLEDB Core,msdaps_dll"					%731				
+740		MSDAPS.DLL		SelfReg	"dag OLEDB Core,msdaps_dll"					%739				
+741				CopyFile	"dag OLEDB Core,msdatt_dll"					%731				
+742		msdatt.dll		SelfReg	"dag OLEDB Core,msdatt_dll"					%741				
+743				CopyFile	"dag OLEDB Core,msdaenum_dll"					%731				
+744		msdaenum.dll		SelfReg	"dag OLEDB Core,msdaenum_dll"					%743				
+745				CopyFile	"dag OLEDB Core,msdatl2_dll"					%731				
+746				CopyFile	"dag OLEDB Core,oledb32x_dll"					%731				
+747		oledb32x.dll		SelfReg	"dag OLEDB Core,oledb32x_dll"					%746				
+748				CopyFile	"dag OLEDB Core,oledb32_dll"					%731				
+749		oledb32.dll		SelfReg	"dag OLEDB Core,oledb32_dll"					%748				
+750				CopyFile	"dag OLEDB Core,oledb32r_dll"					%731				
+751		oledb32r.dll		SelfReg	"dag OLEDB Core,oledb32r_dll"					%750				
+														
+	=== VB Option Component (vb.etf) ===													
+													
+761		&Typical	Setup will install the most typical components	Group	765 770 764 772 2281 1421 771 2291 	VB98ENT.DLL,102								
+762	yes	C&ustom	Setup will allow you to customize which components to install	CustomDlg	763 764 2341 1421 1041 2291 :2281	VB98ENT.DLL,103			yes					
+	STFWIZ	1												
+763	yes	Microsoft Visual Basic 6.0	Installs Microsoft Visual Basic and all required components, including core ActiveX controls.	OptionDlg	765 770 771		Vital			%D				
+													
+	STFWIZ	40												
+764	yes	ActiveX	Installs additional ActiveX controls.	Group	1191  2723 					%M				
+	STFWIZ	4												
+765	yes	Microsoft Visual Basic Core Files	Installs the core Visual Basic files and core ActiveX controls.	Group	766 767 768		Vital			%d				
+766	yes			Group	801 773 1121 1131 1171 1181 2161 2701 791 2741  							
+767	yes			Group	1151 2761 841 851 961 971 2751 981 									
+768	yes			Group	2271 2261 1721  779 780 781 									
+													
+	STFWIZ	2												
+769	yes	Package & Deployment Wizard	Installs the Package & Deployment Wizard that you use to distribute the applications you create.	Group	1001					%D\PDWizard				
+	STFWIZ	3												
+770	yes	Wizards and Templates	Installs a number of Wizards and Templates to increase productivity within the Visual Basic environment.	Group	1021 1031 2711 1361 1391									
+													
+	STFWIZ	95												
+771	yes	WebClass Designer	Enables development of WebClasses within VB. Requires IIS and Active Server Pages.	Group	1411 									
+772		DataAcc for Typ		Group	2346 2561 2347 2348 2349 2343 2344 2351 2355 2365 2366									
+													
+773				Group	774 775   776 777 778 782									
+774				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual Basic,ProductDir,%s"									
+775				AddRegData	"CURRENT,Software\Microsoft\Visual Basic\6.0,URLOwnersArea,"
+776				AddRegData	"""CLASSES"",""Licenses\6000720D-F342-11D1-AF65-00A0C90DCA10"","""",""kefeflhlhlgenelerfleheietfmflelljeqf"","""""									
+777				AddRegData	"""CLASSES"",""Licenses\74872840-703A-11d1-A3AF-00A0C90F26FA"","""",""mninuglgknogtgjnthmnggjgsmrmgniglish"","""""									
+778				AddRegData	"""CLASSES"",""Licenses\74872841-703A-11d1-A3AF-00A0C90F26FA"","""",""klglsejeilmereglrfkleeheqkpkelgejgqf"","""""									
+													
+779				CustomAction	"COMMON98.DLL,DeleteRegKey,HKCU;SOFTWARE\Microsoft\Visual Basic\6.0"														
+780				CustomAction	"COMMON98.DLL,DeleteRegKey,HKLM;SOFTWARE\Microsoft\Visual Basic\6.0"														
+781				CustomAction	"COMMON98.DLL,DeleteRegKey,HKCU;SOFTWARE\VB and VBA Program Settings"														
+782				Depend	26 ? 783									
+783				AddRegData	"LOCAL,""Software\Microsoft\IE4\DependentComponents"",""VB98"",""Microsoft Visual Basic 6.0 Enterprise Edition"""									
+													
+	=== Compiler Files (vbcomplr.etf)===													
+791				CopySection	"Compiler Files"					%D				
+													
+	=== VB Core (vbcore.etf) ===													
+801				Group	802 803 804 805 806 808 809 810 812 813 814 816 817 819 820 821 822 823 824 831					%D				
+802				CopyFile	"VB Core Files,vb6_exe"					%D				
+803				StampCDInfo	"802, 106, 196"									
+804				CopyFile	"VB Core Files,vb6debug_dll"					%802				
+805				CopyFile	"VB Core Files,vba6_dll"					%D				
+806				Depend	"805?807"									
+807				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""VB Core Files;vba6_dll"""					%805				
+808				CopyFile	"VB Core Files,vbaexe6_lib"					%D				
+809				CopyFile	"VB Core Files,vbdatavw_tlb"					%D				
+810				Depend	"809?811"									
+811				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""VB Core Files;vbdatavw_tlb"""					%805				
+812				CopyFile	"VB Core Files,vb6ide_dll"					%D				
+813				CopyFile	"VB Core Files,vb6_olb"					%D				
+814				Depend	"813?815"									
+815				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""VB Core Files;vb6_olb"""					%813				
+816				CopyFile	"VB Core Files,vb6ext_olb"					%D				
+817				Depend	"816?818"									
+818				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""VB Core Files;vb6ext_olb"""					%816				
+819				CopyFile	"VB Core Files,visdata_exe"					%D				
+820				CustomAction	"COMMON98.DLL,RegisterFile,""VB Core Files,visdata_exe,3"""					%819				
+821				CopyFile	"VB Core Files,vbhelp_srg"					%D				
+822				CustomAction	"COMMON98.DLL,RegFile,821"					%821				
+823				InstallShortcut	"%802\%F802,VB98<Microsoft Visual Basic 6.0>,%802,,,,"					%27\VB<%27\Microsoft Visual Basic 6.0>				
+824				Depend	"28?826    "									
+825				CustomAction	"COMMON98.DLL,LangCheckCAH,enu"									
+826				Depend	"825 ? 827"									
+827				InstallSysFile	"VB Core Files,riched32_dll"					%M				
+														
+	=== VSS Dupe Files (vbvss.etf) ===											
+831				Group	832 833							
+832				CopySection	"VB VSS Files"					%D		
+833		vbscc.dll		SelfReg	"VB VSS Files,vbscc_dll,,,"					%832		
+											
+	=== VB Data Binding Files (vbmsbind.etf) ===											
+841				Group	842 843 844							
+842		vb5db.dll		InstallShared	"VB DataBind,vb5db_dll,vb5db.dll,,2823"					%M				
+843				CopyFile	"VB DataBind,dbadapt_dll"					%M		
+844		dbadapt.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB DataBind,dbadapt_dll,3"" "					%843				
+											
+	=== RegVerbs (vbrverbs.etf) ===											
+851				Group	852 861 868 875 886 895 904 913 922 929 942							
+852				Group	853 854 855 856 857 858 859 860							
+853				AddRegData	""""","".frm"","""",""VisualBasic.Form"","""""							
+854				AddRegData	""""",""VisualBasic.Form"","""",""Visual Basic Form File"","""""							
+855				AddRegData	""""",""VisualBasic.Form\DefaultIcon"","""",""%s\vb6.exe,1"","""""					%802		
+856				AddRegData	""""",""VisualBasic.Form\shell"","""","""","""""							
+857				AddRegData	""""",""VisualBasic.Form\shell\open"","""","""","""""							
+858				AddRegData	""""",""VisualBasic.Form\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802		
+859				AddRegData	""""","".frx"","""",""VisualBasic.FRXFile"","""""							
+860				AddRegData	""""",""VisualBasic.FRXFile"","""",""Visual Basic Form Binary File"","""""							
+861				Group	862 863 864 865 866 867							
+862				AddRegData	""""","".bas"","""",""VisualBasic.Module"","""""							
+863				AddRegData	""""",""VisualBasic.Module"","""",""Visual Basic Module"","""""							
+864				AddRegData	""""",""VisualBasic.Module\DefaultIcon"","""",""%s\vb6.exe,8"","""""					%802		
+865				AddRegData	""""",""VisualBasic.Module\shell"","""","""","""""							
+866				AddRegData	""""",""VisualBasic.Module\shell\open"","""","""","""""							
+867				AddRegData	""""",""VisualBasic.Module\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802		
+868				Group	869 870 871 872 873 874							
+869				AddRegData	""""","".cls"","""",""VisualBasic.ClassModule"","""""							
+870				AddRegData	""""",""VisualBasic.ClassModule"","""",""Visual Basic Class Module"","""""							
+871				AddRegData	""""",""VisualBasic.ClassModule\DefaultIcon"","""",""%s\vb6.exe,9"","""""					%802		
+872				AddRegData	""""",""VisualBasic.ClassModule\shell"","""","""","""""							
+873				AddRegData	""""",""VisualBasic.ClassModule\shell\open"","""","""","""""							
+874				AddRegData	""""",""VisualBasic.ClassModule\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802		
+875				Group	876 877 878 879 880 881 882 883 884 885							
+876				AddRegData	""""","".vbp"","""",""VisualBasic.Project"","""""							
+877				AddRegData	""""",""VisualBasic.Project"","""",""Visual Basic Project"","""""							
+878				AddRegData	""""",""VisualBasic.Project\DefaultIcon"","""",""%s\vb6.exe,16"","""""							
+879				AddRegData	""""",""VisualBasic.Project\shell"","""","""","""""							
+880				AddRegData	""""",""VisualBasic.Project\shell\open"","""","""","""""							
+881				AddRegData	""""",""VisualBasic.Project\shell\open\command"","""",""""""%s\vb6.exe"""" """"%%1"""""","""""					%802		
+882				AddRegData	""""",""VisualBasic.Project\shell\Make"","""",""Make"","""""							
+883				AddRegData	""""",""VisualBasic.Project\shell\Make\command"","""",""%s\vb6.exe """"%%1"""" /make"","""""					%802		
+884				AddRegData	""""",""VisualBasic.Project\shell\Run Project"","""",""Run"","""""							
+885				AddRegData	""""",""VisualBasic.Project\shell\Run Project\command"","""",""%s\vb6.exe """"%%1"""" /run"","""""					%802		
+886				Group	887 888 889 890 891 892 893 894							
+887				AddRegData	""""","".ctl"","""",""VisualBasic.UserControl"","""""							
+888				AddRegData	""""",""VisualBasic.UserControl"","""",""Visual Basic User Control"","""""							
+889				AddRegData	""""",""VisualBasic.UserControl\DefaultIcon"","""",""%s\vb6.exe,5"","""""					%802		
+890				AddRegData	""""",""VisualBasic.UserControl\shell"","""","""","""""							
+891				AddRegData	""""",""VisualBasic.UserControl\shell\open"","""","""","""""							
+892				AddRegData	""""",""VisualBasic.UserControl\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802		
+893				AddRegData	""""","".ctx"","""",""VisualBasic.CTXFile"","""""							
+894				AddRegData	""""",""VisualBasic.CTXFile"","""",""Visual Basic User Control Binary File"","""""							
+895				Group	896 897 898 899 900 901 902 903							
+896				AddRegData	""""","".dob"","""",""VisualBasic.UserDocument"","""""							
+897				AddRegData	""""",""VisualBasic.UserDocument"","""",""Visual Basic User Document"","""""							
+898				AddRegData	""""",""VisualBasic.UserDocument\DefaultIcon"","""",""%s\vb6.exe,7"","""""					%802		
+899				AddRegData	""""",""VisualBasic.UserDocument\shell"","""","""","""""							
+900				AddRegData	""""",""VisualBasic.UserDocument\shell\open"","""","""","""""							
+901				AddRegData	""""",""VisualBasic.UserDocument\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802		
+902				AddRegData	""""","".dox"","""",""VisualBasic.DOXFile"","""""							
+903				AddRegData	""""",""VisualBasic.DOXFile"","""",""Visual Basic User Document Binary File"","""""							
+904				Group	905 906 907 908 909 910 911 912					
+905				AddRegData	""""","".dsr"","""",""VisualBasic.Designer"","""""					
+906				AddRegData	""""",""VisualBasic.Designer"","""",""Visual Basic Designer Module"","""""					
+907				AddRegData	""""",""VisualBasic.Designer\DefaultIcon"","""",""%s\vb6.exe,4"","""""					%802
+908				AddRegData	""""",""VisualBasic.Designer\shell"","""","""","""""					
+909				AddRegData	""""",""VisualBasic.Designer\shell\open"","""","""","""""					
+910				AddRegData	""""",""VisualBasic.Designer\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802
+911				AddRegData	""""","".dsx"","""",""VisualBasic.DSCFile"","""""					
+912				AddRegData	""""",""VisualBasic.DSCFile"","""",""Visual Basic Designer Binary File"","""""					
+913				Group	914 915 916 917 918 919 920 921					
+914				AddRegData	""""","".pag"","""",""VisualBasic.PropertyPage"","""""					
+915				AddRegData	""""",""VisualBasic.PropertyPage"","""",""Visual Basic Property Page"","""""					
+916				AddRegData	""""",""VisualBasic.PropertyPage\DefaultIcon"","""",""%s\vb6.exe,6"","""""					%802
+917				AddRegData	""""",""VisualBasic.PropertyPage\shell"","""","""","""""					
+918				AddRegData	""""",""VisualBasic.PropertyPage\shell\open"","""","""","""""					
+919				AddRegData	""""",""VisualBasic.PropertyPage\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802
+920				AddRegData	""""","".pgx"","""",""VisualBasic.PGXFile"","""""					
+921				AddRegData	""""",""VisualBasic.PGXFile"","""",""Visual Basic Property Page Binary File"","""""					
+922				Group	923 924 925 926 927 928					
+923				AddRegData	""""","".vbz"","""",""VisualBasic.VBZFile"","""""					
+924				AddRegData	""""",""VisualBasic.VBZFile"","""",""Visual Basic Wizard"","""""					
+925				AddRegData	""""",""VisualBasic.VBZFile\DefaultIcon"","""",""%s\vb6.exe,21"","""""					%802
+926				AddRegData	""""",""VisualBasic.VBZFile\shell"","""","""","""""					
+927				AddRegData	""""",""VisualBasic.VBZFile\shell\open"","""","""","""""					
+928				AddRegData	""""",""VisualBasic.VBZFile\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802
+929				Group	930 931 932 933 934 935 936 937 938 939 940 941					
+930				AddRegData	""""","".vbg"","""",""VisualBasic.ProjectGroup"","""""					
+931				AddRegData	""""",""VisualBasic.ProjectGroup"","""",""Visual Basic Group Project"","""""					
+932				AddRegData	""""",""VisualBasic.ProjectGroup\DefaultIcon"","""",""%s\vb6.exe,22"","""""					%802
+933				AddRegData	""""",""VisualBasic.ProjectGroup\shell"","""","""","""""					
+934				AddRegData	""""",""VisualBasic.ProjectGroup\shell\open"","""","""","""""					
+935				AddRegData	""""",""VisualBasic.ProjectGroup\shell\open\command"","""",""%s\vb6.exe """"%%1"""""","""""					%802
+936				AddRegData	""""",""VisualBasic.ProjectGroup\shell\Make"","""",""Make"","""""					
+937				AddRegData	""""",""VisualBasic.ProjectGroup\shell\Make\command"","""",""%s\vb6.exe """"%%1"""" /make"","""""					%802
+938				AddRegData	""""",""VisualBasic.ProjectGroup\shell\Run ProjectGroup"","""",""Run"","""""					
+939				AddRegData	""""",""VisualBasic.ProjectGroup\shell\Run ProjectGroup\command"","""",""%s\vb6.exe """"%%1"""" /run"","""""					%802
+940				AddRegData	""""","".vbl"","""",""VisualBasic.VBLFile"","""""					
+941				AddRegData	""""",""VisualBasic.VBLFile"","""",""Visual Basic Control License File"","""""					
+942				Group	943 944 945 946 947 948 949 950 951 952					
+943				AddRegData	""""","".oca"","""",""VisualBasic.OCAFile"","""""					
+944				AddRegData	""""",""VisualBasic.OCAFile"","""",""Control Typelib Cache"","""""					
+945				AddRegData	""""","".swt"","""",""VisualBasic.SWTFile"","""""					
+946				AddRegData	""""",""VisualBasic.SWTFile"","""",""Visual Basic Set Up Wizard Template File"","""""					
+947				AddRegData	""""","".vbr"","""",""VisualBasic.VBRFile"","""""					
+948				AddRegData	""""",""VisualBasic.VBRFile"","""",""Remote Automation Registration File"","""""					
+949				AddRegData	""""","".vbw"","""",""VisualBasic.VBWFile"","""""					
+950				AddRegData	""""",""VisualBasic.VBWFile"","""",""Visual Basic Project Workspace"","""""					
+951				AddRegData	""""","".wct"","""",""VisualBasic.WCTFile"","""""					
+952				AddRegData	""""",""VisualBasic.WCTFile"","""",""Webclass Template File"","""""					
+											
+	=== Data Bases (vbaccdbs.etf) ===											
+961				Group	962 963 964 965					%D		
+962				CopyFile	"VB DataBases,biblio_mdb"					%D		
+963				CopyFile	"VB DataBases,nwind_mdb"					%D		
+964				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB DataBases;biblio_ldb"					%962		
+965				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB DataBases;nwind_ldb"					%963		
+											
+	=== VBEXT.SRG (vbadddsg.etf) ===											
+971				Group	972 973							
+972				CopyFile	"VB VBEXT,vbext_srg"					%D		
+973				CustomAction	"COMMON98.DLL,RegFile,972"					%972		
+											
+	=== VB VB.INI (vbvbini.etf) ===											
+981				Group	982 983 984 985 986 987 988 989 990 991 992 993 994 995							
+982				AddIniLine	"""VB.INI"",""VBX Conversions32"",""msmapi.vbx"",""{20C62CAE-15DA-101B-B9A8-444553540000}#1.1#0;%s\msmapi32.ocx"""					%M		
+983				AddIniLine	"""VB.INI"",""VBX Conversions32"",""mci.vbx"",""{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.0#0;%s\mci32.ocx"""					%M		
+984				AddIniLine	"""VB.INI"",""VBX Conversions32"",""mscomm.vbx"",""{648A5603-2C6E-101B-82B6-000000000014}#1.0#0;%s\mscomm32.ocx"""					%M		
+985				AddIniLine	"""VB.INI"",""VBX Conversions32"",""msmasked.vbx"",""{C932BA88-4374-101B-A56C-00AA003668DC}#1.0#0;%s\msmask32.ocx"""					%M		
+986				AddIniLine	"""VB.INI"",""VBX Conversions32"",""picclip.vbx"",""{27395F88-0C0C-101B-A3C9-08002B2F49FB}#1.0#0;%s\picclp32.ocx"""					%M		
+987				AddIniLine	"""VB.INI"",""VBX Conversions32"",""cmdialog.vbx"",""{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.0#0;%s\comdlg32.ocx"""					%M		
+988				AddIniLine	"""VB.INI"",""VBX Conversions32"",""msoutlin.vbx"",""{BE4F3AC8-AEC9-101A-947B-00DD010F7B46}#1.0#0;%s\msoutl32.ocx"""					%M		
+989				AddIniLine	"""VB.INI"",""VBX Conversions32"",""anibuton.vbx"",""{F72CC888-5ADC-101B-A56C-00AA003668DC}#1.0#0;%s\anibtn32.ocx"""					%M		
+990				AddIniLine	"""VB.INI"",""VBX Conversions32"",""graph.vbx"",""{0842D103-1E19-101B-9AAF-1A1626551E7C}#1.0#0;%s\graph32.ocx"""					%M		
+991				AddIniLine	"""VB.INI"",""VBX Conversions32"",""gauge.vbx"",""{7A080CC8-26E2-101B-AEBD-04021C009402}#1.0#0;%s\gauge32.ocx"""					%M		
+992				AddIniLine	"""VB.INI"",""VBX Conversions32"",""keystat.vbx"",""{B9D22273-0C24-101B-AEBD-04021C009402}#1.0#0;%s\keysta32.ocx"""					%M		
+993				AddIniLine	"""VB.INI"",""VBX Conversions32"",""spin.vbx"",""{B16553C3-06DB-101B-85B2-0000C009BE81}#1.0#0;%s\spin32.ocx"""					%M		
+994				AddIniLine	"""VB.INI"",""VBX Conversions32"",""threed.vbx"",""{0BA686C6-F7D3-101A-993E-0000C0EF6F5E}#1.0#0;%s\threed32.ocx"""					%M		
+995				AddIniLine	"""VB.INI"",""VBX Conversions32"",""grid.vbx"",""{A8B3B723-0B5A-101B-B22E-00AA0037B2FC}#1.0#0;%s\grid32.ocx"""					%M		
+													
+	=== Setup Toolkit (vbsupkit.etf) ===													
+1001				Group	1002 1003 1004 1005 1006 1007 1008 1009 1010					%765\Wizards\PDWizard				
+1002				CustomAction 	"COMMON98.DLL, NopCAH"
+%D				
+1003				CopySection	"Setupkit Binary"					%D				
+1004		PDAddin.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Setupkit Binary,pdaddin_dll,3"""					%1003		
+1005		PDWizard.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""Setupkit Binary,pdwizard_ocx,3"""					%1003		
+1006		dlgobjs.dll		SelfReg	"Setupkit Binary,dlgobjs_dll,,, "					%1003		
+1007				CopyFile	"Setupkit Vb5stkit,vb5stkit_dll"					%M				
+1008				CopySection	"Setupkit Source"					%D\Setup1				
+1009				CopySection	"Setupkit Redist"					%D\Redist				
+1010				InstallShortcut	"%1003\pdcmdln.exe,SetupKit<Package & Deployment Wizard>,%1003,,,,"					%27\Microsoft Visual Basic 6.0\Microsoft Visual Basic 6.0 Tools				
+													
+	=== Wizards for all editions (vbappwiz.etf)===													
+1021				Group	1022 1023 1024 1025 1026 1027					%D\Wizards				
+1022				CopySection	"AllVer Wizards"					%D				
+1023		appwiz.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""AllVer Wizards,appwiz_ocx,3"""					%1022				
+1024				CustomAction	"COMMON98.DLL, RemoveAuxFile, AllVer Wizards;appwiz_oca"					%1022				
+1025				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Application Wizard"",""ProgID"",""AppWizard.Wizard"","""""									
+1026				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Application Wizard"",""ShowOnToolbar"",""1"","""""									
+1027		resedit.dll		CustomAction	"COMMON98.DLL,RegisterFile,""AllVer Wizards, resedit_dll,3"""					%1022				
+													
+	=== VB Template Manager Wizard (vbtmpmgr.etf) ===													
+1031				Group	1032 1033									
+1032				CopyFile	"Template Manager,tempmgr_dll"					%D\Wizards		
+1033		tempmgr.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Template Manager,tempmgr_dll,3"""					%1032				
+													
+	=== Graphics (vbgraph.etf)===													
+	STFWIZ	76												
+1041		Graphics	Installs bitmaps, cursors, icons, metafiles, and video clips for use in your application.	OptionDlg	1042 1043 1044 1045 1046					%10\Graphics				
+	STFWIZ	77												
+1042	yes	Metafiles	Installs over 80 assorted metafiles you can use in your applications.	Group	1051									
+	STFWIZ	78												
+1043	yes	Bitmaps	Installs nearly 250 assorted bitmaps you can use in your applications.	Group	1061									
+	STFWIZ	79												
+1044	yes	Cursors	Installs nearly 100 cursors you can use in your applications.	Group	1081									
+	STFWIZ	80												
+1045	yes	Icon Library	Installs over 450 icons you can use to enhance your applications.	Group	1091									
+	STFWIZ	81												
+1046	yes	Video	Installs a number of video clips (.AVI files) which you can use to display progress in your application, just like Windows.	Group	1111									
+													
+	=== VB Metafiles (vbwmf.etf)===													
+1051				Group	1052 1053 1054					%10\Graphics				
+1052				CustomAction 	"COMMON98.DLL, NopCAH"
+%D				
+1053				InstallShared	"WMF - Tag,2darrow1_wmf,2darrow1.wmf,,2823"					%D\Metafile\Arrows		
+1054				Depend	"1053?1055 1056"							
+1055				CopySection	"WMF - Arrows"					%D\Metafile\Arrows				
+1056				CopySection	"WMF - Business"					%D\Metafile\Business				
+													
+	=== Graphics Bitmaps (vbbmp.etf)===													
+1061				Group	1062 1063 1064					%D\Bitmaps				
+1062				CustomAction 	"COMMON98.DLL, NopCAH"
+%D				
+1063				InstallShared	"Bitmaps - Tag,balloon_bmp,balloon.bmp,,2823"					%D\Assorted		
+1064				Depend	"1063?1065 1066 1067 1068 1069 1070 1071 1072 1073 1074 1075"							
+1065				CopySection	"Bitmaps - Assorted"					%D\Assorted				
+1066				CopySection	"Bitmaps - Gauge"					%D\Gauge				
+1067				CopySection	"Bitmaps - OffCtlBr - B&W - large"					%D\OffCtlBr\Large\B&W				
+1068				CopySection	"Bitmaps - OffcCtlBr - B&W - small"					%D\OffCtlBr\Small\B&W				
+1069				CopySection	"Bitmaps - OffCtlBr - Color - large"					%D\OffCtlBr\Large\Color				
+1070				CopySection	"Bitmaps - OffcCtlBr - Color - small"					%D\OffCtlBr\Small\Color				
+1071				CopySection	"Bitmaps - Outline"					%D\Outline				
+1072				CopySection	"Bitmaps - Outline - Nomask"					%D\Outline\NoMask				
+1073				CopySection	"Bitmaps - Outline - Redmask"					%D\Outline\RedMask				
+1074				CopySection	"Bitmaps - TlBr - W95"					%D\TlBr_W95				
+1075				CopySection	"Bitmaps - TlBr - W96"					%D\TlBr_W95				
+													
+	=== Cursors (vbcursor.etf)===													
+1081				Group	1082 1083					%D\Cursors				
+1082				InstallShared	"Cursors - Tag,4way01_cur,4way01.cur,,2823"					%D		
+1083				Depend	"1082?1084"							
+1084				CopySection	"Cursors"					%D				
+													
+	=== Icon Library (vbicon.etf)===													
+1091				Group	1092 1093 1094					%D\Icons				
+1092				CustomAction 	"COMMON98.DLL, NopCAH"
+%D				
+1093				InstallShared	"I-Arrows - Tag,arw01dn_ico,arw01dn.ico,,2823"					%D\Arrows		
+1094				Depend	"1093?1095 1096 1097 1098 1099 1100 1101 1102 1103 1104 1105 1106 1107"							
+1095				CopySection	"I-Arrows"					%D\Arrows				
+1096				CopySection	"I-Comm"					%D\Comm				
+1097				CopySection	"I-Computer"					%D\Computer				
+1098				CopySection	"I-Drag/Drop"					%D\Dragdrop				
+1099				CopySection	"I-Elements"					%D\Elements				
+1100				CopySection	"I-Flags"					%D\Flags				
+1101				CopySection	"I-Industry"					%D\Industry				
+1102				CopySection	"I-Mail"					%D\Mail				
+1103				CopySection	"I-Misc"					%D\Misc				
+1104				CopySection	"I-Office"					%D\Office				
+1105				CopySection	"I-Traffic"					%D\Traffic				
+1106				CopySection	"I-Writing"					%D\Writing				
+1107				CopySection	"I-Win95"					%D\Win95				
+													
+	=== AVI Files (vbavi.etf)===													
+1111				Group	1112 1113 1114					%10\Graphics				
+1112				Group	2294					%10\Graphics				
+1113				InstallShared	"AVI - Tag,blur16_avi,blur16.avi,,2823"					%D\Videos		
+1114				Depend	"1113?1115"							
+1115				CopySection	"AVI"					%D\Videos				
+													
+	=== vi Editor: TriEdit (vitriedt.etf) ===													
+1121				Group	1122 1124					%h\Triedit				
+1122				Group	1123					%d				
+1123		triedit.dll		InstallShared	"viEditor - TriEdit,triedit_dll,triedit.dll,,2823"					%d				
+    
+1124				Group	1125					%d				
+1125		dep_triedit.dll		Depend	"1123 ? 1126"									
+1126		triedit.dll		SelfReg	"""viEditor - TriEdit"",""triedit_dll"","""","""","""""					%1123				
+													
+	=== Page Designer (vbpdsgnr.etf) ===											
+1131				Group	1132 1133 1135  1136 1140  1141							
+1132				InstallShared	"VB Page Designer,htmutil_dll,htmutil.dll,,2823"					%M		
+1133				Depend	"1132?1134"							
+1134		htmutil.dll		SelfReg	"VB Page Designer,htmutil_dll,,,"					%1132		
+1135				InstallShared	"VB Page Designer,mshtmpgd_dll,mshtmpgd.dll,,2823"					%12\designer		
+1136				Depend	"1135?1137 1138 1139 1144"							
+1137		mshtmpgd.dll		SelfReg	"VB Page Designer,mshtmpgd_dll,,,"					%1135		
+1138				CustomAction	"""COMMON98.DLL"", ""GetPathFromReg"", ""HKEY_CLASSES_ROOT,htmlfile\shell\edit\command,"" "					%W\notepad.exe				
+1139				AddRegData	"LOCAL,""Software\Microsoft\Visual Basic\6.0\External Tools"",""HTML Editor"",%s,"					%1138				
+1140				InstallShared	"VB Page Designer,mshtmpgr_dll,mshtmpgr.dll,,2823"					%12\designer		
+1141				Depend	"1140?1142 1143"							
+1142				CopyFile	"VB Page Designer,mshtmpgr_dep"					%12\designer		
+1143		mshtmpgr.dll		SelfReg	"VB Page Designer,mshtmpgr_dll,,,"					%1140		
+1144				AddRegData	"HKEY_CURRENT_USER,Software\Microsoft\Visual Basic\6.0\Designers\{90290CCD-F27D-11D0-8031-00C04FB6C701},,,"									
+											
+	=== Control/Report (vbctlrpt.etf) ===													
+1151				Group	 1152 1159									
+1152				Group	1153 1154 									
+1153				InstallShared	"VB Control/Report,msdbrpt_dll,msdbrpt.dll,,2823"					%M				
+1154				Depend	"1153?1155 1156 1157 1158"									
+1155		msdbrpt.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB Control/Report,msdbrpt_dll,3"""					%1153				
+1156				AddRegData	"HKEY_CURRENT_USER,Software\Microsoft\Visual Basic\6.0\Designers\{78E93846-85FD-11D0-8487-00A0C90DC8A9},,,"									
+1157				InstallShared	"VB Control/Report,msdbrpt_srg_1,msdbrpt.srg,,2823"					%1153				
+1158				CustomAction	"COMMON98.DLL,RegFile,1157"					%1157				
+1159				Group	1160 1161 									
+1160				InstallShared	"VB Control/Report,msdbrptr_dll,msdbrptr.dll,,2823"					%M				
+1161				Depend	"1160?1162 1163"									
+1162		msdbrptr.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB Control/Report,msdbrptr_dll,3"""					%1160				
+1163				CopyFile	"VB Control/Report,msdbrptr_dep"					%1160				
+													
+	=== Sqlparse (vbsqlpar.etf) ===											
+1171				Group	1172 1173							
+1172				InstallShared	"VB SQL Debugging,sqlparse_dll,sqlparse.dll,,2823"					%M		
+1173				Depend	"1172?1174 "							
+1174		sqlparse.dll		SelfReg	"VB SQL Debugging,sqlparse_dll,,,"					%1172		
+												
+	=== Dataview (vbdatavw.etf) ===													
+1181				Group	1182 1183									
+1182				InstallShared	"VB Dataview,dataview_dll,dataview.dll,,2823"					%D				
+1183				Depend	"1182?1184"									
+1184		dataview.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB Dataview,dataview_dll,3"""					%1182				
+													
+	=== VB Controls for ENT & PRO versions (vbepacx.etf) ===													
+1191				Group	1201 1221 1241 1261 1281 2771 1301 1321 1341									
+													
+\														
+														
+	=== MSINET.OCX (vbmsinet.etf) ===											
+1201				Group	1202 1203  1204 1211							
+1202				InstallShared	"VB MSINET,msinet_ocx,msinet.ocx,,2823"					%M		
+1203				InstallShared	"VB MSINET,msinet_dep,msinet.dep,,2823"					%1202		
+1204				Depend	"1202?1205 1206 1207 1208 1209 1210"							
+1205		msinet.ocx		SelfReg	"VB MSINET,msinet_ocx,,, "					%1202		
+1206				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSINET;msinet_oca"					%1202		
+1207				CopyFile	"VB MSINET,inet98_ch2"					%W\Help		
+1208				CopyFile	"VB MSINET,inet98_ch1"					%W\Help		
+1209				CopyFile	"VB MSINET,inetctls_srg"					%1202		
+1210				CustomAction	"COMMON98.DLL,RegFile,1209"					%1209		
+1211				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1212 1213"""					%1202		
+1212				CopyFile	"VB MSINET,inetctls_srg"					%1202		
+1213				CustomAction	"COMMON98.DLL,RegFile,1209"					%1209		
+											
+	=== MSWINSCK.OCX (vbwinsck.etf) ===											
+1221				Group	1222 1223  1224 1231							
+1222				InstallShared	"VB MSWINSCK,mswinsck_ocx,mswinsck.ocx,,2823"					%M		
+1223				InstallShared	"VB MSWINSCK,mswinsck_dep,mswinsck.dep,,2823"					%1222		
+1224				Depend	"1222?1225 1226 1227 1228 1229 1230"							
+1225		mswinsck.ocx		SelfReg	"VB MSWINSCK,mswinsck_ocx,,, "					%1222		
+1226				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSWINSCK;mswinsck_oca"					%1222		
+1227				CopyFile	"VB MSWINSCK,mswnsk98_ch2"					%W\Help		
+1228				CopyFile	"VB MSWINSCK,mswnsk98_ch1"					%W\Help		
+1229				CopyFile	"VB MSWINSCK,winsock_srg"					%1222		
+1230				CustomAction	"COMMON98.DLL,RegFile,1229"					%1229		
+1231				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1232 1233"""					%1222		
+1232				CopyFile	"VB MSWINSCK,winsock_srg"					%1222		
+1233				CustomAction	"COMMON98.DLL,RegFile,1229"					%1229		
+											
+	=== MSMAPI32.OCX (vbmsmapi.etf) ===											
+1241				Group	1242 1243  1244 1251							
+1242				InstallShared	"VB MSMAPI32,msmapi32_ocx,msmapi32.ocx,,2823"					%M		
+1243				InstallShared	"VB MSMAPI32,msmapi32_dep,msmapi32.dep,,2823"					%1242		
+1244				Depend	"1242?1245 1246 1247 1248 1249 1250"							
+1245		msmapi32.ocx		SelfReg	"VB MSMAPI32,msmapi32_ocx,,, "					%1242		
+1246				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSMAPI32;msmapi32_oca"					%1242		
+1247				CopyFile	"VB MSMAPI32,mapi98_ch2"					%W\Help		
+1248				CopyFile	"VB MSMAPI32,mapi98_ch1"					%W\Help		
+1249				CopyFile	"VB MSMAPI32,msmapi_srg"					%1242		
+1250				CustomAction	"COMMON98.DLL,RegFile,1249"					%1249		
+1251				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1252 1253"""					%1242		
+1252				CopyFile	"VB MSMAPI32,msmapi_srg"					%1242		
+1253				CustomAction	"COMMON98.DLL,RegFile,1249"					%1249		
+											
+	=== MCI32.OCX (vbmci32.etf) ===											
+1261				Group	1262 1263  1264 1271							
+1262				InstallShared	"VB MCI32,mci32_ocx,mci32.ocx,,2823"					%M		
+1263				InstallShared	"VB MCI32,mci32_dep,mci32.dep,,2823"					%1262		
+1264				Depend	"1262?1265 1266 1267 1268 1269 1270"							
+1265		mci32.ocx		SelfReg	"VB MCI32,mci32_ocx,,, "					%1262		
+1266				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MCI32;mci32_oca"					%1262		
+1267				CopyFile	"VB MCI32,mmedia98_chi_1"					%W\Help		
+1268				CopyFile	"VB MCI32,mmedia98_chm_1"					%W\Help		
+1269				CopyFile	"VB MCI32,mci_srg"					%1262		
+1270				CustomAction	"COMMON98.DLL,RegFile,1269"					%1269		
+1271				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1272 1273"""					%1262		
+1272				CopyFile	"VB MCI32,mci_srg"					%1262		
+1273				CustomAction	"COMMON98.DLL,RegFile,1269"					%1269		
+											
+	=== PICCLP32.OCX (vbpicclp.etf) ===											
+1281				Group	1282 1283  1284 1291							
+1282				InstallShared	"VB PICCLP32,picclp32_ocx,picclp32.ocx,,2823"					%M		
+1283				InstallShared	"VB PICCLP32,picclp32_dep,picclp32.dep,,2823"					%1282		
+1284				Depend	"1282?1285 1286 1287 1288 1289 1290"							
+1285		picclp32.ocx		SelfReg	"VB PICCLP32,picclp32_ocx,,, "					%1282		
+1286				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB PICCLP32;picclp32_oca"					%1282		
+1287				CopyFile	"VB PICCLP32,picclp98_ch2"					%W\Help		
+1288				CopyFile	"VB PICCLP32,picclp98_ch1"					%W\Help		
+1289				CopyFile	"VB PICCLP32,picclip_srg"					%1282		
+1290				CustomAction	"COMMON98.DLL,RegFile,1289"					%1289		
+1291				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1292 1293"""					%1282		
+1292				CopyFile	"VB PICCLP32,picclip_srg"					%1282		
+1293				CustomAction	"COMMON98.DLL,RegFile,1289"					%1289		
+											
+	=== MSCOMM32.OCX (vbmscomm.etf) ===											
+1301				Group	1302 1303  1304 1311							
+1302				InstallShared	"VB MSCOMM32,mscomm32_ocx,mscomm32.ocx,,2823"					%M		
+1303				InstallShared	"VB MSCOMM32,mscomm32_dep,mscomm32.dep,,2823"					%1302		
+1304				Depend	"1302?1305 1306 1307 1308 1309 1310"							
+1305		mscomm32.ocx		SelfReg	"VB MSCOMM32,mscomm32_ocx,,, "					%1302		
+1306				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSCOMM32;mscomm32_oca"					%1302		
+1307				CopyFile	"VB MSCOMM32,comm98_chi_1"					%W\Help		
+1308				CopyFile	"VB MSCOMM32,comm98_chm_1"					%W\Help		
+1309				CopyFile	"VB MSCOMM32,mscomm_srg"					%1302		
+1310				CustomAction	"COMMON98.DLL,RegFile,1309"					%1309		
+1311				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1312 1313"""					%1302		
+1312				CopyFile	"VB MSCOMM32,mscomm_srg"					%1302		
+1313				CustomAction	"COMMON98.DLL,RegFile,1309"					%1309		
+											
+	=== MSMASK32.OCX (vbmsmask.etf) ===											
+1321				Group	1322 1323  1324 1331							
+1322				InstallShared	"VB MSMASK32,msmask32_ocx,msmask32.ocx,,2823"					%M		
+1323				InstallShared	"VB MSMASK32,msmask32_dep,msmask32.dep,,2823"					%1322		
+1324				Depend	"1322?1325 1326 1327 1328 1329 1330"							
+1325		msmask32.ocx		SelfReg	"VB MSMASK32,msmask32_ocx,,, "					%1322		
+1326				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB MSMASK32;msmask32_oca"					%1322		
+1327				CopyFile	"VB MSMASK32,masked98_ch2"					%W\Help		
+1328				CopyFile	"VB MSMASK32,masked98_ch1"					%W\Help		
+1329				CopyFile	"VB MSMASK32,msmask_srg"					%1322		
+1330				CustomAction	"COMMON98.DLL,RegFile,1329"					%1329		
+1331				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1332 1333"""					%1322		
+1332				CopyFile	"VB MSMASK32,msmask_srg"					%1322		
+1333				CustomAction	"COMMON98.DLL,RegFile,1329"					%1329		
+											
+	=== COMCT332.OCX (vbcomct3.etf) ===													
+1341				Group	1342 1343  1344 1351									
+1342				InstallShared	"VB COMCT332,comct332_ocx,comct332.ocx,,2823"					%M				
+1343				InstallShared	"VB COMCT332,comct332_dep,comct332.dep,,2823"					%1342				
+1344				Depend	"1342?1345 1346 1347 1348 1349 1350"									
+1345		comct332.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""VB COMCT332,comct332_ocx,3"" "					%1342				
+1346				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB COMCT332;comct332_oca"					%1342				
+1347				CopyFile	"VB COMCT332,cmctl398_chi_1"					%W\Help				
+1348				CopyFile	"VB COMCT332,cmctl398_chm_1"					%W\Help				
+1349				CopyFile	"VB COMCT332,comct332_srg"					%1342				
+1350				CustomAction	"COMMON98.DLL,RegFile,1349"					%1349				
+1351				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""1352 1353"""					%1342		
+1352				CopyFile	"VB COMCT332,comct332_srg"					%1342				
+1353				CustomAction	"COMMON98.DLL,RegFile,1349"					%1349				
+													
+	=== Wizards (vbepwiz.etf)===													
+1361				Group	1362 1363 1364 1376 1387					%D\Wizards				
+1362				CopySection	"Wizards"					%D				
+1363				CopySection	"Wizards Template Files"					%D\Template				
+													
+1364				Group	1365 1366 1367 1368 1369 1370 1371 1372 1373 1374 1375 									
+1365		clssbld.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, clssbld_dll,3"""					%1362				
+1366				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Class Builder Utility"",""ProgID"",""ClassBuilder.Wizard"","""""									
+1367				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Class Builder Utility"",""ShowOnToolbar"",""1"","""""									
+1368		dataform.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, dataform_ocx,3"""					%1362				
+1369				CustomAction	"COMMON98.DLL, RemoveAuxFile, Wizards;dataform_oca"					%1362		
+1370				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Data Form Wizard"",""ProgID"",""DataFormWizard.Wizard"","""""									
+1371				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Data Form Wizard"",""ShowOnToolbar"",""1"","""""									
+1372		chartwiz.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards,chartwiz_ocx,3"""					%1362				
+1373				CustomAction	"COMMON98.DLL, RemoveAuxFile, Wizards;chartwiz_oca"					%1362		
+1374		flexwiz.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards,flexwiz_ocx,3"""					%1362				
+1375				CustomAction	"COMMON98.DLL, RemoveAuxFile, Wizards;flexwiz_oca"					%1362		
+													
+1376				Group	1377 1378 1379 1380 1381 1382 1383 1384 1385 1386									
+1377		axdocwiz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, axdocwiz_dll,3"""					%1362				
+1378				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB ActiveX Document Migration Wizard"",""ProgID"",""ActiveXDocumentWizard.Wizard"","""""									
+1379				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB ActiveX Document Migration Wizard"",""ShowOnToolbar"",""1"","""""									
+1380		ctrlwiz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, ctrlwiz_dll,3"""					%1362				
+1381				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB ActiveX Control Wizard"",""ProgID"",""ControlWiz.Wizard"","""""									
+1382				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB ActiveX Control Wizard"",""ShowOnToolbar"",""1"","""""									
+1383		proppgwz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, proppgwz_dll,3"""					%1362				
+1384				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Property Page Wizard"",""ProgID"",""PropertyPageWizard.Wizard"","""""									
+1385				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB Property Page Wizard"",""ShowOnToolbar"",""1"","""""									
+1386		msdatobj.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, msdatobj_dll,3"""					%1362				
+													
+1387				Group	1388 1389									
+1388		wizman.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, wizman_dll,3"""					%1362				
+1389		aitool.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizards, aitool_dll,3"""					%1362				
+													
+	=== Templates (vbtempl.etf)===													
+1391				Group	1392 1393 1394 1395 1396 1397 1398 1399 1400 1401					%D\Template				
+1392				CopySection	"Templates - classes"					%D\Classes				
+1393				CopySection	"Templates - data"					%D\Projects				
+1394				CopySection	"Templates - proppage"					%D\Proppage				
+1395				CopySection	"Templates - userctls"					%D\Userctls				
+1396				CopySection	"Templates - userdocs"					%D\Userdocs				
+1397				CopySection	"Templates - IIsAppl"					%D\Projects				
+1398				CustomAction	"COMMON98.DLL, RemoveAuxFile, Templates - IIsAppl;iisapp_vbw"					%1397		
+1399				CustomAction	"COMMON98.DLL, RemoveAuxFile, Templates - IIsAppl;webclass_log"					%1397		
+1400				CreateDir	UserDocs					%D				
+1401				CreateDir	MDIForms					%D				
+														
+	=== VB Conversation Object Component (vbconobj.etf) ===													
+													
+1411				Group	1412 1413 1414  1415 1416 1417 					 			 	
+													
+1412				CopyFile	"VB Conversation Object, mscnvman_dll"					%12\designer				
+1413				CopyFile	"VB Conversation Object, mswcrun_dep"					%1412				
+1414				CopyFile	"VB Conversation Object, wbclsdsr_ocx"					%12\designer				
+													
+1415		mswcrun.dll		SelfReg	"VB Conversation Object, mscnvman_dll,,,"					%1412				
+1416		wbclsdsr.ocx		SelfReg	"VB Conversation Object, wbclsdsr_ocx,,,"					%1414				
+1417				AddRegData	"HKEY_CURRENT_USER,Software\Microsoft\Visual Basic\6.0\Designers\{17016CEE-E118-11D0-94B8-00A0C91110ED},,,"									
+													
+	=== VS Enterprise Edition Component (vsee.etf) ===													
+													
+	STFWIZ	68												
+1421	yes	Enterprise Features and Tools	Installs Enterprise components such as Application Performance Explorer, Visual Component Manager, Repository, Visual Modeler, Remote Data Objects, Connection Designer, and Automation Manager. 	CustomDlg	 1422 1431 1427 1426 1432 : 1481 1491 1501 1436 1811 1801 1821 2551 2531 					%10\Tools			 	
+													
+	STFWIZ	72		
+1422	yes	Application Performance Explorer	Installs Application Performance Explorer.	Group	1423 1769 1424 1721 2771					%d\APE				
+1423				InstallShared	"APE tagfile, aeexpdtr_exe, ""APE setup tagfile"",,2823"									
+1424				Depend	1423 ? 1425   					%D				
+1425	yes			Group	1761 1791 1771 1741  									
+													
+	STFWIZ	73		
+1426	yes	Repository	Installs Repository, a database containing tool information models.	Group	1441  					%d				
+													
+	STFWIZ	70		
+1427	yes	Visual Component Manager	Installs Visual Component Manager.	Group	1428 1429					%d\VCM				
+1428				InstallShared	"(vsee) Visual Component Mgr core, vcmcab_dll, ""VCM setup tagfile"",,2823"					%d				
+1429				Depend	1428 ? 1430   					%D				
+1430	yes			Group	1871 1861 1831 1841 									
+													
+	STFWIZ	74		
+1431	yes	Visual Basic Enterprise Components	Installs Connection Designer and RemAuto Connection Manager 	Group	1461 1511 1551 1561 1531									
+													
+	STFWIZ	71		
+1432	yes	Microsoft Visual Modeler	Installs Microsoft Visual Modeler 6.0 files, samples and models.	Group	1433 1601 1434					%D\VS-Ent98\vmodeler  				
+1433				InstallShared	"VM - Core7,msvm_exe, ""VM setup tagfile"",,2823"					%D				
+1434				Depend	1433 ? 1435   					%D				
+1435				Group	1571  									
+													
+1436				Group	1437									
+1437				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft VSEE Client,ProductDir,%s"									
+													
+  
+														
+	=== (vsee) Repository Component (reposity.etf) ===													
+													
+1441				Group	1442 1443 1445 1456 1446 1447 1449 1450 1452 1453 1454 1455 1458					%h\Repostry 			 	
+													
+1442				InstallShared	"(vsee) Repository,repbrowse_ex,repbrows.exe_v6,,2823"					%d				
+1443				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""1444"""									
+1444				CopyFile	"(vsee) Repository,repostry_mdb"					%w\msapps\repostry				
+1445				InstallShared	"(vsee) Repository,repbrrc_dll,repbrrc.dll,,2823"					%d				
+													
+1446				InstallShared	"(vsee) Repository,repcdlg_dll,repcdlg.dll,,2823"					%d				
+1447				Depend	"1446?1448"									
+1448		repcdlg.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Repository,repcdlg_dll,3"""					%1446				
+1449				InstallShared	"(vsee) Repository,repcdlg_ocx,repcdlg.ocx,,2823"					%d				
+1450				Depend	"1449?1451"									
+1451		repcdlg.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Repository,repcdlg_ocx,3"""					%1449				
+1452				InstallShared	"(vsee) Repository,repcdrc_dll,repcdrc.dll,,2823"					%d				
+1453				InstallShared	"(vsee) Repository,migv2rc_dll,MigV2Rc.dll,,2823"					%d				
+1454				InstallShared	"(vsee) Repository,migv2_dll,MigV2.dll,,2823"					%d				
+1455				InstallShared	"(vsee) Repository,migrepv2_exe,MigRepV2.exe,,2823"					%d				
+													
+1456				Depend	"1442?1457"									
+1457		repbrows.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Repository,repbrowse_ex,3"" "					%1442				
+													
+1458				Depend	"1454?1459"									
+1459		MigV2.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Repository,migv2_dll,3"" "					%1454				
+													
+	=== Connection Designer (vbcondes.etf)===													
+1461				Group	1462 1463 1464 1465 1469 									
+1462				InstallShared	"Connection Designer, mscondes_dll_1,mscondes.dll,,2823"					%12\designer				
+1463				InstallShared	"Connection Designer, mscdrun_dll_1,Mscdrun.dll,,2823"					%12\designer				
+1464				InstallShared	"Connection Designer, mscdrun_dep_1,Mscdrun.dep,,2823"					%1463				
+1465				Depend	"1462?1466 1467 1468"									
+1466		mscondes.dll		SelfReg	"Connection Designer, mscondes_dll_1,,,"					%1462				
+1467				AddRegData	"HKEY_CURRENT_USER,Software\Microsoft\Visual Basic\6.0\Designers\{FB079AE3-551B-11CF-A0BE-00AA0062BE57},"									
+1468				AddRegData	"HKEY_CLASSES_ROOT,Licenses\AC0871D0-6ACC-11cf-8ADB-00AA00C00905,,knjnpgognginknggsmnnhnjnumvmlngnrlrk,"									
+1469				Depend	"1463?1470"									
+1470		Mscdrun.dll		SelfReg	"Connection Designer, mscdrun_dll_1,,,"					%1463				
+													
+	=== Automation Manager (vbautmgr.etf) ===											
+1481				Group	1482 1483 1484 1486 1487 1489  							
+1482				InstallShared	"Automation Manager,autmgr32_exe_1,Autmgr32.exe,,2823"					%M		
+1483				InstallShared	"Automation Manager,autprx32_dll_1,Autprx32.dll,,2823"					%M		
+1484				Depend	"1482?1485"							
+1485				CustomAction	"COMMON98.DLL,SelfRegExeCAH,""%s\Autmgr32.exe"""					%1482		
+1486				CustomAction	"COMMON98.DLL,RemoveAuxFile,Automation Manager;autmgr32_log"					%1482		
+1487				Depend	"1483?1488"							
+1488		Autprx32.dll		SelfReg	"Automation Manager,autprx32_dll_1,,"					%1483				
+											
+1489				InstallShortcut	"%1482\%F1482,AutMgr<Automation Manager>,%1482,,,,"					%27\VM<%27\Microsoft Visual Basic 6.0\Enterprise Tools>				
+												
+	=== Enterprise Features (vbentpri.etf)===													
+1491				Group	1492 1493					%10				
+1492				CustomAction 	"COMMON98.DLL, NopCAH"
+%D				
+1493				InstallShared	"VB Enterprise,clireg32_exe_1,clireg32.exe,,2823"					%D\Tools\Clireg				
+													
+	=== Racmgr & Racreg (vbracmgr.etf) ===													
+1501				Group	1502 1503 1504 1506 					%M				
+1502				InstallShared	"VB RACMGR,racmgr32_exe,Racmgr32.exe,,2823"									
+1503				InstallShared	"VB RACMGR,racreg32_dll_1,Racreg32.dll,,2823"									
+1504				Depend	"1503?1505"									
+1505		Racreg32.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB RACMGR,racreg32_dll_1,3"""					%1503				
+1506				InstallShortcut	"%1502\%F1502,RACMgr<RemAuto Connection Manager>,%1502,,,,"					%27\EntTool<%27\Microsoft Visual Basic 6.0\Enterprise Tools>				
+														
+	=== TSQL Debugger (vbtsql.etf)===													
+1511				Group	1512 1513 1514 1515 1516 1517 1518 1519  1521					%765				
+1512				CopyFile	"VB TSQL,vbsdiadd_dll"					%D\Tsql				
+1513				CopyFile	"VB TSQL,vbsdidb_dll"					%D\Tsql				
+1514				CopyFile	"VB TSQL,vbsdicli_exe"					%D\Tsql				
+1515				CopyFile	"VB TSQL,vbsdidb_srg_1"					%D\Tsql				
+1516				CustomAction	"COMMON98.DLL,RegFile,1515"					%1515				
+1517				CustomAction	"COMMON98.DLL,SelfRegExeCAH,""%s\vbsdicli.exe"""					%1514				
+1518		vbsdiadd.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VB TSQL,vbsdiadd_dll,3"""					%1512				
+1519		vbsdidb.dll		CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\vbsdidb.dll"""""""					%1513				
+1520				DetectIniLine	"VBAddin.INI,Add-Ins32,VBSDIAddIn.Connect"									
+1521				Depend	"1520?1522"							
+1522				RemoveIniLine	"VBAddin.INI,Add-Ins32,VBSDIAddIn.Connect"									
+													
+	=== MSQuery (vbmsqry.etf) ===											
+1531				Group	1532 1533     1534 1535							
+1532				InstallShared	"MS Query,msqry32_exe,msqry32.exe,,2823"					%H\VBA		
+1533				InstallShared	"MS Query,qryint32_dll,Qryint32.dll,,2823"					%1532		
+1534				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Shared Tools\VBQuery,Path,%s,"					%1532\msqry32.exe		
+1535				Depend	"1532?1536 1539"							
+1536				Depend	"28?1537:1538"							
+1537				AddRegData	"HKEY_CURRENT_USER,Software\Microsoft\Windows\CurrentVersion\Extensions,qry,""%s\msqry32.exe ^.qry"","					%1532		
+1538				AddRegData	"HKEY_CURRENT_USER,""Software\Microsoft\Windows NT\CurrentVersion\Extensions"",qry,""%s\msqry32.exe ^.qry"","					%1532		
+1539				Group	1540 1541 1542 1543 1544 1545 1546							
+1540				CompanionFile	"1532:MS Query,msqry32_hlp"							
+1541				CompanionFile	"1532:MS Query,msqry32_cnt"							
+1542				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,msqry32.hlp,%s,"					%1540		
+1543				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,msqry32.cnt,%s,"					%1541		
+1544				CustomAction	"COMMON98.DLL, RemoveAuxFile, MS Query;msqry32_ftg"							
+1545				CustomAction	"COMMON98.DLL, RemoveAuxFile, MS Query;msqry32_fts"							
+1546				CustomAction	"COMMON98.DLL, RemoveAuxFile, MS Query;msqry32_gid"							
+											
+	=== ODKOB32 (vbodkob.etf) ===											
+1551				InstallShared	"VB ODKOB32,odkob32_dll_1,odkob32.dll,,2823"					%M		
+											
+	=== VB Repository Add-in (vbrepadd.etf) ===											
+1561				Group	1562 1563 1565 1566					%765		
+1562				CopyFile	"VB Repository AddIn,repvb_dll"					%D		
+1563				Depend	"1562?1564"							
+1564		RepVB.dll		SelfReg	"VB Repository AddIn,repvb_dll,,,"					%1562		
+1565				CopyFile	"VB Repository AddIn,repvbrc_dll"					%D		
+1566				CopyFile	"VB Repository AddIn,repvbtim_dll"					%D		
+											
+	=== VM Main ETF (VM.ETF) ===													
+													
+1571	yes	Microsoft Visual Modeler	Installs Microsoft Visual Modeler 6.0 files, samples and models.	Group	1581  1711 1572 1573									
+													
+1572				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""RVBAddInMenus.Connector"",""0"""									
+1573				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""RVBAddIn.Connector"",""0"""									
+													
+	=== Visual Modeler Core Component (VMCORE.ETF) ===													
+													
+1581				Group	1582 1583 1584 1585 1586 1587 1588 1589 1590 1591 1592 1593 1594 1595 1596 1597 1602 1603 1686					%D				
+													
+1582				CopySection	"VM - Core1"									
+1583				CopySection	"VM - Core2"									
+1584				CopySection	"VM - Core3"									
+1585				CopySection	"VM - Core4"									
+1586				CopySection	"VM - Core5"									
+1587				CopySection	"VM - Core6"									
+1588				Group	 1598 1604  1605  1607 1608  1610 1611  1613  1614									
+1589				Group	1616 1617  1619 1620 1622  1623  1625 1626									
+1590				Group	1628 1629 1631 1632  1634 1635 1637 1638									
+1591				Group	1640  1641  1643 1644 1646 1647									
+1592				Group	  1649  1650 1652 1653									
+1593				CopySection	"VM - Core9"									
+1594				CopySection	"VM - Core10"									
+1595				CopySection	"VM - Core11"									
+1596				Group	1655  1656  1658  1659 1661 1662 1664 1665									
+1597				Group	1667 1668 1669 1670 1671 1672 1673  1674 1675 1676 1677 1678					%1593				
+													
+1598				Depend	"1433 ? 1599 1600"									
+1599				StampCDInfo	"1433,20001, 20000"									
+1600		msvm.exe		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,msvm_exe ,3"""									
+													
+1601				InstallShortcut	"%1433\%F1433,VM<Microsoft Visual Modeler>,%1433,,,,"					%27\VM<%27\Microsoft Visual Basic 6.0\Enterprise Tools>				
+													
+1602		Msvm.srg		CopyFile	"VM - MSVM,msvm_srg"					%D				
+1603		Msvm.srg		CustomAction	"COMMON98.DLL,RegFile,1602"					%1602				
+													
+1604				CopyFile	"VM - Core7,rsssrcsf_dll"									
+1605				Depend	"1604?1606"									
+1606		rsssrcsf.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,rsssrcsf_dll ,3"""									
+													
+1607				CopyFile	"VM - Core7,rssssres_dll"									
+1608				Depend	"1607?1609"									
+1609		rssssres.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7, rssssres_dll,3"""									
+													
+1610				CopyFile	"VM - Core7,rvbabtbx_dll"									
+1611				Depend	"1610?1612"									
+1612		rvbabtbx.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7, rvbabtbx_dll ,3"""									
+													
+1613				CopyFile	"VM - Core7,rvbaddin_exe"									
+1614				Depend	"1613?1615"									
+1615		rvbaddin.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,rvbaddin_exe ,3"""									
+													
+1616				CopyFile	"VM - Core7,rvbadmnu_exe"									
+1617				Depend	"1616?1618"									
+1618		rvbadmnu.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,rvbadmnu_exe ,3"""									
+													
+1619				CopyFile	"VM - Core7,rvbaxreo_dll"									
+1620				Depend	"1619?1621"									
+1621		rvbaxreo.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,rvbaxreo_dll ,3"""									
+													
+1622				CopyFile	"VM - Core7,rvbcdlg_dll"									
+1623				Depend	"1622?1624"									
+1624		rvbcdlg.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7, rvbcdlg_dll,3"""									
+													
+1625				CopyFile	"VM - Core7,rvbcgwiz_dll"									
+1626				Depend	"1625?1627"									
+1627		rvbcgwiz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,rvbcgwiz_dll ,3"""									
+													
+1628				CopyFile	"VM - Core7,rvbclswz_dll"									
+1629				Depend	"1628?1630"									
+1630		rvbclswz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7, rvbclswz_dll,3"""									
+													
+1631				CopyFile	"VM - Core7,rvbdilog_exe"									
+1632				Depend	"1631?1633"									
+1633		rvbdilog_exe		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core7,rvbdilog_exe,3"""					%1631				
+													
+1634				CopyFile	"VM - Core8,rvbparse_dll"									
+1635				Depend	"1634?1636"									
+1636		rvbparse.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8, rvbparse_dll ,3"""									
+													
+1637				CopyFile	"VM - Core8,rvbprvwz_dll"									
+1638				Depend	"1637?1639"									
+1639		rvbprvwz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8, rvbprvwz_dll,3"""									
+													
+1640				CopyFile	"VM - Core8,rvbreso_dll"									
+1641				Depend	"1640?1642"									
+1642		rvbreso.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8, rvbreso_dll,3"""									
+													
+1643				CopyFile	"VM - Core8,rvbrewiz_dll"									
+1644				Depend	"1643?1645"									
+1645		rvbrewiz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8, rvbrewiz_dll ,3"""									
+													
+1646				CopyFile	"VM - Core8,rvbrewiz_exe"									
+1647				Depend	"1646?1648"									
+1648		rvbrewiz_exe		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8,rvbrewiz_exe,3"""									
+													
+1649				CopyFile	"VM - Core8,rwebutil_dll"									
+1650				Depend	"1649?1651"									
+1651		rwebutil.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8, rwebutil_dll ,3"""									
+													
+1652				CopyFile	"VM - Core8,vbpid_dll"									
+1653				Depend	"1652?1654"									
+1654		vbpid.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core8, vbpid_dll ,3"""									
+													
+1655				CopyFile	"VM - Core12,rtires_dll"									
+1656				Depend	"1655?1657"									
+1657		rtires.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core12, rtires_dll ,3"""									
+													
+1658				CopyFile	"VM - Core12,rtlibimp_dll"									
+1659				Depend	"1658?1660"									
+1660		rtlibimp.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core12, rtlibimp_dll ,3"""									
+													
+1661				CopyFile	"VM - Core12,rvsprgdg_exe"									
+1662				Depend	"1661?1663"									
+1663		rvsprgdg.exe		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core12,rvsprgdg_exe,3"""									
+													
+1664				CopyFile	"VM - Core12,rvsrpsrs_dll"									
+1665				Depend	"1664?1666"									
+1666		rvsrpsrs.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core12, rvsrpsrs_dll ,3"""									
+													
+1667		rvc98com.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, rvc98com_dll ,3"""									
+1668		rvccdegn.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, rvccdegn_dll ,3"""									
+1669		rvciface.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, rvciface_dll ,3"""									
+1670		rvcreso.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, rvcreso_dll ,3"""									
+1671		rvsapstr.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, rvsapstr_dll ,3"""									
+1672		rvsintmg.exe		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9,rvsintmg_exe,3"""									
+1673		rvsres.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, rvsres_dll ,3"""									
+1674		vs.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core9, vs_dll ,3"""									
+													
+1675		rvcbrwcd.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core10, rvcbrwcd_dll ,3"""									
+1676		RVSRepos.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core10, rvsrepos_dll ,3"""									
+1677		vc.dll		CustomAction	"COMMON98.DLL,RegisterFile,""VM - Core10, vc_dll ,3"""									
+													
+1678				Group	1679 1680 1681 1682 1683 1684 1685									
+1679				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmcpp.cnt"", ""%s"", """" "					%1595				
+1680				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmcpp.hlp"", ""%s"", """" "					%1595				
+1681				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmrep.cnt"", ""%s"", """" "					%1595				
+1682				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmrep.hlp"", ""%s"", """" "					%1595				
+1683				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmss.cnt"", ""%s"", """" "					%1595				
+1684				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmvb.cnt"", ""%s"", """" "					%1595				
+1685				AddRegData	"""LOCAL"", ""Software\Microsoft\Windows\Help"", ""Msvmvb.hlp"", ""%s"", """" "					%1595				
+													
+1686				Group	1687 1688 1689 1690 1691 1692 1693 1694 1695 1696 1697 1698 1699 1700 1701 1702 1703 1704 1705 1706 1707									
+1687				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmcpp_ftg"					%d				
+1688				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmcpp_gid"					%d				
+1689				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmcpp_fts"					%d				
+1690				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmrep_ftg"					%d				
+1691				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmrep_gid"					%d				
+1692				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmrep_fts"					%d				
+1693				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmss_ftg"					%d				
+1694				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmss_gid"					%d				
+1695				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmss_fts"					%d				
+1696				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmu_ftg"					%d				
+1697				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmu_gid"					%d				
+1698				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmu_fts"					%d				
+1699				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmvb_ftg"					%d				
+1700				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmvb_gid"					%d				
+1701				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;msvmvb_fts"					%d				
+1702				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;qstart_ftg"					%d				
+1703				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;qstart_gid"					%d				
+1704				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;qstart_fts"					%d				
+1705				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;quest_ftg"					%d				
+1706				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;quest_gid"					%d				
+1707				CustomAction	"COMMON98.DLL, RemoveAuxFile, VM - RemoveHelp;quest_fts"					%d				
+													
+	=== Visual Modeler Templates Component ( vmtmplte.etf ) ===													
+													
+1711				CopySection	"VM-Templates"					%D\Template				
+													
+	=== Data Access Object (dao350.etf) ===											
+1721				Group	1722 1723 1724							
+1722				InstallShared	"DAO,dao350_dll,dao350.dll,,2823"					%H\DAO		
+1723				InstallShared	"DAO,dao2535_tlb,dao2535.tlb,,2823"					%1722		
+1724				Depend	"1722?1725 1726 1727 1728 1729 1730 1731 1732 1733"							
+1725		dao350.dll		SelfReg	"DAO,dao350_dll,,, "					%1722		
+1726				AddRegData	"""CLASSES"",""Licenses\F4FC596D-DFFE-11CF-9551-00AA00A3DC45"","""",""mbmabptebkjcdlgtjmskjwtsdhjbmkmwtrak"","""""							
+1727				CopyFile	"DAO,dao35_hlp"					%W\Help		
+1728				CopyFile	"DAO,dao35_cnt"					%W\Help		
+1729				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,dao35.hlp,%s,"					%1727		
+1730				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,dao35.cnt,%s,"					%1728		
+1731				CustomAction	"COMMON98.DLL, RemoveAuxFile, DAO;dao35_ftg"							
+1732				CustomAction	"COMMON98.DLL, RemoveAuxFile, DAO;dao35_fts"							
+1733				CustomAction	"COMMON98.DLL, RemoveAuxFile, DAO;dao35_gid"							
+											
+	=== (vsee) APE C/S shared Component (c-sshare.etf) ===													
+													
+1741				Group	1742 1743					%d				
+													
+1742				CopySection	"(vsee) APE C/S shared"					%d				
+1743				Group	1744 1745 1746 1753 1747 1748 1749 1750 1751 1752 1754 1755 1756 2827									
+1744		aeexpdtr.exe		CustomAction	"COMMON98.DLL,RegisterFile,""APE tagfile,aeexpdtr_exe,3"""					%1423				
+1745		aeinstnr.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aeinstnr_exe,3"""									
+1746		aelogger.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aelogger_exe,3"""									
+1747		aepool.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aepool_exe,3"""									
+1748		aequeue.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aequeue_exe,3"""									
+1749		aesvrmgr.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aesvrmgr_exe,3"""									
+1750		aeworker.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aeworker_exe,3"""									
+1751		aewrkpvd.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared,aewrkpvd_exe,3"""									
+1752		aeservic.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared, aeservic_dll ,3"""					%d				
+1753		aemtssvc.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) APE C/S shared, aemtssvc_dll,3"""									
+1754		AEIntrfc.TLB		CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""(vsee) APE C/S shared;aeintrfc_tlb"""					%1742				
+1755		AEExpdtr.tlb		CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""(vsee) APE C/S shared;aeexpdtr_tlb"""					%1742				
+1756		apemreg.exe		CustomAction	"COMMON98.DLL,RunExeWithDep,""%s\apemreg.exe; ; /S /U """"Visual Studio APE Package"""" """"%s\AEMTSSVC.PAK"""";9003;2;0;%M\msvbvm60.dll;%M\mts\MTXADMIN.DLL"""					%1742				
+													
+	=== Component (apemgr.etf) ===													
+													
+1761				Group	1762 1763  1767  1766 1764 1765 1768					%10\Tools 			 	
+1762				CustomAction 	"COMMON98.DLL, NopCAH"
+%10\Tools				
+													
+1763				CopySection	"(vsee) ApeManager"					%d\APE				
+													
+1764		odbctool.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) ApeManager, odbctool_dll ,3"""					%1763				
+1765		regtool5.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) ApeManager, regtool5_dll ,3"""					%1763				
+1766		APEDBSet.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) ApeManager, apedbset_exe ,3"""					%1763				
+1767		AEManagr.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) ApeManager,aemanagr_exe,3"" "					%1763				
+1768				CustomAction	"COMMON98.DLL,DeleteRegKey,HKLM;SOFTWARE\Microsoft\VSEE"														
+													
+1769				InstallShortcut	"%1763\AEManagr.exe,APE<Application Performance Explorer>,%1763,,,,"					%27\VM<%27\Microsoft Visual Basic 6.0\Enterprise Tools>				
+													
+	=== APE Sample Source Component (apesamp.etf) ===													
+1771				Group	1772 1773 1774 1775 1776 1777 1778 1779 1780 1781 1782 1783 1784					%D\Source		
+1772				CopySection	"Sample - AEClient"					%D\Aeclient		
+1773				CopySection	"Sample - AEcompat"					%D\Aecompat		
+1774				CopySection	"Sample - AEExpdtr"					%D\Aeexpdtr		
+1775				CopySection	"Sample - AEinclud"					%D\Aeinclud		
+1776				CopySection	"Sample - AEInstnr"					%D\Aeinstnr		
+1777				CopySection	"Sample - AEintrfc"					%D\Aeintrfc		
+1778				CopySection	"Sample - AELogger"					%D\Aelogger		
+1779				CopySection	"Sample - AEmtssvc"					%D\Aemtssvc		
+1780				CopySection	"Sample - AEPool"					%D\Aepool		
+1781				CopySection	"Sample - AEQueue"					%D\Aequeue		
+1782				CopySection	"Sample - AEServic"					%D\Aeservic		
+1783				CopySection	"Sample - AEWorker"					%D\Aeworker		
+1784				CopySection	"Sample - AEWrkpvd"					%D\Aewrkpvd		
+											
+	=== Component (apeclint.etf) ===													
+													
+1791				Group	1792 1793					%d 			 	
+													
+1792				CopySection	"(vsee) ape client"					%d				
+													
+1793		AEClient.exe		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) ape client,aeclient_exe,3"""					%1792				
+													
+	=== (vsee) Repository System Component (reposys.etf) ===													
+1801				Group	1802					%d 			 
+1802				InstallShared	"(vsee) Repository System,reputil_dll,,reputil.dll,,2823"					%m				
+													
+	=== (vsee) Repository UML Component (reposuml.etf) ===													
+													
+1811				Group	1812 1813					%h\Repostry\infoMdl 			 	
+													
+1812				InstallShared	"(vsee) Repository UML,uml_dll,uml.dll,,2823"									
+1813				Depend	"1812?1814"									
+1814		uml.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Repository UML, uml_dll ,3"""					%1812				
+													
+	=== Repository Shared Files Component (repossh.etf) ===													
+1821				Group	1822 1823 1824 1826 1827					%h\Repostry			 
+1822				InstallShared	"(vsee) Repository Shared Files, repodbc_dll, repodbc.dll_v6,,2823"					%d
+1823				InstallShared	"(vsee) Repository Shared Files, reprc_dll, reprc.dll_v6,,2823"					%d
+1824				Depend	"1822?1825"
+1825		repodbc.dll		SelfReg	"(vsee) Repository Shared Files,repodbc_dll ,,,,"					%1822									
+1826				InstallShared	"(vsee) Repository Shared Files,insrepim_dll,insrepim.dll,,2823"					%D				
+1827				Depend	"1826?1828"									
+1828		insrepim.dll		SelfReg	"(vsee) Repository Shared Files,insrepim_dll"					%1826				
+													
+	=== Component (vcment.etf) ===													
+													
+1831				Group	1832 1833 					%d 			 	
+													
+1832				CopyFile	"(vsee) Visual Component Mgr Ent, vcmemd_dll"					%d				
+1833		vcmEmd.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Visual Component Mgr Ent,vcmemd_dll,3"""					%1832				
+													
+	=== VCM Repository Installers Component (repoinst.etf) ===													
+													
+1841				Group	1842 1843 1850					%d 			 	
+1842				CustomAction 	"COMMON98.DLL, NopCAH"
+%10\Tools\VCM				
+													
+1843				Group	1844 1845 1846 1847 1848 1849					%h\Repostry\infoMdl 			 	
+1844				CopyFile	"(vsee) VCM Repository Installers, repcde_dll"					%d				
+1845				CopyFile	"(vsee) VCM Repository Installers, repcom_dll"					%d				
+1846				CopyFile	"(vsee) VCM Repository Installers, repdtm_dll"					%d				
+1847				CopyFile	"(vsee) VCM Repository Installers, repgen_dll"					%d				
+1848				CopyFile	"(vsee) VCM Repository Installers, repumx_dll"					%d				
+1849				CopyFile	"(vsee) VCM Repository Installers, repvcm_dll"					%d				
+													
+1850				Group	1851 1852 1853 1854 1855 1856					%h\Repostry\infoMdl 			 	
+1851		repcde.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) VCM Repository Installers, repcde_dll,3"""					%d				
+1852		repcom.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) VCM Repository Installers, repcom_dll,3"""					%d				
+1853		repdtm.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) VCM Repository Installers, repdtm_dll,3"""					%d				
+1854		repgen.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) VCM Repository Installers, repgen_dll,3"""					%d				
+1855		repumx.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) VCM Repository Installers, repumx_dll,3"""					%d				
+1856		repvcm.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) VCM Repository Installers, repvcm_dll,3"""					%d				
+													
+	=== (vsee) VCM Package Component (vcmpak.etf) ===													
+1861				Group	1862 1863 1864					%10\IDE\IDE98 			 
+1862				CopyFile	"(vsee) VCM Package, vcmpk_dll"					%d
+1863				CopyFile	"(vsee) VCM Package, vcmpkui_dll_enu"					%d\resources\1033
+1864		vcmpk.dll		SelfReg	"""(vsee) VCM Package"",""vcmpk_dll"","""","""","""""					%1862				
+													
+	=== (vsee) Visual Component Mgr Core Component (vcm.etf) ===													
+													
+1871				Group	1872 1883 1892 1893  					%d 			 	
+													
+1872				Group	1880 1881 1873 1874 1875  1879 1876 1877 1878 1882 1894 1895 1896 1897					%d 			 	
+1873				CopyFile	"(vsee) Visual Component Mgr core, vcm_mdb"					%d				
+1874				CopyFile	"(vsee) Visual Component Mgr core, vcmagg_dll"					%d				
+1875				CopyFile	"(vsee) Visual Component Mgr core, vcmaxb_ocx"					%d				
+1876				CopyFile	"(vsee) Visual Component Mgr core, vcmmgr_dll"					%d				
+1877				CopyFile	"(vsee) Visual Component Mgr core, vcmvmb_ocx"					%d				
+1878				CopyFile	"(vsee) Visual Component Mgr core, vcmvmh_dll"					%d				
+1879				CopyFile	"(vsee) Visual Component Mgr core, vcmutl_dll"					%d				
+1880				CopyFile	"(vsee) Visual Component Mgr core, vcm_vbd"					%d				
+1881				InstallSysFile	"(vsee) Visual Component Mgr core, cabinet_dll"					%d				
+													
+1882				CopyFile	"(vsee) Visual Component Mgr core, vcmui_dll_enu"					%d\resources\1033				
+													
+1883				Group	1884 1891 1885 1886 1887 1888 1889 1890 			 						
+1884		vcmcab.dll		SelfReg	"""(vsee) Visual Component Mgr core"",""vcmcab_dll"","""","""","""""					%1428				
+1885		vcmmgr.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Visual Component Mgr core,vcmmgr_dll,3"""					%1876				
+1886		vcmvmb.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Visual Component Mgr core,vcmvmb_ocx,3"""					%1877				
+1887		vcmaxb.ocx		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Visual Component Mgr core,vcmaxb_ocx,3"""					%1875				
+1888		vcmvmh.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Visual Component Mgr core,vcmvmh_dll,3"""					%1878				
+1889		vcmUtl.dll		SelfReg	"""(vsee) Visual Component Mgr core"",""vcmutl_dll"","""","""","""""					%1879				
+1890		vcmagg.dll		SelfReg	"""(vsee) Visual Component Mgr core"",""vcmagg_dll"","""","""","""""					%1874				
+													
+1891		vcmui.dll		CustomAction	"COMMON98.DLL,RegisterFile,""(vsee) Visual Component Mgr core,vcmui_dll_enu,3"""					%1882				
+													
+1892				AddRegData	"""LOCAL"", ""Software\Microsoft\Visual Component Manager"", ""RepositoryURL"", ""%s\vcm.mdb"", """" "					%1871				
+													
+1893				CustomAction	"COMMON98.DLL,DeleteRegKey,HKLM;SOFTWARE\Microsoft\Visual Component Manager"									
+1894				CustomAction	"COMMON98.DLL, RemoveAuxFile,(vsee) Visual Component Mgr core;vcmaxb_oca"					%1875				
+1895				CustomAction	"COMMON98.DLL, RemoveAuxFile,(vsee) Visual Component Mgr core;vcmvmb_oca"					%1877				
+1896				CustomAction	"COMMON98.DLL, RemoveAuxFile,(vsee) Visual Component Mgr core;findfile_avi_delonly"					%d				
+1897				CustomAction	"COMMON98.DLL, RemoveAuxFile,(vsee) Visual Component Mgr core;search_avi_delonly"					%d				
+													
+	=== VSS Main ETF (VSS.ETF) ===													
+													
+	STFWIZ	37												
+1901	yes	Microsoft Visual SourceSafe 6.0	Creates a PRIVATE VSS database (except when upgrading) and installs the VSS software.  Use the VSS SERVER option later in Setup to create a SHARED VSS Server database.	Group	1909 1912 1916 1920 2072 1902 1903 1991				yes	%11				
+													
+1902				InstallShared	"VSS Client exe, ssexp_exe, ""VSS setup tagfile"",,2823"					%D\win32				
+													
+1903				Depend	1902 ? 1904   					%D				
+1904				Group	 1906 1907 2101 2091 1951   1905									
+1905				InstallShortcut	"%2862\readmess.htm,readme<Visual SourceSafe Readme>,,,,,"					%d				
+													
+1906				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual SourceSafe,ProductDir,%s"									
+1907				Depend	26 ? 1908									
+1908				AddRegData	"LOCAL,""Software\Microsoft\IE4\DependentComponents"",""VSS98"",""Microsoft Visual SourceSafe 6.0"""									
+													
+	STFWIZ	39												
+1909		Client Programs (Intel 32-bit)	Microsoft Visual SourceSafe 6.0 will be installed with only the options needed to access a Visual SourceSafe 6.0 database on a remote computer.	Group	2137 1910					%D				
+1910				Depend	1902 ? 1911					%D				
+1911				Group	 2131  2151 1941 2121  					%D				
+													
+	STFWIZ	38												
+1912	yes	Enable SourceSafe Integration	Register SourceSafe for direct integration into development environment such as Visual Basic, Visual C++, Microsoft Access, and Visual Foxpro.	Group	1913 					%D				
+1913				Depend	1902 ? 1914   					%D				
+1914				Group	2111    					%D				
+1915				DetectOlderFile	"srcsafe.ini"					%d			
+1916				Depend	1915 ? 1981 : 1917   					%D				
+1917	yes			Group	1918 1919					%D				
+1918	yes	Conversion Utilities	Install utilities to convert from other version control systems.	Group	1961									
+1919	yes	Create SourceSafe Database	Install or convert SourceSafe database directories and files.	Group	2062 2051 2041 2031 2021 2011 2071 2001 1921 									
+1920	yes	Administrative Programs	Install the Microsoft Visual SourceSafe Administrative programs and utilities.	Group	1971  									
+	=== Special Custom Actions for VSS Database creation (vss.etf) ===													
+1921				Group	1922 1923 1924 1925 1926 1927 1928 1929 1930 1931									
+													
+1922	yes			CustomAction	"vsscantl.dll,UpdateDB,%s"									
+1923	yes			CustomAction	"vsscantl.dll,RenameLC,srcsafe.ini"									
+1924	yes			CustomAction	"vsscantl.dll,RenameLC,""users.txt""" 									
+1925	yes			CustomAction	"vsscantl.dll,RenameLC,data\aaaaaaaa.cnt"									
+1926	yes			CustomAction	"vsscantl.dll,RenameLC,data\a\aaaaaaaa"									
+1927	yes			CustomAction	"vsscantl.dll,RenameLC,data\a\aaaaaaaa.a"									
+1928	yes			CustomAction	"vsscantl.dll,RenameLC,users\admin\ss.ini"									
+1929	yes			CustomAction	"vsscantl.dll,RenameLC,users\admin\ssadmin.ini"									
+1930	yes			CustomAction	"vsscantl.dll,RenameLC,users\guest\ss.ini"									
+1931	yes			CustomAction	"vsscantl.dll,RenameLC,users\template.ini"									
+													
+	=== vss Ssus.dll Component ( vssSsus.etf ) ===													
+													
+1941				CopySection	"VSS - SSUSDLL"					%D\win32				
+													
+	=== vss Client SRG Component (VSSCSRG.ETF) ===													
+													
+1951				Group	1952  1953									
+													
+1952		vssClnt.srg		InstallShared	"VSS - Client SRG,vssclnt_srg,vssClnt.srg,,2823"					%D				
+1953				Depend	1952 ? 1954 					%d				
+1954		reg_vssclnt.srg		CustomAction	"COMMON98.DLL,RegFile,1952"					%1952				
+													
+	=== VSS Conversion win32 Component ( vssConv32.etf )===													
+													
+1961				CopySection	"VSS Conversion win32"					%d\win32				
+													
+	=== VSS Admin win32 Component ( vssadm32.etf )===													
+													
+1971				Group	1972 1973					%d\win32				
+1972				CopySection	"VSS Admin win32"					%d				
+													
+1973				Group	1974 1975 1976					%d				
+1974				CopyFile	"VSS Admin win32 - ssadmin.exe, ssadmin_exe"					%d				
+1975	yes			StampCDInfo	"1974, 106, 196"  					%d				
+1976				Group	1977 1978 1979									
+1977	Yes		Shortcut to SSAdmin	InstallShortcut	"%1974\ssadmin.exe,VSSADM32<Visual SourceSafe 6.0 Admin>,,,,,"					%27\VSS<%27\Microsoft Visual SourceSafe>				
+1978	Yes			InstallShortcut	"%1972\analyze.exe,Analyze<Analyze VSS DB>,,%1974\ssadmin.exe,1,""-x -v1 """"%1920\data"""""","					%27\VSS<%27\Microsoft Visual SourceSafe>				
+1979	Yes			InstallShortcut	"%1972\analyze.exe,FixDB<Analyze & Fix VSS DB>,,%1974\ssadmin.exe,1,""-f -c -d -v1 """"%1920\data"""""","					%27\VSS<%27\Microsoft Visual SourceSafe>				
+													
+	=== Component (vsslocdb.etf) ===													
+1981				Group	1983					%d 			 
+1982				DetectOlderFile	"users.txt"					%d				
+1983				Depend	"1982 ? 2071"									
+	=== VSS Template Dir Component (vsstempl.etf) ===													
+1991				Group	1992					%d\template 			 
+1992				CopySection	"vss template dir"					%d
+													
+	=== VSS Srcsafe.ini Component ( vsssrc.etf )===													
+													
+2001				Group	2003					%D				
+													
+2002	yes			DetectOlderFile	"srcsafe.ini"					%d				
+													
+2003	yes			Depend	2002 ? : 2004									
+2004				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2005"""					%d				
+2005	yes			CopySection	"VSS - Src"					%d				
+													
+	 
+													
+	=== VSS Create DB users/guest Component ( vssDBusgst.etf )===													
+2011				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2012"""					%d				
+												
+2012				CopySection	"VSS Create DB users/guest"					%d\users\guest				
+													
+	=== VSS Create DB users/admin Component ( vssDBusadm.etf )===													
+2021				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2022"""					%d				
+													
+2022				CopySection	"VSS Create DB users/admin"					%d\users\admin				
+													
+	=== VSS Create DB users Component ( vssDBusers.etf )===													
+													
+2031				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2032"""					%d				
+2032				CopySection	"VSS Create DB users"					%d\users				
+													
+	=== VSS Create DB temp Component ( vssDBtemp.etf )===													
+													
+2041				CopySection	"VSS Create DB temp"					%d\temp				
+													
+	=== VSS Create DB root Component ( vssDBroot.etf )===													
+													
+2051				CopySection	"VSS Create DB root"					%d				
+													
+	=== VSS Create DB data Component ( vssDBdata.etf )===													
+2061	yes			DetectOlderFile	"um.dat"					%d				
+2062				Group	2066 2063 					%d\data				
+2063				Depend	2061 ? : 2064 					%d				
+2064				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2065"""					%d				
+2065				CopySection	"VSS Create DB data"					%d				
+2066				CreateDir	"loggedin"					%d				
+													
+	=== VSS Create DB win32 Component ( vssDBwin32.etf )===													
+													
+2071				Group	2072 2074					%d				
+2072				CopySection	"VSS Create DB win32"					%d\win32				
+2073				DetectOlderFile	"crcs.dat"					%1920\data			
+2074				Depend	"2073 ? : 2076"									
+2075	Yes	Use the new Visual SourceSafe Database Format?		YesNoDlg	The new VSS DB format offers faster performance and Label Promotion.  It is recommended for new databases.  When upgrading, choose YES if all clients have V6 software, otherwise choose NO to support both V5 & V6 clients with the old DB format.									
+2076				Depend	"2075? 2077"									
+2077	yes			CustomAction	"COMMON98.DLL,DoDdupd,""""""%s\ddupd.exe"""" """"%2065"""""""					%2072
+														
+	=== VSS Create DB axp Component ( vssDBaxp.etf )===													
+													
+2081				CustomAction 	"COMMON98.DLL, NopCAH"
+													
+	=== VSS Help Root Component ( vsshelp.etf ) ===													
+													
+2091				Group	2092  					%D				
+													
+2092				CopySection	"VSS - HelpRoot"					%D				
+													
+	=== VSS Ssexp.hlp Component ( vssSsexp.etf ) ===													
+													
+2101				CopySection	"VSS - SsexpHlp"					%D				
+													
+	=== VSS Integration  Win32 Component ( vssIW32.etf ) ===													
+2111				Group	2112 2113  									
+2112				CopySection	"VSS - IntegrationWin32"					%D\win32				
+													
+2113		ssscc.dll		SelfReg	"VSS - IntegrationWin32,ssscc_dll"					%2112				
+													
+	=== Component (vsssharec-s.etf) ===													
+2121				Group	2122 2123					%D\win32			 
+2122				CopySection	"VSS Shared C/S"					%d
+2123		ssapi.dll		SelfReg	"VSS Shared C/S,ssapi_dll ,,,,"					%d				
+														
+	=== VSS Client Win32 Component (vssCW32.etf) ===													
+													
+2131				Group	2132 2135 2136    2141 2133 2134 2139					%D\win32				
+													
+2132				CopySection	"VSS Client"					%d				
+2133		NLHtml.Dll		SelfReg	"VSS Client,nlhtml_dll ,,,,"					%d				
+2134				AddRegData	"""HKEY_CLASSES_ROOT"",""CLSID\{e0ca5340-4534-11cf-b952-00aa0051fe20}\InProcServer32"",,""%s\NLHtml.Dll"""					%2132				
+2135				CopyFile	"VSS Client exe, ssexp_exe"					%d				
+2136				StampCDInfo	"2135, 106, 196"									
+													
+2137				InstallShortcut	"%2132\ssexp.exe,VSS6<Microsoft Visual SourceSafe 6.0>,%2132,,,,"					%27\VSS<%27\Microsoft Visual SourceSafe>				
+2138	yes			DetectOlderFile	"""ssexp.exe"""					%d				
+2139				Depend	2138 ? 2140 					%d				
+2140				RemoveRegEntry	"""LOCAL"",""Software\Microsoft\Windows\CurrentVersion\Uninstall\SS4""" 					%d				
+2141				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""vbscc"",""1"""									
+														
+	=== VSS Client Root Component (vssCroot.etf) ===													
+2151				CopySection	"VSS CRoot"					%D				
+													
+	=== DaVinci Main Entry Point (davinci.etf) ===													
+													
+2161				Group	2251 2231 2221 2211 2201 2191 2181 2171					%h\MSDesigners98 			 	
+													
+         
+	=== Davinci Wrapper (davwrap.etf) ===													
+            
+2171				Group	2172					%m 			 
+    
+2172				Group	2173					%d 			 
+2173				InstallShared	"Davinci Wrappers,mdt2fw95_dll,mdt2fw95.dll,,2823"					%d		
+    
+													
+	=== Davinci Schema (davschma.etf) ===													
+     
+2181				Group	2182 2184					%d 			 	
+													
+2182				Group	2183 					%d 			 	
+2183				InstallShared	"Davinci Schema,mdt2db_dll,mdt2db.dll,,2823"					%d				
+													
+2184				Group	2185					%d 			 	
+2185				Depend	"2183 ? 2186"									
+2186				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2db.dll"""""""					%2183
+													
+    
+	=== Davinci Query (davquery.etf) ===													
+    
+2191				Group	2192 2194					%d 			 
+    
+2192				Group	2193 					%d 			 
+2193				InstallShared	"Davinci Query,mdt2qd_dll,mdt2qd.dll,,2823"					%d		
+    
+2194				Group	2195					%d 			 
+2195				Depend	"2193 ? 2196"							
+2196				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2qd.dll"""""""					%2193
+    
+         
+	=== Davinci Framework (davfwk.etf) ===													
+         
+2201				Group	2202 2205					%d 			 
+      
+2202				Group	2203 2204					%d 			 
+2203				InstallShared	"Davinci Framework,mdt2fw_dll,mdt2fw.dll,,2823"					%d		
+2204				InstallShared	"Davinci Framework,mdt2fwui_dll_enu,mdt2fwui.dll(enu),,2823"					%d\resources\1033		
+2205				Depend	"2203 ? 2206"							
+2206				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2fw.dll"""""""					%2203
+         
+													
+	=== daVinci dds grid (davddsgr.etf)===													
+													
+2211				Group	2212					%d 			 	
+													
+2212				Group	2213 2214					%d 			 	
+2213				InstallShared	"Davinci DDS GRID,mdt2g_dll,mdt2g.dll,,2823"					%d				
+2214				InstallShared	"Davinci DDS GRID,mdt2gkor_dll,mdt2gkor.dll,,2823"					%d				
+													
+	=== daVinci dds forms (davddsfm.etf)===													
+													
+2221				Group	2222 2225					%d 			 	
+													
+2222				Group	2223 2224					%d 			 	
+2223				InstallShared	"Davinci DDS FORMS,mdt2df_dll,mdt2df.dll,,2823"					%d				
+2224				InstallShared	"Davinci DDS FORMS,mdt2dfui_dll,mdt2dfx.dll,,2823"					%d				
+													
+2225				Group	2226 					%d 			 	
+2226				Depend	"2223 ? 2227"									
+2227				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2df.dll"""""""					%2223
+													
+	=== daVinci DDS (davdds.etf) ===													
+													
+2231				Group	2232 2236					%d 			 	
+													
+2232				Group	2233  2234 2235					%d 			 	
+2233				InstallShared	"Davinci DDS,mdt2dd_dll,mdt2dd.dll,,2823"					%d				
+2234				InstallShared	"Davinci DDS,mdt2gddo_dll,mdt2gddo.dll,,2823"					%d				
+2235				InstallShared	"Davinci DDS,mdt2gddr_dll,mdt2gddr.dll,,2823"					%d				
+													
+2236				Group	2237 2239 2241					%d 			 	
+2237				Depend	"2233 ? 2238"									
+2238				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2dd.dll"""""""					%2233
+2239				Depend	"2234 ? 2240"									
+2240				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2gddo.dll"""""""					%2234
+2241				Depend	"2235 ? 2242"									
+2242				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2gddr.dll"""""""					%2235
+													
+	=== Davinci Data Tool Specific (davdts.etf)===													
+													
+2251				Group	2252 2255					%d 			 	
+													
+2252				Group	2253 2254					%d 			 	
+2253				InstallShared	"Davinci Data Tool Specific,mdt2dbns_dll,mdt2dbns.dll,,2823"					%d				
+2254				InstallShared	"Davinci Data Tool Specific,mdt2fref_dll,mdt2fref.dll,,2823"					%d				
+          
+2255				Group	2256 2258					%d 			 	
+2256				Depend	"2253 ? 2257"									
+2257				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2dbns.dll"""""""					%2253
+2258				Depend	"2254 ? 2259"									
+2259				CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\mdt2fref.dll"""""""					%2254
+													
+	=== Office Button Face Editor ===											
+2261				Group	2262							
+2262				InstallSysFile	"MS Office Button DLL,commtb32_dll"					%M		
+											
+	=== MS Office Runtime DLLs ===											
+2271				Group	2272 2273 2274							
+2272		mso97rt		InstallShared	"MS Office Runtime DLL,mso97rt_dll,mso97rt,,2823"					%H\VBA		
+2273		mrt7enu		InstallShared	"MS Office Runtime DLL,mrt7enu_dll,mrt7enu,,2823"					%2272		
+2274				CustomAction	"COMMON98.DLL,RegMso,""1033, 2272"""							
+											
+	=== BILLBOARDS === <fn: bboard.etf>													
+													
+2281				Group	2282 2283 2284 2285									
+													
+2282		bb_vbent		CustomAction	"bboard.dll,AddBillboard,2000"									
+2283		bb_vsent		CustomAction	"bboard.dll,AddBillboard,2800"									
+2284		bb_msdn		CustomAction	"bboard.dll,AddBillboard,6000"									
+2285				CustomAction	"bboard.dll,RemoveFontFiles"					%W				
+ 														
+													
+ 
+													
+ 
+	=== TOOLS.ETF - tools custom option menu structure (tools.etf) ===													
+													
+	STFWIZ	82												
+2291	yes	Tools	Tools such as MS info and API Viewer.	CustomDlg	2292 2293					%d				
+													
+	STFWIZ	84												
+2292	yes	Ms Info	Tool used to gather system configuration information	Group	2311					%d				
+													
+	STFWIZ	88												
+2293	yes	API Text Viewer	Installs a utility which allows you to quickly locate Windows API Declare statements.	Group	2301					%D\Winapi				
+													
+2294				CustomAction 	"COMMON98.DLL, NopCAH"
+													
+	=== Windows API Reference (vbwinapi.etf) ===													
+2301				Group	2302 2303 2304 2305 2306					%D				
+2302				CustomAction 	"COMMON98.DLL, NopCAH"
+%D				
+2303				CopySection	Win API					%10\Tools\Winapi				
+2304				CustomAction	"COMMON98.DLL,RegisterFile,""Win API,apiload_exe,3"""					%2303				
+2305				AddRegData	"""HKEY_CURRENT_USER"",""Software\Microsoft\Visual Basic\6.0\AddInToolbar\VB API Declaration Loader"",""ProgID"",""APIDeclarationLoader.AddInDesigner"","									
+2306				InstallShortcut	"%2303\apiload.exe,APIView<API Text Viewer>,%2303,,,,"					%27\Microsoft Visual Basic 6.0\Microsoft Visual Basic 6.0 Tools				
+													
+	=== MSInfo (vbmsinfo.etf)===													
+2311	yes	Ms Info	Tool used to gather system configuration information	Group	2312 2313 2314 2315 2316 2317					%H\MSInfo				
+2312				InstallShared	"MSInfo,msinfo32_exe,MsInfo,,2823"									
+2313				CompanionFile	"2312: MSInfo,imgwalk_dll"									
+2314				CompanionFile	"2312: MSInfo,msinf16h_exe"									
+2315				CompanionFile	"2312: MSInfo,msinfo32_hlp"									
+2316				CompanionFile	"2312: MSInfo,msinfo32_cnt"									
+2317				Depend	"2312?2318 2319 2320"									
+2318				CustomAction	"COMMON98.DLL, RemoveAuxFile, MSInfo;msinfo32_ftg"									
+2319				CustomAction	"COMMON98.DLL, RemoveAuxFile, MSInfo;msinfo32_fts"									
+2320				CustomAction	"COMMON98.DLL, RemoveAuxFile, MSInfo;msinfo32_gid"									
+													
+	=== ATL Component (atl.etf) ===
+2331				Group	2332					%d				
+	...copying files (atl.etf)
+2332				Group	2333					%d				
+2333				Depend	"28 ? 2334 2336:2335 2338"							
+2334		atl.dll		InstallShared	"ATL,atl_dll_1,atl.dll,,2823 "					%m		
+2335		atl.dll		InstallShared	"ATL,atl_dll_2,atl.dll,,2823 "					%m		
+2336				Depend	2334 ? 2337							
+2337		atl.dll		SelfReg	"ATL,""atl_dll_1"","""","""","""""					%2334		
+2338				Depend	2335 ? 2339							
+2339		atl.dll		SelfReg	"ATL,""atl_dll_2"","""","""","""""					%2335		
+													
+	=== DA.ETF - dag custom option menu structure (da.etf) ===													
+													
+	==**== VB  (da.etf) ==**== 													
+	STFWIZ	41												
+2341	yes	Data Access	Data Access Components	OptionDlg	2366		Vital							
+													
+	STFWIZ	49												
+2342	yes	Microsoft ODBC Drivers	Drivers to data sources via ODBC	OptionDlg	2343 2344 2351 2352 2353 2354 2355 2356 2357									
+	STFWIZ	53												
+2343	yes	Microsoft SQL Server ODBC Driver	ODBC driver for Microsoft SQL Server databases	Group	2551									
+	STFWIZ	57												
+2344	yes	Microsoft Oracle ODBC Driver	Microsoft's ODBC driver for Oracle databases	Group	2541									
+													
+	STFWIZ	42												
+2345	yes	ADO, RDS, and OLE DB Providers	ADO (ActiveX Data Objects), RDS (Remote Data Services), and OLE DB data providers.	OptionDlg	2346 2347 2348 2349 2350		Vital							 									
+	STFWIZ	43												
+2346	yes	ADO and RDS	ActiveX Data Objects (ADO) and Remote Data Service (RDS) for easy access to data from Visual Basic and the Web	Group	2571 2631		Vital							 									
+	STFWIZ	46												
+2347	yes	Microsoft OLE DB SQL Server Provider	OLE DB Provider for Microsoft SQL Server databases	Group	2621									
+	STFWIZ	47												
+2348	yes	Microsoft OLE DB Oracle Provider	Microsoft OLE DB provider for Oracle databases	Group	2601									
+	STFWIZ	48												
+2349	yes	Microsoft OLE DB Simple Provider (OSP)	Runtime for OSP - build OLE DB providers for simple and tabular data	Group	2591									
+													
+	STFWIZ	45												
+2350	yes	Microsoft OLE DB JET Provider	Microsoft OLE DB JET Provider	Group	2561									
+													
+	STFWIZ	52												
+2351	yes	Microsoft Access ODBC Driver	Microsoft Access ODBC Driver.	Group	2531									
+													
+	STFWIZ	50												
+2352		Microsoft dBase ODBC Driver	Microsoft ODBC Driver for dBase databases	Group	2511									
+	STFWIZ	56												
+2353		Microsoft Excel ODBC Driver	Microsoft ODBC Driver for Excel data sources	Group	2491									
+	STFWIZ	51												
+2354		Microsoft FoxPro ODBC Driver	Microsoft ODBC Driver for FoxPro databases	Group	2481									
+	STFWIZ	58												
+2355	yes	Microsoft Visual FoxPro ODBC Driver	ODBC driver for Microsoft Visual FoxPro databases	Group	2461									
+	STFWIZ	55												
+2356		Microsoft Paradox ODBC Driver	Microsoft's ODBC driver for Paradox databases	Group	2441									
+	STFWIZ	54												
+2357		Microsoft Text ODBC Driver	Microsoft's ODBC driver for Text data sources	Group	2421									
+	STFWIZ	59												
+2358		Jet IISAM Drivers	Drivers to data sources via Microsoft Jet	OptionDlg	2359 2360 2361 2362 2363 2364									
+													
+	STFWIZ	63												
+2359		Jet IISAM Excel Driver	Microsoft Jet IISAM driver for Excel data sources	Group	2501									
+	STFWIZ	61												
+2360		Jet IISAM Exchange Driver	Jet IISAM Exchange Driver, requires that Microsoft Outlook or Exchange already be installed for successful registration to occur.	Group	2411									
+	STFWIZ	65												
+2361		Jet IISAM Lotus 1-2-3 Driver	Microsoft Jet IISAM driver for Lotus 1-2-3 data sources	Group	2401									
+	STFWIZ	62												
+2362		Jet IISAM Paradox Driver	Microsoft Jet IISAM driver for Paradox databases 	Group	2451									
+	STFWIZ	64												
+2363		Jet IISAM Text Driver	Microsoft Jet IISAM driver for Text data sources	Group	2431									
+	STFWIZ	60												
+2364		Jet IISAM XBase Driver	Microsoft Jet IISAM driver for XBase databases	Group	2521									
+													
+	STFWIZ	66												
+2365	yes	Remote Data Objects and Controls	Remote Data Objects and Controls for Microsoft Visual Basic	Group	2371									
+													
+	STFWIZ	67												
+2366	yes	Data Environment	Added functionality and grid control allow you to easily set up data	Group	2671		Vital							
+														
+2367				CustomAction 	"COMMON98.DLL, NopCAH"
+													
+ 
+ 
+ 
+ 
+ 
+ 
+													
+	=== Remote Data Access (RDO and RDC) (vbrda.etf)===													
+2371				Group	2372 2380									
+													
+	=== Remote Data Objects (vbrda.etf) ===													
+2372				Group	2373 2374 2378 2379  									
+2373				InstallShared	"Remote Data Access,msrdo20_dll,msrdo20.dll,,2823"					%M				
+2374				Depend	"2373?2375 2376 2377"									
+2375		msrdo20.dll		SelfReg	"Remote Data Access,msrdo20_dll,,,"					%2373				
+2376				CopyFile	"Remote Data Access,rdo98_chi_1"					%W\Help		
+2377				CopyFile	"Remote Data Access,rdo98_chm_2"					%W\Help		
+2378				InstallShared	"Remote Data Access,msrdo20_dep,msrdo20.dep,,2823"					%2373				
+2379				InstallSysFile	"Remote Data Access,rdocurs_dll"					%M				
+														
+	=== Remote Data Controls (vbrda.etf) ===													
+2380				Group	2381 2384 2387 2388 2389 2393 2396  2721									
+2381				Depend	"2373?2382 2392"									
+2382				CopyFile	"Remote Data Access,msrdo20_srg"					%2373				
+2383				CustomAction	"COMMON98.DLL,RegFile,2382"					%2382				
+2384				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""2385 2386"""							
+2385				CopyFile	"Remote Data Access,msrdo20_srg"					%2373				
+2386				CustomAction	"COMMON98.DLL,RegFile,2382"					%2382				
+2387				InstallShared	"Remote Data Access,msrdc20_ocx,msrdc20.ocx,,2823"					%M				
+2388				InstallShared	"Remote Data Access,msrdc20_dep,msrdc20.dep,,2823"					%2387				
+2389				Depend	"2387?2390 2391 2392 "									
+2390		msrdc20.ocx		SelfReg	"Remote Data Access,msrdc20_ocx,,,"					%2387				
+2391				CopyFile	"Remote Data Access,msrdc20_srg"					%2387				
+2392				CustomAction	"COMMON98.DLL,RegFile,2391"					%2391				
+2393				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""2394 2395"""							
+2394				CopyFile	"Remote Data Access,msrdc20_srg"					%2387				
+2395				CustomAction	"COMMON98.DLL,RegFile,2391"					%2391				
+2396				CustomAction	"COMMON98.DLL, RemoveAuxFile, Remote Data Access;msrdc20_oca"					%2387				
+														
+	=== dag Jet IISAM Lotus Driver (jetlotus.etf) ===													
+													
+2401				Group	2402 2403					%M				
+													
+2402				InstallSysFile	"DAG Jet IISAM Lotus, msltus35_dll"					%M				
+2403				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2404"""									
+2404		msltus35.dll		SelfReg	"DAG Jet IISAM Lotus, msltus35_dll"					%2402				
+													
+	=== dag Jet IISAM Exchange Driver (jetexchg.etf) ===													
+													
+2411				Group	2412 2413					%M				
+													
+2412				InstallSysFile	"DAG Jet IISAM Exchange,msexch35_dll"					%M				
+2413		msexch35.dll		CustomAction	"COMMON98.DLL,SyncEXECalloutCAH,""%m\regsvr32 /s """"%s\msexch35.dll"""""""					%2412				
+													
+	=== dag Text ODBC Driver (odbctext.etf) ===													
+													
+2421			Microsoft Text Driver	Group	2431 2422 2423					%M				
+													
+2422				InstallSysFile	"dag Text ODBC Driver,odtext32_dll_1"					%M				
+2423				CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:DA Text					%M				
+													
+	=== dag Jet IISAM Text Driver (jettext.etf) ===													
+													
+2431				Group	2432 2433					%M				
+													
+2432				InstallSysFile	"DAG Jet IISAM Text, mstext35_dll"					%M				
+2433				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2434"""									
+2434		mstext35.dll		SelfReg	"DAG Jet IISAM Text, mstext35_dll"					%2432				
+													
+	=== dag Paradox ODBC Driver (odbcpdox.etf)===													
+													
+2441			Microsoft Paradox Driver	Group	2451 2442 2443					%M				
+													
+2442				InstallSysFile	"dag Paradox ODBC Driver,odpdx32_dll_1"					%M				
+2443				CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:DA Paradox					%M				
+													
+	=== dag Jet IISAM Paradox Driver (jetpdox.etf) ===													
+													
+2451				Group	2452 2453					%M				
+													
+2452				InstallSysFile	"DAG Jet IISAM Paradox, mspdox35_dll"					%M				
+2453				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2454"""									
+2454		mspdox35.dll		SelfReg	"DAG Jet IISAM Paradox, mspdox35_dll"					%2452				
+													
+	=== VFP ODBC Driver (odbcvfp.etf)===													
+													
+2461			Microsoft Visual FoxPro Driver	Group	2462 2467 2468 2469 2470 2471 2472					%M				
+2462				Group	2463 2464 2465					%M				
+2463				InstallSysFile	"DA Visual Foxpro, vfpodbc_dll"					%M				
+2464				CustomAction	"odbcstf.dll,AcmeInstallDriver,odbckey.inf:DA Visual FoxPro:Y"									
+2465				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2466"""									
+2466				CustomAction	"odbcstf.dll,AcmeConfigDataSource,odbckey.inf:ADD:Microsoft Visual FoxPro Driver:DSN=Visual FoxPro Database|SourceDB=|SourceType=DBC||"					%2463				
+2467				InstallSysFile	"DA Visual Foxpro, vfpodbc_txt"					%M				
+2468				InstallSysFile	"DA Visual Foxpro, drvvfp_hlp_1"					%M				
+2469				InstallSysFile	"DA Visual Foxpro, drvvfp_cnt_1"					%M				
+2470				CustomAction	"COMMON98.DLL, RemoveAuxFile, DA Visual Foxpro;drvvfp_gid"									
+2471				CustomAction	"COMMON98.DLL, RemoveAuxFile, DA Visual Foxpro;drvvfp_ftg"									
+2472				CustomAction	"COMMON98.DLL, RemoveAuxFile, DA Visual Foxpro;drvvfp_fts"									
+											
+	=== dag FoxPro ODBC Driver (odbcfox.etf)===													
+													
+2481			Microsoft FoxPro Driver	Group	2521 2482 2483					%M				
+													
+2482				InstallSysFile	"dag FoxPro ODBC Driver,odfox32_dll_1"					%M				
+2483				CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:DA FoxPro					%M				
+													
+	=== dag Excel ODBC Driver (odbcxls.etf) ===													
+													
+2491			Microsoft Excel Driver	Group	2501 2492 2493					%M				
+													
+2492				InstallSysFile	"dag Excel ODBC Driver,odexl32_dll_1"					%M				
+2493				CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:da Excel					%M				
+													
+	=== dag Jet IISAM Excel Driver (jetexcel.etf) ===													
+													
+2501				Group	2502 2503					%M				
+													
+2502				InstallSysFile	"DAG Jet IISAM Excel,msexcl35_dll"					%M				
+2503				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2504"""									
+2504		msexcl35.dll		SelfReg	"DAG Jet IISAM Excel, msexcl35_dll"					%2502				
+													
+	=== dag dBase ODBC Driver (odbcdbse.etf)===													
+													
+2511			Microsoft dBase Driver	Group	2521 2512 2513					%M				
+													
+2512				InstallSysFile	"dag dBase ODBC Driver,oddbse32_dll_1"					%M				
+2513				CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:DA dBase					%M				
+													
+	=== dag Jet IISAM XBase Driver (jetxbse.etf) ===													
+													
+2521				Group	2522 2523					%M				
+													
+2522				InstallSysFile	"DAG Jet IISAM XBase, msxbse35_dll"					%M				
+2523				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2524"""									
+2524		msxbse35.dll		SelfReg	"DAG Jet IISAM XBase, msxbse35_dll"					%2522				
+													
+	=== dag Text ODBC Driver (odbcaccs.etf)===													
+													
+2531			Microsoft Access Driver	CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:DA Access					%M				
+													
+	=== dag ODBC Oracle Driver (odbcorc.etf)===
+													
+2541				Group	2611 2542 2543 2545 2546 2547					%M				
+2542				InstallSysFile	"dag ODBC Oracle Driver,msorcl20_dll"					%M				
+2543				Depend	2542 ? 2544									
+2544		msorcl32.dll		SelfReg	"dag ODBC Oracle Driver,msorcl20_dll"					%M				
+													
+2545				InstallSysFile	"dag ODBC Oracle Driver,msorcl32_hlp"					%M				
+2546				InstallSysFile	"dag ODBC Oracle Driver,msorcl32_cnt"					%M				
+2547				InstallSysFile	"dag ODBC Oracle Driver,msorcl32_txt"					%M				
+													
+	=== dag ODBC SQL Server Driver (odbcsql.etf) ===													
+													
+2551				Group	2552					%M				
+													
+2552			Microsoft SQL Server Driver	Group	2553 2554 2555 2556 2557 2558					%M				
+2553				InstallSysFile	"dag ODBC SQL Driver,sqlsrv32_dll"					%M				
+2554				CustomAction	odbcstf.dll,AcmeInstallDriver,odbckey.inf:SQL Server Driver					%M				
+													
+2555				InstallSysFile	"dag ODBC SQL Driver,odbcbcp_dll"					%M				
+2556				InstallSysFile	"dag ODBC SQL Driver,windbver_exe"					%M				
+2557				InstallSysFile	"dag ODBC SQL Driver,sqlsodbc_hlp"					%M				
+2558				InstallSysFile	"dag ODBC SQL Driver,sqlsrdme_txt"					%M				
+													
+	=== dag Jolt (jolt.etf) ===
+2561				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2562 2563 2564 2565 2566"""					%12\system\ole db				
+													
+2562				CopyFile	"dag Jolt, msjtor35_dll"					%2561				
+2563				CopyFile	"dag Jolt, msjt4jlt_dll"					%M				
+2564				CopyFile	"dag Jolt, joltread_txt"					%2561				
+2565		msjt4jlt.dll		SelfReg	"dag Jolt, msjt4jlt_dll"					%2563				
+2566		msjtor35.dll		SelfReg	"dag Jolt, msjtor35_dll"					%2562				
+											
+	=== dag ADO (ado.etf) ===													
+													
+2571				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2572 2573 2574 2575 2576 2577 2578 2579 2580 2581 2582 2583 2584 2585 2586"""					%12\system\ado				
+													
+2572				CopyFile	"dag ADO,msader15_dll"					%2571				
+													
+2573				CopyFile	"dag ADO,msado15_dll"					%2571				
+													
+2574				CopyFile	"dag ADO,msador15_dll"					%2571				
+													
+2575				CopyFile	"dag ADO,msadrh15_dll"					%2571				
+													
+2576				CopyFile	"dag ADO,adofre15_reg"					%2571				
+2577				CopyFile	"dag ADO,adoapt15_reg"					%2571				
+													
+2578				CopyFile	"dag ADO,readme_txt_13"					%2571				
+2579				CopyFile	"dag ADO,adojavas_inc"					%2571				
+2580				CopyFile	"dag ADO,adovbs_inc"					%2571				
+													
+2581				CopyFile	"dag ADO,makapt15_bat"					%2571				
+2582				CopyFile	"dag ADO,makfre_bat"					%2571				
+													
+2583				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\DataAccess,Version,2.0.0"					%2571				
+													
+2584		msador15.dll		SelfReg	"dag ADO,msador15_dll,,,"					%2574				
+2585		msadrh15.dll		SelfReg	"dag ADO,msadrh15_dll,,,"					%2575				
+2586		msado15.dll		SelfReg	"dag ADO,msado15_dll,,,"					%2573				
+													
+	=== dag OLEDB Simple Provider (oledbsp.etf)===													
+													
+2591				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2592 2593 2594 2595"""					%12\system\ole db				
+													
+2592				CopyFile	"dag OLEDB Simple Provider,msdaosp_dll"					%2591				
+2593		msdaosp.dll		SelfReg	"dag OLEDB Simple Provider,msdaosp_dll"					%2592				
+													
+2594				CopyFile	"dag OLEDB Simple Provider,simpdata_tlb"					%M				
+2595				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""dag OLEDB Simple Provider;simpdata_tlb"""					%2594		
+														
+	=== dag OLEDB Oracle Provider (oledborc.etf)===													
+													
+2601				Group	2611 2602					%12\system\ole db				
+													
+2602				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2603 2604 2605"""					%2601				
+2603				CopyFile	"dag OLEDB Oracle Provider,msdaora_dll"					%2601				
+2604		msdaora.dll		SelfReg	"dag OLEDB Oracle Provider,msdaora_dll"					%2603				
+													
+2605				CopyFile	"dag OLEDB Oracle Provider,oraoledb_txt"					%2601				
+													
+	=== dag MTS Runtimes (dagmts.etf)===
+											
+2611				Group	2612					%M				
+2612				InstallSysFile	"dag MTS,mtxoci_dll"					%M				
+													
+	=== dag OLEDB SQL Provider (oledbsql.etf)===													
+													
+2621				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2622 2623 2624 2625 2626 2627 2628 2629"""					%12\system\ole db				
+													
+2622				CopyFile	"dag OLEDB SQL Server Provider,sqloledb_dll"					%2621				
+2623		SQLOLEDB.DLL		SelfReg	"dag OLEDB SQL Server Provider,sqloledb_dll"					%2622				
+													
+2624				CopyFile	"dag OLEDB SQL Server Provider,dbmsshrn_dll"					%M				
+2625				CopyFile	"dag OLEDB SQL Server Provider,sqlsoldb_hlp"					%2621				
+2626				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag OLEDB SQL Server Provider;sqlsoldb_gid"									
+2627				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag OLEDB SQL Server Provider;sqlsoldb_ftg"									
+2628				CustomAction	"COMMON98.DLL, RemoveAuxFile, dag OLEDB SQL Server Provider;sqlsoldb_fts"									
+2629				CopyFile	"dag OLEDB SQL Server Provider,sqloledb_txt"					%2621				
+													
+	=== dag ADC (adc.etf) ===													
+ 														
+2631				Group	2632 2640 2663 					%12\system\msadc				
+ 														
+	=== dag ADC Server (adc.etf) ===													
+ 														
+2632				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2633 2634 2635 2636 2637 2638 2639"""					%12\system\msadc				
+													
+2633				CopyFile	"dag ADC Server,adcjavas_inc"					%2632				
+													
+2634				CopyFile	"dag ADC Server,adcvbs_inc_1"					%2632				
+													
+2635				CopyFile	"dag ADC Server,msadcf_dll"					%2632				
+2636		msadcf.dll		SelfReg	"dag ADC Server,msadcf_dll"					%2635				
+													
+2637				CopyFile	"dag ADC Server,msadcs_dll"					%2632				
+													
+2638				CopyFile	"dag ADC Server,msadds_dll"					%2632				
+2639		msadds.dll		SelfReg	"dag ADC Server,msadds_dll"					%2638				
+													
+	=== dag ADC Client (adc.etf) ===													
+2640				Group	2641 2642					%12\system\msadc				
+2641				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2643 2644 2645 2646 2647 2648 2649 2650 2651"""					%12\system\msadc				
+2642				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2652 2653 2654 2655 2656 2657 2658 2659 2660 2661 2662"""					%12\system\msadc				
+													
+2643				CopyFile	"dag ADC Client,msadce_dll"					%2640				
+2644		msadce.dll		SelfReg	"dag ADC Client,msadce_dll"					%2643				
+													
+2645				CopyFile	"dag ADC Client,msadcer_dll"					%2640				
+													
+2646				CopyFile	"dag ADC Client,msadco_dll"					%2640				
+2647		msadco.dll		SelfReg	"dag ADC Client,msadco_dll"					%2646				
+													
+2648				CopyFile	"dag ADC Client,msadcor_dll"					%2640				
+2649				CopyFile	"dag ADC Client,msdatsrc_tlb"					%M				
+													
+2650				CopyFile	"dag ADC Client,handler_reg"					%2640				
+2651				CustomAction	"COMMON98.DLL,RegFile,2650"					%2650				
+													
+2652				CopyFile	"dag ADC Client,msdfmap_dll"					%2640				
+2653		msdfmap.dll		CustomAction	"COMMON98.DLL,RegSvrCAH,""""""%s\msdfmap.dll"""""""					%2652				
+													
+2654				CopyFile	"dag ADC Client,msdfmap_ini"					%W				
+													
+2655				CopyFile	"dag ADC Client,msaddsr_dll"					%2640				
+													
+2656				CopyFile	"dag ADC Client,msdaprst_dll"					%2640				
+2657		msdaprst.dll		SelfReg	"dag ADC Client,msdaprst_dll"					%2656				
+													
+2658				CopyFile	"dag ADC Client,msjtes_dll"					%M				
+2659		msjtes40.dll		SelfReg	"dag ADC Client,msjtes_dll"					%2658				
+													
+2660				CopyFile	"dag ADC Client,msadcfr_dll"					%2640				
+													
+2661				CopyFile	"dag ADC Client,mdac20_cab"					%2640				
+2662				CopyFile	"dag ADC Client,mdac20_a_cab"					%2640				
+													
+	=== dag ADC 1.1 Files (adc.etf) ===													
+2663				Group	2664 2665					%12\system\msadc				
+2664				CopyFile	"dag ADC 11,mdac11_cab"					%2663				
+2665				CopyFile	"dag ADC 11,readme_txt_11"					%2663\doc11				
+													
+	=== Data Environment Core (dataenv.etf) ===											
+2671				Group	2672 2673 2675 2676 2679 2680 2683					%12\designer		
+	
+2672				InstallShared	"dag Data Env,deext_tlb,deext.tlb,,2823 "					%2671				
+2673				Depend	2672 ? 2674									
+2674		deext.tlb		CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""dag Data Env;deext_tlb"""					%2672				
+2675				InstallShared	"dag Data Env,msde_dll,msde.dll,,2823 "					%2671				
+2676				Depend	2675 ? 2677 2678									
+2677		msde.dll		SelfReg	"dag Data Env,msde_dll"					%2675				
+2678				AddRegData	"HKEY_CURRENT_USER,Software\Microsoft\Visual Basic\6.0\Designers\{C0E45035-5775-11D0-B388-00A0C9055D8E},,,"					%2675				
+2679				InstallShared	"dag Data Env,msderun_dll,msderun.dll,,2823 "					%2671				
+2680				Depend	2679 ? 2681 2682									
+2681		msderun.dll		SelfReg	"dag Data Env,msderun_dll"					%2679				
+2682				CopyFile	"dag Data Env,msderun_dep "					%2679				
+2683				InstallShared	"dag Data Env,msdeui_dll_enu,msdeui.dll(enu),,2823 "					%2671\resources\1033				
+	
+	=== VI/VJ Common Shell Help Component  === <fn=shellhlp.etf>
+2691				Group	2692 2693 2695					%d		
+2692				InstallShared	"Shell Help, vshelp_dll, vshelp.dll,,2823"					%H\VS98				
+2693				Depend	"2692 ? 2694"									
+2694		vshelp.dll		SelfReg	"Shell Help,vshelp_dll,,,,"					%2692				
+2695				Group	2696					%2692\resources\1033		
+2696		vshelpui.dll		InstallShared	"Loc Shell Help,vshelpui_dll_enu,vshelpui.dll(enu),,2823"					%d				
+ 
+ 
+											
+	=== vb wizards tlbinf32 (tlbinf32.etf) ===											
+2701				Group	2702 2703							
+2702				InstallShared	"VB TLBINF32,tlbinf32_dll,tlbinf32.dll,,2823"					%M		
+2703				Depend	"2702?2704"							
+2704		tlbinf32.dll		SelfReg	"VB TLBINF32,tlbinf32_dll,,,"					%2702		
+											
+	=== Templates (vbepltmp.etf)===													
+2711				Group	2712 2713 2714 2715 2716 2717 2718 2719 2720 2731					%D\Template				
+2712				CopySection	"Templates - forms"					%D\Forms				
+2713				CopySection	"Templates - projects"					%D\Projects				
+2714				CopySection	"Templates - code"					%D\Code				
+2715				CopySection	"Templates - controls"					%D\Controls				
+2716				CopySection	"Templates - menus"					%D\Menus				
+2717				CopySection	"Templates - HTMLApp"					%D\Projects				
+2718				CustomAction	"COMMON98.DLL, RemoveAuxFile, Templates - HTMLApp;htmlpage_log"					%2717		
+2719				CustomAction	"COMMON98.DLL, RemoveAuxFile, Templates - HTMLApp;dhtmlapp_vbw"					%2717		
+2720				Group	2723 					%801\Template		
+2721				Depend	"2711?2722"																		
+2722				Depend	"764?2725"																		
+2723				Depend	"2380?2724"																		
+2724				Depend	"764?2725"																		
+2725				CopyFile	"VB Control Project Files,vbentcnt_vbp"					%2711\Projects		
+													
+	=== VSEXT.SRG (vbdsgkey.etf) ===											
+2731				Group	2732 2733							
+2732				CopyFile	"VB VSEXT,vsext_srg"					%M		
+2733				CustomAction	"COMMON98.DLL,RegFile,2732"					%2732		
+											
+=====VB Docs for VC (vbforvc.etf)=========
+2741				Group	2742 2743					%W\Help
+2742				InstallShared	"VB Docs for VC Tag,vbcmn98_chi_1,vbcmn98.chi,,2823"					%D		
+2743				Depend	"2742?2744"							
+2744				CopySection	"VB Docs for VC Sec"					%D
+													
+	=== VB Wizard Host Files (vbwzhost.etf) ===													
+2751				Group	2752  2753 2755 2756					%10\Wizards98				
+2752				InstallShared	"Wizard Host,hostwiz_dll,Hostwiz.dll,,2823"					%D				
+2753				Depend	"2752?2754"									
+2754		Hostwiz.dll		CustomAction	"COMMON98.DLL,RegisterFile,""Wizard Host,hostwiz_dll,3"""					%2752				
+2755				InstallShared	"Wizard Host,subwiz_tlb,Subwiz.tlb,,2823"					%D				
+2756				Depend	"2755?2757"									
+2757				CustomAction	"COMMON98.DLL,RegisterTypeLibrary,""Wizard Host;subwiz_tlb"""					%2755				
+													
+	=== VBA Files (vbvba.etf)===													
+2761				Group	2762 2763									
+2762				InstallSysFile	"VBA Files,riched20_dll"					%M				
+2763				InstallShared	"VBA Files,scp32_dll,scp32.dll,,2823"					%M				
+													
+	=== SYSINFO.OCX (vbsysinf.etf) ===											
+2771				Group	2772 2773  2774 2781							
+2772				InstallShared	"VB SYSINFO,sysinfo_ocx,sysinfo.ocx,,2823"					%M		
+2773				InstallShared	"VB SYSINFO,sysinfo_dep,sysinfo.dep,,2823"					%2772		
+2774				Depend	"2772?2775 2776 2777 2778 2779 2780"							
+2775		sysinfo.ocx		SelfReg	"VB SYSINFO,sysinfo_ocx,,, "					%2772		
+2776				CustomAction	"COMMON98.DLL, RemoveAuxFile, VB SYSINFO;sysinfo_oca"					%2772		
+2777				CopyFile	"VB SYSINFO,sysinf98_ch2"					%W\Help		
+2778				CopyFile	"VB SYSINFO,sysinf98_ch1"					%W\Help		
+2779				CopyFile	"VB SYSINFO,sysinfo_srg"					%2772		
+2780				CustomAction	"COMMON98.DLL,RegFile,2779"					%2779		
+2781				CustomAction	"COMMON98.DLL, NeverRemoveGroup, ""2782 2783"""					%2772		
+2782				CopyFile	"VB SYSINFO,sysinfo_srg"					%2772		
+2783				CustomAction	"COMMON98.DLL,RegFile,2779"					%2779		
+											
+	=== Control Helper (hlp95en.etf) ===											
+2791				InstallSysFile	"HLP95EN,hlp95en_dll_1"					%M		
+											
+	=== VB Control Help Files (vbctlhlp.etf) ===											
+2801				Group	2802 2810							
+2802				Group	2803 2804 2805 2806 2807 2808 2809
+2803				CopyFile	"VBCTLHLP,vbcmn96_hlp"					%W\Help		
+2804				CopyFile	"VBCTLHLP,vbcmn96_cnt"					%W\Help		
+2805				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,vbcmn96.hlp,%s,"					%2803		
+2806				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,vbcmn96.cnt,%s,"					%2804		
+2807				CustomAction	"COMMON98.DLL, RemoveAuxFile, VBCTLHLP;vbcmn96_ftg"							
+2808				CustomAction	"COMMON98.DLL, RemoveAuxFile, VBCTLHLP;vbcmn96_fts"							
+2809				CustomAction	"COMMON98.DLL, RemoveAuxFile, VBCTLHLP;vbcmn96_gid"							
+2810				Group	2811 2812 2813 2814 2815
+2811				CopyFile	"VBCTLHLP,vb5def_hlp"					%W\Help		
+2812				AddRegData	"HKEY_LOCAL_MACHINE,Software\Microsoft\Windows\Help,vb5def.hlp,%s,"					%2811		
+2813				CustomAction	"COMMON98.DLL, RemoveAuxFile, VBCTLHLP;vb5def_ftg"							
+2814				CustomAction	"COMMON98.DLL, RemoveAuxFile, VBCTLHLP;vb5def_fts"							
+2815				CustomAction	"COMMON98.DLL, RemoveAuxFile, VBCTLHLP;vb5def_gid"							
+												
+	=== Setup files (setup.etf) ===													
+2821				Group	2861 2851 2822 2833 2823 2824 2825 2828 2829 2841 2830					%765\Setup\1033				
+													
+2822				CopySection	"Common Setup"					%d				
+2823		vb98_dll		CopyFile	"SetupProdCah,vb98_dll"					%d				
+2824				WriteTableFile	"setup.stf"					%d				
+2825		selfreg.dll		InstallShared	"SetupProdCah,selfreg_dll,selfreg.dll,,2823 "					%m				
+													
+2826		msaddndr.dll		CustomAction	"COMMON98.DLL,SelfUnReg,""AddIn Designer,msaddndr_dll"""					%73				
+													
+2827		apemreg.exe		CustomAction	"COMMON98.DLL,RunExeWithDep,""%s\apemreg.exe; /S """"Visual Studio APE Package"""" """"%s\AEMTSSVC.PAK"""" ;;9003;1;0;%M\msvbvm60.dll;%M\mts\MTXADMIN.DLL"""					%1742				
+													
+	=== Uninstall Strings (setup.etf) ===													
+2828				AddRegData	"LOCAL,Software\Microsoft\Windows\CurrentVersion\Uninstall\Visual Basic 6.0 Enterprise Edition ,DisplayName,Microsoft Visual Basic 6.0 Enterprise Edition ,REG_SZ"									
+2829				AddRegData	"LOCAL,Software\Microsoft\Windows\CurrentVersion\Uninstall\Visual Basic 6.0 Enterprise Edition ,UninstallString,""""""%s\Setup.exe"""""",REG_SZ"					%d				
+													
+	=== Speciall CAH DLL for Visual SourceSafe Server Side setup (setup.etf)													
+2830				Group	2831 2832					%d				
+2831				CopyFile	"VSS Setup Aux,vsscantl_dll"					%d				
+2832				CopyFile	"VSS Setup Aux,wwsetup_ttf"					%d				
+														
+ 														
+2833				Group	2834					%2822				
+2834				Depend	2822 ? 2835 2836 2837									
+2835		acmsetup.fts		CustomAction	"COMMON98.DLL, RemoveAuxFile, Remove ACME Help Files;acmsetup_fts"									
+2836		acmsetup.ftg		CustomAction	"COMMON98.DLL, RemoveAuxFile, Remove ACME Help Files;acmsetup_ftg"									
+2837		acmsetup.gid		CustomAction	"COMMON98.DLL, RemoveAuxFile, Remove ACME Help Files;acmsetup_gid"									
+ 														
+													
+	=== ODBC SETUP FILES (odbcstp.etf) ===
+2841				Group	2842 2843					%2821				
+2842				CopySection	"dag ODBC CAH"					%2821				
+								
+2843				CopyFile	"dag ODBC Conf Exe,odbcconf_exe"					%M				
+														
+	=== Product Specific Setup files (pssetup.etf) ===													
+2851				Group	2852									
+2852				CopySection	"Setup"					%d				
+ 														
+	=== ReadMe files (readme.etf) ===													
+2861				Group	2862 2864					%765  				
+ 														
+ 														
+2862				CopySection	"ReadMe"					%d				 
+2863				CustomAction 	"COMMON98.DLL, NopCAH"
+2864				CopySection	"Redist text"					%d				 
+ 														
+														
+ 														
+														
+ 														
+													
+ 														
+	=== File Binding Component (binding.etf) ===													
+2871				Group	2872 2874									
+													
+2872				Depend	"2692 ? 2873"									
+2873				CopyBindExe	"Shell Help,vshelp_dll,"					%2692				
+												
+2874				Group	2875 2877 2879 2881 2883 2885 2887 2889 2891 2893 2895					%d 			 	
+2875				Depend	"2183 ? 2876"									
+2876				CopyBindExe	"Davinci Schema,mdt2db_dll,2183"					%2183 				
+2877				Depend	"2193 ? 2878"									
+2878				CopyBindExe	"Davinci Query,mdt2qd_dll,2183"					%2193 				
+2879				Depend	"2233 ? 2880"									
+2880				CopyBindExe	"Davinci DDS,mdt2dd_dll,2183"					%2233				
+2881				Depend	"2234 ? 2882"									
+2882				CopyBindExe	"Davinci DDS,mdt2gddo_dll,2183"					%2234				
+2883				Depend	"2235 ? 2884"									
+2884				CopyBindExe	"Davinci DDS,mdt2gddr_dll,2183"					%2235				
+2885				Depend	"2203 ? 2886"									
+2886				CopyBindExe	"Davinci Framework,mdt2fw_dll,2183"					%2203				
+2887				Depend	"2253 ? 2888"									
+2888				CopyBindExe	"Davinci Data Tool Specific,mdt2dbns_dll,2183"					%2253				
+2889				Depend	"2254 ? 2890"									
+2890				CopyBindExe	"Davinci Data Tool Specific,mdt2fref_dll,2183"					%2254				
+2891				Depend	"2223 ? 2892"									
+2892				CopyBindExe	"Davinci DDS FORMS,mdt2df_dll,2183"					%2223				
+2893				Depend	"2213 ? 2894"									
+2894				CopyBindExe	"Davinci DDS GRID,mdt2g_dll,2183"					%2213				
+2895				Depend	"2214 ? 2896"									
+2896				CopyBindExe	"Davinci DDS GRID,mdt2gkor_dll,2183"					%2214				
+												
+ 														
+  														
