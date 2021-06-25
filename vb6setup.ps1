@@ -18,11 +18,16 @@ $sp6InstallLogPath = "$currentDir\sp6_install.log"
 
 $oldJavaDllPath = "$env:SystemRoot\SysWOW64\MSJAVA.DLL"
 
+$extractedFromIso = $false
+
 Write-Host "Beginning VB6 Enterprise install script."
 
-if ($productKey = '<product_key_here>') {
+if ($productKey -eq '<product_key_here>') {
     Write-Error "Product key not set. Edit this script by entering the product key and rerun."
+    exit 1
 }
+
+Write-Host "currentDir: '$currentDir'"
 
 if (!(Test-Path -Path $sp6ExtractExePath)) {
     Write-Error "Missing dependency. The script expects the Visual Basic 6 Service Pack 6 .exe at '$sp6SetupExe'"
@@ -56,6 +61,7 @@ if (!(Test-Path -Path $vb6SetupExe -PathType Leaf)) {
         New-Item -ItemType Directory -Force -Path $vb6SourceDir
         $driveLetter = $diskVolume.DriveLetter
         Copy-Item "${driveLetter}:\*" -Recurse -Destination $vb6SourceDir -Confirm
+        $extractedFromIso = $true;
     } catch {
         throw
     } finally {
@@ -101,29 +107,48 @@ Write-Host "Installing Visual Basic 6.0 Enterprise"
 $setupArgs = "/K ""$productKey"" /T ""$vb6StfPath"" /S ""$vb6SourceDir"" /G ""$vb6InstallLogPath"" /n ""MyName"" /o ""MyCompany"" /b 2  /qnt"
 $process = Start-Process -PassThru -FilePath $vb6SetupExe -ArgumentList $setupArgs
 $process.WaitForExit()
-if ($process.ExitCode -ne 0) {
-    Write-Error "Install failed. See the log at '$logPath' for details." -ErrorAction Stop
+
+if (($process.ExitCode -eq 7)) {
+    # REQUIRED for sp6 install in docker:
+    # In a windows docker container, I get exit code 7 right before the end of the setup.
+    #  I've only gotten in docker so I ignore it. ACME setup doesn't add an install entry
+    #  when this error occurs. After comparing logs where we get exit 0, this seems to be
+    #  the only remaining step. This registry value is pulled from a successful install
+    #  on a full windows machine.
+    New-Item "HKLM:\SOFTWARE\WOW6432Node\Microsoft\MS Setup (ACME)\Table Files" -Force -ErrorAction Stop `
+    | New-ItemProperty -Name "Visual Basic 6.0 Enterprise Edition@v6.0.0.0.0626 (1033)" -PropertyType String -Value "C:\Program Files (x86)\Microsoft Visual Studio\VB98\Setup\1033\setup.stf" -ErrorAction Stop
+} elseif (($process.ExitCode -ne 0)) {
+    $ecode = $process.ExitCode
+    Write-Error "Install failed with exit code '$ecode'. See the log at '$vb6InstallLogPath' for details." -ErrorAction Stop
 }
-Write-Host "Visual Basic 6 Install completed."
+$ecode = $process.ExitCode
+Write-Host "Visual Basic 6 Install completed with code '$ecode'."
 
-Write-Host "Extracting the VB6 Service Pack 6 files"
+if ($extractedFromIso) {
+    Write-Host "Cleaning up vb6 install files"
+    Remove-Item -Path $sp6SourceDir -Force -Recurse
+}
 
-$spExtractProcess = Start-Process -PassThru -FilePath $sp6ExtractExePath -ArgumentList "/T:$sp6SourceDir /Q"
+Write-Host "Extracting the Service Pack 6 for VB6 files"
+
+$spExtractProcess = Start-Process -PassThru -FilePath $sp6ExtractExePath -ArgumentList "/T:""$sp6SourceDir"" /Q"
 $spExtractProcess.WaitForExit()
 if ($spExtractProcess.ExitCode -ne 0) {
-    Write-Error "Failed to extract the files." -ErrorAction Stop
+    $ecode = $process.ExitCode
+    Write-Error "Failed to extract the Service Pack 6 files. Got exit code '$ecode'." -ErrorAction Stop
 }
 
-Write-Host "Running the the VB6 Service Pack 6 Install"
+Write-Host "Running the the VB6 Service Pack 6 for VB6 Install"
 
 $setupArgs = "/T ""$sp6StfPath"" /S ""$sp6SourceDir"" /G ""$sp6InstallLogPath"" /qnt"
 $spProcess = Start-Process -PassThru -FilePath $sp6SetupExe -ArgumentList $setupArgs
 $spProcess.WaitForExit()
 if ($spProcess.ExitCode -ne 0) {
-    Write-Error "Failed to install the service pack." -ErrorAction Stop
+    $ecode = $process.ExitCode
+    Write-Error "Failed to install Service Pack 6 for VB6. Got exit code '$ecode'." -ErrorAction Stop
 }
 
 Write-Host "Cleaning up files"
-Remove-Item -Path $vb6SourceDir,$sp6SourceDir -Force -Recurse
+Remove-Item -Path $sp6SourceDir -Force -Recurse
 
 Write-Host "done."
