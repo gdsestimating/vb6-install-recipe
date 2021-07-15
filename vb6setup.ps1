@@ -126,7 +126,7 @@ Write-Host "Visual Basic 6 Install completed with code '$ecode'."
 
 if ($extractedFromIso) {
     Write-Host "Cleaning up vb6 install files"
-    Remove-Item -Path $sp6SourceDir -Force -Recurse
+    Remove-Item -Path $vb6SourceDir -Force -Recurse
 }
 
 Write-Host "Extracting the Service Pack 6 for VB6 files"
