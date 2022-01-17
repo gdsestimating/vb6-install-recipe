@@ -14,6 +14,7 @@ Note: Docker does not support iso mounting so if your intent to run it in a dock
 
 1. Open the Service Pack iso and extract the `Vs6sp6B.exe` file to this project directory on your machine
 2. Extract/Copy the vb6 cd1 iso to the same directory. Be sure it's named `en_vb6_ent_cd1.iso` or edit the `vb6setup.ps1` script to indicate a different filename.
+3. Edit the vb6setup.ps1 file and provide a valid vb6 product key on line 1.
 
 At the very least, you should run the script from a directory with the following files:
 
@@ -37,7 +38,8 @@ Note: These steps are mainly for Docker but could be performed locally. Local in
 
 1. Open the Service Pack iso and extract the `Vs6sp6B.exe` file to this project directory on your machine (it exists in the language folders of the iso eg. `\en-US` for US english installer).
 2. Extract/Copy the contents of the vb6 cd1 iso to a directory called `vb6` within the project directory. The script will look for the setup exe in that location. If it finds it, it will skip the step of extracting files out of the iso for you. Note: this is different from local installs because we cannot mount .iso files in docker.
-3. For docker: Inspect and modify the Dockerfile as needed.
+3. Edit the vb6setup.ps1 file and provide a valid vb6 product key on line 1.
+4. Optional: Inspect and modify the Dockerfile as needed.
 
 At the very least, you should run the script from a directory with the following files:
 
