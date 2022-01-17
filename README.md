@@ -31,6 +31,7 @@ At the very least, you should run the script from a directory with the following
 
 1. Open the Service Pack iso and extract the `Vs6sp6B.exe` file to this project directory on your machine
 2. Extract the contents of the vb6 iso to a directory called `vb6` within the project directory. The script will look for the setup exe in that location. If it finds it, it will skip the step of extracting files out of the iso for you. Note: this is different from local installs because we cannot mount .iso files in docker.
+3. For docker: Inspect and modify the Dockerfile as needed.
 
 ```
   vb6setup.ps1
@@ -44,7 +45,7 @@ At the very least, you should run the script from a directory with the following
 
 1. Open a powershell terminal in Administrator mode.
 2. Navigate to the directory with the files in it. <-- important. The script looks in the current directory for files.
-3. Run the script `> .\vb6setup.ps1`
+3. Run the script `> .\vb6setup.ps1` if installing to your current machine OR `docker build` if creating a Docker image.
 
 ## Customizing the STF
 
