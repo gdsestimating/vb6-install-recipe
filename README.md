@@ -8,7 +8,7 @@ The custom `.stf` file inlcuded here removes VSS and some other tools from the i
 
 This script assumes you have the VB6 Enterprise .iso and Service Pack 6 exe. Both seem to only be available via https://my.visualstudio.com with Microsoft's Dev Essentials subscription or similar.
 
-### Option 1 - Local installs
+## Option 1 - Local installs
 
 Note: Docker does not support iso mounting so if your intent to run it in a docker container you must use option 2 below.
 
@@ -24,14 +24,14 @@ At the very least, you should run the script from a directory with the following
   en_vb6_ent_cd1.iso
 ```
 
-## Run
+### Run
 
 1. Open a powershell terminal in Administrator mode.
 2. Navigate to the directory with the files in it. <-- important. The script looks in the current directory for files.
 3. Run `> .\vb6setup.ps1`. 
 
 
-### Option 2 - Docker
+## Option 2 - Docker
 
 Note: These steps are mainly for Docker but could be performed locally. Local install will require administrator mode in the terminal
 
@@ -49,7 +49,7 @@ At the very least, you should run the script from a directory with the following
     IsoFilesHere
 ```
 
-## Run
+### Run
 1. Open a powershell terminal
 2. Navigate to the directory with the files in it. <-- important. The script looks in the current directory for files.
 3. For docker image building -- run `docker build`. For local install -- run `> .\vb6setup.ps1`. 
