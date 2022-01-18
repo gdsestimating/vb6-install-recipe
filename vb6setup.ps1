@@ -6,7 +6,7 @@ $currentDir = (Get-Location).Path
 $vb6IsoPath = "$currentDir\$vb6IsoFileName"
 $vb6SourceDir = "$currentDir\vb6"
 $vb6SetupExe = "$vb6SourceDir\Setup\acmsetup.exe"
-$vb6StfPath= "$currentDir\vb98ent-custom.stf"
+$vb6StfPath= "$currentDir\vb98ent_minimal.stf"
 #$vb6StfPath= "$vb6SourceDir\Setup\vb98ent.stf"
 $vb6InstallLogPath = "$currentDir\vb6_install.log"
 
@@ -23,7 +23,7 @@ $extractedFromIso = $false
 Write-Host "Beginning VB6 Enterprise install script."
 
 if ($productKey -eq '<product_key_here>') {
-    Write-Error "Product key not set. Edit this script by entering the product key and rerun."
+    Write-Error "The VB6 Product key is not set. Edit this script ($PSCommandPath) by entering the product key on line 1 and rerun."
     exit 1
 }
 
@@ -94,7 +94,8 @@ New-Item "HKLM:\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\6.0\Setup\Microsoft 
     | New-ItemProperty -Name aspo -PropertyType DWord -Value 0 -ErrorAction Stop
 
 
-Write-Host "Installing Visual Basic 6.0 Enterprise"
+Write-Host "Installing Visual Basic 6.0 Enterprise. This should take less than 10 seconds."
+
 # Run the setup
 # /K - Product Key
 # /T - STF file that seems to be and early predecessor to the MSI format
@@ -104,6 +105,11 @@ Write-Host "Installing Visual Basic 6.0 Enterprise"
 # /b - Install Type?? Might be 1 for typical, 2 for custom. Not sure. Typical will not work.
 # /G - Install log path
 # /QNT - silent install without UI
+#
+#   Troubleshooting - common reasons for a hang or failire:
+#   * Product key is invalid (therefore a UI dialog tries to appear). Remember, no hyphens.
+#   * The command was modified with invalid parameters (therefore a UI dialog tries to appear)
+#   * A custom STF included components that cause the setup to hang.
 $setupArgs = "/K ""$productKey"" /T ""$vb6StfPath"" /S ""$vb6SourceDir"" /G ""$vb6InstallLogPath"" /n ""MyName"" /o ""MyCompany"" /b 2  /qnt"
 $process = Start-Process -PassThru -FilePath $vb6SetupExe -ArgumentList $setupArgs
 $process.WaitForExit()
@@ -139,8 +145,9 @@ if ($spExtractProcess.ExitCode -ne 0) {
 }
 
 Write-Host "Running the the VB6 Service Pack 6 for VB6 Install"
-
 $setupArgs = "/T ""$sp6StfPath"" /S ""$sp6SourceDir"" /G ""$sp6InstallLogPath"" /qnt"
+Write-Host "$sp6SetupExe $setupArgs"
+
 $spProcess = Start-Process -PassThru -FilePath $sp6SetupExe -ArgumentList $setupArgs
 $spProcess.WaitForExit()
 if ($spProcess.ExitCode -ne 0) {

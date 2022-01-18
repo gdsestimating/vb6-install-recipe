@@ -11,9 +11,9 @@ Check Modules4	VFP66400000,Microsoft Visual FoxPro,valecstart,Visual Studio Anal
 MSAPPS Mode	local
 Inf File Name	VB98ENT.INF
 Maximum Object ID	2900
-Floppy Mode Root Object ID	6:1 2
-Maintenance Mode Root Object ID	7:1 2
-Batch Mode Root Object ID	6:1 2
+Floppy Mode Root Object ID	6:1 2 3
+Maintenance Mode Root Object ID	7:1 2 3
+Batch Mode Root Object ID	6:1 2 3
 Setup Version	3.0.0.1210
 ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Chang	Dest Dir	Check Dir	Installed By Us
 													
@@ -30,7 +30,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 	=== Visual Basic Install Modes (mainstf.etf) ===													
 													
 6	yes	Floppy Install		AppMainDlg	761 762 : 8 21  41 9 2331 2871									
-7	yes	Maintenance Install		CustomDlg	763 764 2341 1421 1041 2291:21 41 9 2871					%D				
+7	yes	Maintenance Install		CustomDlg	763 1901 764 2341 1421 1041 2291:21 41 9 2871					%D				
 8				CustomAction	"COMMON98.DLL,SyncEXECalloutCAH,""""""wpie15.exe"""" /q:a /r:n"""					%d				
 													
 9				Group	10 11 12 13									
@@ -698,10 +698,10 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 														
 	=== VB Option Component (vb.etf) ===													
 													
-761		&Typical	Setup will install the most typical components	Group	765 770 764 772 2281 1421 771 2291 	VB98ENT.DLL,102								
-762	yes	C&ustom	Setup will allow you to customize which components to install	CustomDlg	763 764 2341 1421 1041 2291 :2281	VB98ENT.DLL,103			yes					
+761		&Typical	Setup will install the most typical components	Group	765 769 770 1901 764 772 2281 1421 771 2291 	VB98ENT.DLL,102								
+762	yes	C&ustom	Setup will allow you to customize which components to install	CustomDlg	763 1901 764 2341 1421 1041 2291 :2281	VB98ENT.DLL,103			yes					
 	STFWIZ	1												
-763	yes	Microsoft Visual Basic 6.0	Installs Microsoft Visual Basic and all required components, including core ActiveX controls.	OptionDlg	765 770 771		Vital			%D				
+763	yes	Microsoft Visual Basic 6.0	Installs Microsoft Visual Basic and all required components, including core ActiveX controls.	OptionDlg	765 769 770 771		Vital			%D				
 													
 	STFWIZ	40												
 764	yes	ActiveX	Installs additional ActiveX controls.	Group	1191  2723 					%M				
@@ -712,9 +712,9 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 768	yes			Group	2271 2261 1721  779 780 781 									
 													
 	STFWIZ	2												
-769	yes	Package & Deployment Wizard	Installs the Package & Deployment Wizard that you use to distribute the applications you create.	Group	1001					%D\PDWizard				
+769		Package & Deployment Wizard	Installs the Package & Deployment Wizard that you use to distribute the applications you create.	Group	1001					%D\PDWizard				
 	STFWIZ	3												
-770	yes	Wizards and Templates	Installs a number of Wizards and Templates to increase productivity within the Visual Basic environment.	Group	1021 1031 2711 1361 1391									
+770		Wizards and Templates	Installs a number of Wizards and Templates to increase productivity within the Visual Basic environment.	Group	1021 1031 2711 1361 1391									
 													
 	STFWIZ	95												
 771	yes	WebClass Designer	Enables development of WebClasses within VB. Requires IIS and Active Server Pages.	Group	1411 									
@@ -940,15 +940,15 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 	STFWIZ	76												
 1041		Graphics	Installs bitmaps, cursors, icons, metafiles, and video clips for use in your application.	OptionDlg	1042 1043 1044 1045 1046					%10\Graphics				
 	STFWIZ	77												
-1042	yes	Metafiles	Installs over 80 assorted metafiles you can use in your applications.	Group	1051									
+1042		Metafiles	Installs over 80 assorted metafiles you can use in your applications.	Group	1051									
 	STFWIZ	78												
-1043	yes	Bitmaps	Installs nearly 250 assorted bitmaps you can use in your applications.	Group	1061									
+1043		Bitmaps	Installs nearly 250 assorted bitmaps you can use in your applications.	Group	1061									
 	STFWIZ	79												
-1044	yes	Cursors	Installs nearly 100 cursors you can use in your applications.	Group	1081									
+1044		Cursors	Installs nearly 100 cursors you can use in your applications.	Group	1081									
 	STFWIZ	80												
-1045	yes	Icon Library	Installs over 450 icons you can use to enhance your applications.	Group	1091									
+1045		Icon Library	Installs over 450 icons you can use to enhance your applications.	Group	1091									
 	STFWIZ	81												
-1046	yes	Video	Installs a number of video clips (.AVI files) which you can use to display progress in your application, just like Windows.	Group	1111									
+1046		Video	Installs a number of video clips (.AVI files) which you can use to display progress in your application, just like Windows.	Group	1111									
 													
 	=== VB Metafiles (vbwmf.etf)===													
 1051				Group	1052 1053 1054					%10\Graphics				
@@ -1249,28 +1249,28 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 	=== VS Enterprise Edition Component (vsee.etf) ===													
 													
 	STFWIZ	68												
-1421	yes	Enterprise Features and Tools	Installs Enterprise components such as Application Performance Explorer, Visual Component Manager, Repository, Visual Modeler, Remote Data Objects, Connection Designer, and Automation Manager. 	CustomDlg	 1422 1431 1427 1426 1432 : 1481 1491 1501 1436 1811 1801 1821 2551 2531 					%10\Tools			 	
+1421		Enterprise Features and Tools	Installs Enterprise components such as Application Performance Explorer, Visual Component Manager, Repository, Visual Modeler, Remote Data Objects, Connection Designer, and Automation Manager. 	CustomDlg	 1422 1431 1427 1426 1432 : 1481 1491 1501 1436 1811 1801 1821 2551 2531 					%10\Tools			 	
 													
 	STFWIZ	72		
-1422	yes	Application Performance Explorer	Installs Application Performance Explorer.	Group	1423 1769 1424 1721 2771					%d\APE				
+1422		Application Performance Explorer	Installs Application Performance Explorer.	Group	1423 1769 1424 1721 2771					%d\APE				
 1423				InstallShared	"APE tagfile, aeexpdtr_exe, ""APE setup tagfile"",,2823"									
 1424				Depend	1423 ? 1425   					%D				
-1425	yes			Group	1761 1791 1771 1741  									
+1425				Group	1761 1791 1771 1741  									
 													
 	STFWIZ	73		
-1426	yes	Repository	Installs Repository, a database containing tool information models.	Group	1441  					%d				
+1426		Repository	Installs Repository, a database containing tool information models.	Group	1441  					%d				
 													
 	STFWIZ	70		
-1427	yes	Visual Component Manager	Installs Visual Component Manager.	Group	1428 1429					%d\VCM				
+1427		Visual Component Manager	Installs Visual Component Manager.	Group	1428 1429					%d\VCM				
 1428				InstallShared	"(vsee) Visual Component Mgr core, vcmcab_dll, ""VCM setup tagfile"",,2823"					%d				
 1429				Depend	1428 ? 1430   					%D				
-1430	yes			Group	1871 1861 1831 1841 									
+1430				Group	1871 1861 1831 1841 									
 													
 	STFWIZ	74		
-1431	yes	Visual Basic Enterprise Components	Installs Connection Designer and RemAuto Connection Manager 	Group	1461 1511 1551 1561 1531									
+1431		Visual Basic Enterprise Components	Installs Connection Designer and RemAuto Connection Manager 	Group	1461 1511 1551 1561 1531									
 													
 	STFWIZ	71		
-1432	yes	Microsoft Visual Modeler	Installs Microsoft Visual Modeler 6.0 files, samples and models.	Group	1433 1601 1434					%D\VS-Ent98\vmodeler  				
+1432		Microsoft Visual Modeler	Installs Microsoft Visual Modeler 6.0 files, samples and models.	Group	1433 1601 1434					%D\VS-Ent98\vmodeler  				
 1433				InstallShared	"VM - Core7,msvm_exe, ""VM setup tagfile"",,2823"					%D				
 1434				Depend	1433 ? 1435   					%D				
 1435				Group	1571  									
@@ -1389,7 +1389,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 											
 	=== VM Main ETF (VM.ETF) ===													
 													
-1571	yes	Microsoft Visual Modeler	Installs Microsoft Visual Modeler 6.0 files, samples and models.	Group	1581  1711 1572 1573									
+1571		Microsoft Visual Modeler	Installs Microsoft Visual Modeler 6.0 files, samples and models.	Group	1581  1711 1572 1573									
 													
 1572				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""RVBAddInMenus.Connector"",""0"""									
 1573				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""RVBAddIn.Connector"",""0"""									
@@ -1728,7 +1728,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 	=== VSS Main ETF (VSS.ETF) ===													
 													
 	STFWIZ	37												
-1901	yes	Microsoft Visual SourceSafe 6.0	Creates a PRIVATE VSS database (except when upgrading) and installs the VSS software.  Use the VSS SERVER option later in Setup to create a SHARED VSS Server database.	Group	1909 1912 1916 1920 2072 1902 1903 1991				yes	%11				
+1901		Microsoft Visual SourceSafe 6.0	Creates a PRIVATE VSS database (except when upgrading) and installs the VSS software.  Use the VSS SERVER option later in Setup to create a SHARED VSS Server database.	Group	1909 1912 1916 1920 2072 1902 1903 1991				yes	%11				
 													
 1902				InstallShared	"VSS Client exe, ssexp_exe, ""VSS setup tagfile"",,2823"					%D\win32				
 													
@@ -1746,28 +1746,28 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 1911				Group	 2131  2151 1941 2121  					%D				
 													
 	STFWIZ	38												
-1912	yes	Enable SourceSafe Integration	Register SourceSafe for direct integration into development environment such as Visual Basic, Visual C++, Microsoft Access, and Visual Foxpro.	Group	1913 					%D				
+1912		Enable SourceSafe Integration	Register SourceSafe for direct integration into development environment such as Visual Basic, Visual C++, Microsoft Access, and Visual Foxpro.	Group	1913 					%D				
 1913				Depend	1902 ? 1914   					%D				
 1914				Group	2111    					%D				
 1915				DetectOlderFile	"srcsafe.ini"					%d			
 1916				Depend	1915 ? 1981 : 1917   					%D				
-1917	yes			Group	1918 1919					%D				
-1918	yes	Conversion Utilities	Install utilities to convert from other version control systems.	Group	1961									
-1919	yes	Create SourceSafe Database	Install or convert SourceSafe database directories and files.	Group	2062 2051 2041 2031 2021 2011 2071 2001 1921 									
-1920	yes	Administrative Programs	Install the Microsoft Visual SourceSafe Administrative programs and utilities.	Group	1971  									
+1917				Group	1918 1919					%D				
+1918		Conversion Utilities	Install utilities to convert from other version control systems.	Group	1961									
+1919		Create SourceSafe Database	Install or convert SourceSafe database directories and files.	Group	2062 2051 2041 2031 2021 2011 2071 2001 1921 									
+1920		Administrative Programs	Install the Microsoft Visual SourceSafe Administrative programs and utilities.	Group	1971  									
 	=== Special Custom Actions for VSS Database creation (vss.etf) ===													
 1921				Group	1922 1923 1924 1925 1926 1927 1928 1929 1930 1931									
 													
-1922	yes			CustomAction	"vsscantl.dll,UpdateDB,%s"									
-1923	yes			CustomAction	"vsscantl.dll,RenameLC,srcsafe.ini"									
-1924	yes			CustomAction	"vsscantl.dll,RenameLC,""users.txt""" 									
-1925	yes			CustomAction	"vsscantl.dll,RenameLC,data\aaaaaaaa.cnt"									
-1926	yes			CustomAction	"vsscantl.dll,RenameLC,data\a\aaaaaaaa"									
-1927	yes			CustomAction	"vsscantl.dll,RenameLC,data\a\aaaaaaaa.a"									
-1928	yes			CustomAction	"vsscantl.dll,RenameLC,users\admin\ss.ini"									
-1929	yes			CustomAction	"vsscantl.dll,RenameLC,users\admin\ssadmin.ini"									
-1930	yes			CustomAction	"vsscantl.dll,RenameLC,users\guest\ss.ini"									
-1931	yes			CustomAction	"vsscantl.dll,RenameLC,users\template.ini"									
+1922				CustomAction	"vsscantl.dll,UpdateDB,%s"									
+1923				CustomAction	"vsscantl.dll,RenameLC,srcsafe.ini"									
+1924				CustomAction	"vsscantl.dll,RenameLC,""users.txt""" 									
+1925				CustomAction	"vsscantl.dll,RenameLC,data\aaaaaaaa.cnt"									
+1926				CustomAction	"vsscantl.dll,RenameLC,data\a\aaaaaaaa"									
+1927				CustomAction	"vsscantl.dll,RenameLC,data\a\aaaaaaaa.a"									
+1928				CustomAction	"vsscantl.dll,RenameLC,users\admin\ss.ini"									
+1929				CustomAction	"vsscantl.dll,RenameLC,users\admin\ssadmin.ini"									
+1930				CustomAction	"vsscantl.dll,RenameLC,users\guest\ss.ini"									
+1931				CustomAction	"vsscantl.dll,RenameLC,users\template.ini"									
 													
 	=== vss Ssus.dll Component ( vssSsus.etf ) ===													
 													
@@ -1792,11 +1792,11 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 													
 1973				Group	1974 1975 1976					%d				
 1974				CopyFile	"VSS Admin win32 - ssadmin.exe, ssadmin_exe"					%d				
-1975	yes			StampCDInfo	"1974, 106, 196"  					%d				
+1975				StampCDInfo	"1974, 106, 196"  					%d				
 1976				Group	1977 1978 1979									
-1977	Yes		Shortcut to SSAdmin	InstallShortcut	"%1974\ssadmin.exe,VSSADM32<Visual SourceSafe 6.0 Admin>,,,,,"					%27\VSS<%27\Microsoft Visual SourceSafe>				
-1978	Yes			InstallShortcut	"%1972\analyze.exe,Analyze<Analyze VSS DB>,,%1974\ssadmin.exe,1,""-x -v1 """"%1920\data"""""","					%27\VSS<%27\Microsoft Visual SourceSafe>				
-1979	Yes			InstallShortcut	"%1972\analyze.exe,FixDB<Analyze & Fix VSS DB>,,%1974\ssadmin.exe,1,""-f -c -d -v1 """"%1920\data"""""","					%27\VSS<%27\Microsoft Visual SourceSafe>				
+1977			Shortcut to SSAdmin	InstallShortcut	"%1974\ssadmin.exe,VSSADM32<Visual SourceSafe 6.0 Admin>,,,,,"					%27\VSS<%27\Microsoft Visual SourceSafe>				
+1978				InstallShortcut	"%1972\analyze.exe,Analyze<Analyze VSS DB>,,%1974\ssadmin.exe,1,""-x -v1 """"%1920\data"""""","					%27\VSS<%27\Microsoft Visual SourceSafe>				
+1979				InstallShortcut	"%1972\analyze.exe,FixDB<Analyze & Fix VSS DB>,,%1974\ssadmin.exe,1,""-f -c -d -v1 """"%1920\data"""""","					%27\VSS<%27\Microsoft Visual SourceSafe>				
 													
 	=== Component (vsslocdb.etf) ===													
 1981				Group	1983					%d 			 
@@ -1810,11 +1810,11 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 													
 2001				Group	2003					%D				
 													
-2002	yes			DetectOlderFile	"srcsafe.ini"					%d				
+2002				DetectOlderFile	"srcsafe.ini"					%d				
 													
-2003	yes			Depend	2002 ? : 2004									
+2003				Depend	2002 ? : 2004									
 2004				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2005"""					%d				
-2005	yes			CopySection	"VSS - Src"					%d				
+2005				CopySection	"VSS - Src"					%d				
 													
 	 
 													
@@ -1842,7 +1842,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 2051				CopySection	"VSS Create DB root"					%d				
 													
 	=== VSS Create DB data Component ( vssDBdata.etf )===													
-2061	yes			DetectOlderFile	"um.dat"					%d				
+2061				DetectOlderFile	"um.dat"					%d				
 2062				Group	2066 2063 					%d\data				
 2063				Depend	2061 ? : 2064 					%d				
 2064				CustomAction	"COMMON98.DLL,NeverRemoveGroup,""2065"""					%d				
@@ -1855,9 +1855,9 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 2072				CopySection	"VSS Create DB win32"					%d\win32				
 2073				DetectOlderFile	"crcs.dat"					%1920\data			
 2074				Depend	"2073 ? : 2076"									
-2075	Yes	Use the new Visual SourceSafe Database Format?		YesNoDlg	The new VSS DB format offers faster performance and Label Promotion.  It is recommended for new databases.  When upgrading, choose YES if all clients have V6 software, otherwise choose NO to support both V5 & V6 clients with the old DB format.									
+2075		Use the new Visual SourceSafe Database Format?		YesNoDlg	The new VSS DB format offers faster performance and Label Promotion.  It is recommended for new databases.  When upgrading, choose YES if all clients have V6 software, otherwise choose NO to support both V5 & V6 clients with the old DB format.									
 2076				Depend	"2075? 2077"									
-2077	yes			CustomAction	"COMMON98.DLL,DoDdupd,""""""%s\ddupd.exe"""" """"%2065"""""""					%2072
+2077				CustomAction	"COMMON98.DLL,DoDdupd,""""""%s\ddupd.exe"""" """"%2065"""""""					%2072
 														
 	=== VSS Create DB axp Component ( vssDBaxp.etf )===													
 													
@@ -1895,7 +1895,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 2136				StampCDInfo	"2135, 106, 196"									
 													
 2137				InstallShortcut	"%2132\ssexp.exe,VSS6<Microsoft Visual SourceSafe 6.0>,%2132,,,,"					%27\VSS<%27\Microsoft Visual SourceSafe>				
-2138	yes			DetectOlderFile	"""ssexp.exe"""					%d				
+2138				DetectOlderFile	"""ssexp.exe"""					%d				
 2139				Depend	2138 ? 2140 					%d				
 2140				RemoveRegEntry	"""LOCAL"",""Software\Microsoft\Windows\CurrentVersion\Uninstall\SS4""" 					%d				
 2141				AddIniLine	"""VBAddin.INI"",""Add-Ins32"",""vbscc"",""1"""									
@@ -2028,13 +2028,13 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 	=== TOOLS.ETF - tools custom option menu structure (tools.etf) ===													
 													
 	STFWIZ	82												
-2291	yes	Tools	Tools such as MS info and API Viewer.	CustomDlg	2292 2293					%d				
+2291		Tools	Tools such as MS info and API Viewer.	CustomDlg	2292 2293					%d				
 													
 	STFWIZ	84												
-2292	yes	Ms Info	Tool used to gather system configuration information	Group	2311					%d				
+2292		Ms Info	Tool used to gather system configuration information	Group	2311					%d				
 													
 	STFWIZ	88												
-2293	yes	API Text Viewer	Installs a utility which allows you to quickly locate Windows API Declare statements.	Group	2301					%D\Winapi				
+2293		API Text Viewer	Installs a utility which allows you to quickly locate Windows API Declare statements.	Group	2301					%D\Winapi				
 													
 2294				CustomAction 	"COMMON98.DLL, NopCAH"
 													
@@ -2048,7 +2048,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 2306				InstallShortcut	"%2303\apiload.exe,APIView<API Text Viewer>,%2303,,,,"					%27\Microsoft Visual Basic 6.0\Microsoft Visual Basic 6.0 Tools				
 													
 	=== MSInfo (vbmsinfo.etf)===													
-2311	yes	Ms Info	Tool used to gather system configuration information	Group	2312 2313 2314 2315 2316 2317					%H\MSInfo				
+2311		Ms Info	Tool used to gather system configuration information	Group	2312 2313 2314 2315 2316 2317					%H\MSInfo				
 2312				InstallShared	"MSInfo,msinfo32_exe,MsInfo,,2823"									
 2313				CompanionFile	"2312: MSInfo,imgwalk_dll"									
 2314				CompanionFile	"2312: MSInfo,msinf16h_exe"									
@@ -2075,31 +2075,31 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 													
 	==**== VB  (da.etf) ==**== 													
 	STFWIZ	41												
-2341	yes	Data Access	Data Access Components	OptionDlg	2366		Vital							
+2341		Data Access	Data Access Components	OptionDlg	2345 2342 2358 2365 2366		Vital							
 													
 	STFWIZ	49												
-2342	yes	Microsoft ODBC Drivers	Drivers to data sources via ODBC	OptionDlg	2343 2344 2351 2352 2353 2354 2355 2356 2357									
+2342		Microsoft ODBC Drivers	Drivers to data sources via ODBC	OptionDlg	2343 2344 2351 2352 2353 2354 2355 2356 2357									
 	STFWIZ	53												
-2343	yes	Microsoft SQL Server ODBC Driver	ODBC driver for Microsoft SQL Server databases	Group	2551									
+2343		Microsoft SQL Server ODBC Driver	ODBC driver for Microsoft SQL Server databases	Group	2551									
 	STFWIZ	57												
-2344	yes	Microsoft Oracle ODBC Driver	Microsoft's ODBC driver for Oracle databases	Group	2541									
+2344		Microsoft Oracle ODBC Driver	Microsoft's ODBC driver for Oracle databases	Group	2541									
 													
 	STFWIZ	42												
-2345	yes	ADO, RDS, and OLE DB Providers	ADO (ActiveX Data Objects), RDS (Remote Data Services), and OLE DB data providers.	OptionDlg	2346 2347 2348 2349 2350		Vital							 									
+2345		ADO, RDS, and OLE DB Providers	ADO (ActiveX Data Objects), RDS (Remote Data Services), and OLE DB data providers.	OptionDlg	2346 2347 2348 2349 2350		Vital							 									
 	STFWIZ	43												
-2346	yes	ADO and RDS	ActiveX Data Objects (ADO) and Remote Data Service (RDS) for easy access to data from Visual Basic and the Web	Group	2571 2631		Vital							 									
+2346		ADO and RDS	ActiveX Data Objects (ADO) and Remote Data Service (RDS) for easy access to data from Visual Basic and the Web	Group	2571 2631		Vital							 									
 	STFWIZ	46												
-2347	yes	Microsoft OLE DB SQL Server Provider	OLE DB Provider for Microsoft SQL Server databases	Group	2621									
+2347		Microsoft OLE DB SQL Server Provider	OLE DB Provider for Microsoft SQL Server databases	Group	2621									
 	STFWIZ	47												
-2348	yes	Microsoft OLE DB Oracle Provider	Microsoft OLE DB provider for Oracle databases	Group	2601									
+2348		Microsoft OLE DB Oracle Provider	Microsoft OLE DB provider for Oracle databases	Group	2601									
 	STFWIZ	48												
-2349	yes	Microsoft OLE DB Simple Provider (OSP)	Runtime for OSP - build OLE DB providers for simple and tabular data	Group	2591									
+2349		Microsoft OLE DB Simple Provider (OSP)	Runtime for OSP - build OLE DB providers for simple and tabular data	Group	2591									
 													
 	STFWIZ	45												
-2350	yes	Microsoft OLE DB JET Provider	Microsoft OLE DB JET Provider	Group	2561									
+2350		Microsoft OLE DB JET Provider	Microsoft OLE DB JET Provider	Group	2561									
 													
 	STFWIZ	52												
-2351	yes	Microsoft Access ODBC Driver	Microsoft Access ODBC Driver.	Group	2531									
+2351		Microsoft Access ODBC Driver	Microsoft Access ODBC Driver.	Group	2531									
 													
 	STFWIZ	50												
 2352		Microsoft dBase ODBC Driver	Microsoft ODBC Driver for dBase databases	Group	2511									
@@ -2108,7 +2108,7 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 	STFWIZ	51												
 2354		Microsoft FoxPro ODBC Driver	Microsoft ODBC Driver for FoxPro databases	Group	2481									
 	STFWIZ	58												
-2355	yes	Microsoft Visual FoxPro ODBC Driver	ODBC driver for Microsoft Visual FoxPro databases	Group	2461									
+2355		Microsoft Visual FoxPro ODBC Driver	ODBC driver for Microsoft Visual FoxPro databases	Group	2461									
 	STFWIZ	55												
 2356		Microsoft Paradox ODBC Driver	Microsoft's ODBC driver for Paradox databases	Group	2441									
 	STFWIZ	54												
@@ -2130,10 +2130,10 @@ ObjID	Install During Batch Mode	Title	Descr	Type	Data	BMP Id	Vital	Shared	Dir Ch
 2364		Jet IISAM XBase Driver	Microsoft Jet IISAM driver for XBase databases	Group	2521									
 													
 	STFWIZ	66												
-2365	yes	Remote Data Objects and Controls	Remote Data Objects and Controls for Microsoft Visual Basic	Group	2371									
+2365		Remote Data Objects and Controls	Remote Data Objects and Controls for Microsoft Visual Basic	Group	2371									
 													
 	STFWIZ	67												
-2366	yes	Data Environment	Added functionality and grid control allow you to easily set up data	Group	2671		Vital							
+2366		Data Environment	Added functionality and grid control allow you to easily set up data	Group	2671		Vital							
 														
 2367				CustomAction 	"COMMON98.DLL, NopCAH"
 													
